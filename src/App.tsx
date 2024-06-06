@@ -68,11 +68,11 @@ function App() {
         <GridItem area="main">
           <Tabs size="md" variant="line" colorScheme="blue" w="100%">
             <TabList>
-              <Tab>Adventures</Tab>
-              <Tab>Maps</Tab>
-              <Tab>Tokens</Tab>
-              <Tab>Entities</Tab>
-              <Tab>Scenes</Tab>
+              <Tab fontSize={{ base: "xs", sm: "sm" , md: "sm", lg: "lg", xl: "lg", "2xl": "lg" }}>Adventures</Tab>
+              <Tab fontSize={{ base: "xs", sm: "sm" , md: "sm", lg: "lg", xl: "lg", "2xl": "lg" }}>Maps</Tab>
+              <Tab fontSize={{ base: "xs", sm: "sm" , md: "sm", lg: "lg", xl: "lg", "2xl": "lg" }}>Tokens</Tab>
+              <Tab fontSize={{ base: "xs", sm: "sm" , md: "sm", lg: "lg", xl: "lg", "2xl": "lg" }}>Entities</Tab>
+              <Tab fontSize={{ base: "xs", sm: "sm" , md: "sm", lg: "lg", xl: "lg", "2xl": "lg" }}>Scenes</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
