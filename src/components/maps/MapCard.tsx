@@ -126,8 +126,8 @@ const MapCard = ({
           </Center>
           <HStack
             justifyContent={"space-between"}
-            paddingLeft={5}
-            paddingRight={5}
+            paddingLeft={3}
+            paddingRight={3}
             paddingTop={1}
             paddingBottom={2}
           >
