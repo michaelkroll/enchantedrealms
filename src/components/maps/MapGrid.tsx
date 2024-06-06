@@ -1,0 +1,261 @@
+import { useEffect, useState } from "react";
+
+// Storage S3
+import { getUrl } from "aws-amplify/storage";
+
+// GraphQL / DynamoDB
+import { generateClient } from "aws-amplify/api";
+import { listMaps } from "../../graphql/queries";
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  HStack,
+  SimpleGrid,
+  Text,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { IoReload } from "react-icons/io5";
+import MapCreateForm from "./MapCreateForm";
+import MapCard from "./MapCard";
+import MapCardSkeleton from "./MapCardSkeleton";
+import Map from "../../data/Map";
+import mapCategories from "../../data/MapCategories";
+import CategorySelector from "../CategorySelector";
+import Category from "../../data/Category";
+
+interface Props {
+  email: string;
+  sub: string;
+}
+
+const MapGrid = ({ email, sub }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [maps, setMaps] = useState<Map[]>([]);
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState({
+    value: "all",
+    label: "All",
+  });
+
+  const skeletons = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
+
+  useEffect(() => {
+    if (email != "") {
+      handleListMaps();
+    }
+  }, [email, currentCategory]);
+
+  const handleListMaps = async () => {
+    setLoading(true);
+    const graphqlClient = generateClient();
+
+    let listMapsVariables = {};
+
+    if (currentCategory.value == "all") {
+      listMapsVariables = {
+        filter: {
+          or: [
+            {
+              creatorEmail: {
+                eq: email,
+              },
+            },
+            {
+              shared: {
+                eq: true,
+              },
+            },
+          ],
+        },
+      };
+    } else {
+      listMapsVariables = {
+        filter: {
+          and: [
+            {
+              or: [
+                {
+                  creatorEmail: {
+                    eq: email,
+                  },
+                },
+                {
+                  shared: {
+                    eq: true,
+                  },
+                },
+              ],
+            },
+            {
+              category: {
+                eq: currentCategory.value,
+              },
+            },
+          ],
+        },
+      };
+    }
+
+    graphqlClient
+      .graphql({
+        query: listMaps,
+        variables: listMapsVariables,
+      })
+      .then((response) => {
+        const mapList = response.data.listMaps.items;
+
+        mapList.map(async (map) => {
+          const mapPicPath = map.mapPicPath;
+          const getUrlResult = await getUrl({
+            path: mapPicPath!,
+            options: {
+              expiresIn: 900,
+            },
+          });
+
+          const mapCoverImage = getUrlResult.url.toString();
+          map.mapPicS3Url = mapCoverImage;
+        });
+
+        mapList.sort((a, b) => a.name.localeCompare(b.name));
+
+        setMaps(mapList);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setMaps([]);
+        setError(error);
+        setLoading(false);
+      });
+  };
+
+  const handleFormClose = () => {
+    onClose();
+    handleListMaps();
+  };
+
+  const handleRefreshGrid = () => {
+    setMaps([]);
+    handleListMaps();
+  };
+
+  const handleMapCategorySelected = (selectedCategory: Category) => {
+    console.log("Map Category Selected: ", selectedCategory);
+
+    if (selectedCategory.value == "all") {
+      setCurrentCategory({ value: "all", label: "All" });
+    } else {
+      let cat = mapCategories.find(
+        (category) => category.value === selectedCategory.value
+      );
+
+      setCurrentCategory(cat!);
+    }
+  };
+
+  const handleUpdateMap = (updatedMap: Map) => {
+    setMaps(
+      maps.map((map) =>
+        map.id === updatedMap.id
+          ? { ...map, shared: updatedMap.shared }
+          : map
+      )
+    );
+  };
+
+  const handleDeleteMap = (deletedMap: Map) => {
+    const newMapArray = maps.filter(
+      (map) => map.id != deletedMap.id
+    );
+    setMaps(newMapArray);
+  };
+
+  return (
+    <>
+      <HStack justifyContent={"space-between"}>
+        <Tooltip
+          hasArrow
+          label="Create a new Map"
+          bg="gray.300"
+          color="black"
+          openDelay={1000}
+        >
+          <Button
+            isDisabled={isLoading}
+            colorScheme="blue"
+            onClick={onOpen}
+            marginLeft="10px"
+          >
+            <AddIcon />
+          </Button>
+        </Tooltip>
+        <CategorySelector
+          selectedCategory={currentCategory}
+          onSelectCategory={handleMapCategorySelected}
+          categories={mapCategories}
+        />
+        <Tooltip
+          hasArrow
+          label="Reload the Maps"
+          bg="gray.300"
+          color="black"
+          openDelay={1000}
+        >
+          <Button isDisabled={isLoading} onClick={handleRefreshGrid}>
+            <IoReload />
+          </Button>
+        </Tooltip>
+      </HStack>
+      <Drawer
+        size="md"
+        variant="permanent"
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton margin="5px" />
+          <DrawerHeader borderBottomWidth="1px">Create a Map</DrawerHeader>
+          <DrawerBody>
+            <MapCreateForm
+              handleFormClose={handleFormClose}
+              email={email}
+              sub={sub}
+            />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+      {error && <Text color="tomato">{error}</Text>}
+      <SimpleGrid
+        columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
+        spacing={3}
+        margin="10px"
+      >
+        {isLoading &&
+          skeletons.map((skeleton) => <MapCardSkeleton key={skeleton} />)}
+        {maps.map((map) => (
+          <MapCard
+            key={map.id}
+            map={map}
+            loggedInEmail={email}
+            handleDeleteMap={handleDeleteMap}
+            handleUpdateMap={handleUpdateMap}
+          />
+        ))}
+      </SimpleGrid>
+    </>
+  );
+};
+
+export default MapGrid;

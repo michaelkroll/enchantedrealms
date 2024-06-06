@@ -1,0 +1,127 @@
+.dropdown-toggle::after {
+  display: none !important; 
+}
+
+body {
+  background-color: "#ff0000";
+}
+
+.auth_top_icon {
+  margin-right: 10px;
+}
+
+.auth-top-div {
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+  color: #ccc;
+  background-color: #333;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px;
+  box-shadow: 12px 12px 15px black;
+}
+
+.auth-bottom-div {
+  background-color: #333;
+  border-color: #aaa;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px;
+  box-shadow: 12px 12px 15px black;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.amplify-button--primary {
+  background-color: #333;
+}
+
+.amplify-button--primary:hover {
+  background-color: #666; 
+}
+
+.amplify-button--link {
+  color: #333;
+}
+
+.amplify-button--small:hover {
+  background-color: #aaa;
+}
+
+.amplify-input {
+  background-color: #ddd;
+  border-width: 1px !important;
+  border-color: #333;
+}
+
+.amplify-input::placeholder {
+  color: #333 !important;
+} 
+
+.amplify-input {
+  color: #333 !important;
+} 
+
+
+.amplify-input:focus {
+  background-color: #ddd;
+  border-color: #333;
+}
+
+[data-amplify-authenticator] {
+  background-image: url("/unauthenticated_background.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.amplify-field__show-password {
+  color: #ddd;
+  background-color: #333;
+  border-width: 1px;
+  border-color: #000000;
+}
+
+[data-amplify-router] {
+  --amplify-components-authenticator-router-box-shadow:  12px 12px 15px black;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+  -webkit-text-fill-color: #888;
+}
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px white inset;
+  -webkit-text-fill-color: #888;
+}
+
+input:-webkit-autofill::selection {
+  background-color: #ccc !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill::placeholder,
+input:-webkit-autofill:default {
+  color: #333 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ddd inset !important;
+  border-width: 2px !important;
+}
+
+/* [data-amplify-authenticator] {
+  --amplify-components-textfield-color: #ff0000 !important;
+  --amplify-components-textfield-font-size: 20px !important;
+  --amplify-components-authenticator-router-box-shadow: 0 0 16px var(--amplify-colors-overlay-10);
+  --amplify-components-authenticator-router-border-width: 0;
+  --amplify-components-authenticator-form-padding: var(--amplify-space-medium) var(--amplify-space-xl) var(--amplify-space-xl);
+  --amplify-components-button-primary-background-color: var(--amplify-colors-neutral-100);
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px var(--amplify-colors-purple-60);
+  --amplify-components-tabs-item-active-border-color: var(--amplify-colors-neutral-100);
+  --amplify-components-tabs-item-color: var(--amplify-colors-neutral-80);
+  --amplify-components-tabs-item-active-color: var(--amplify-colors-purple-100);
+  --amplify-components-button-link-color: var(--amplify-colors-purple-80);
+} */
