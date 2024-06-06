@@ -1,0 +1,14 @@
+{
+  "resourceName": "enchantedrealms",
+  "policyUUID": "67a9b182",
+  "bucketName": "enchantedrealms",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

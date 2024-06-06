@@ -1,0 +1,26 @@
+{
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-enchantedrealms-main-a0ba1-authRole",
+      "UnauthRoleArn": "arn:aws:iam::831529865861:role/amplify-enchantedrealms-main-a0ba1-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::831529865861:role/amplify-enchantedrealms-main-a0ba1-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-enchantedrealms-main-a0ba1-deployment",
+      "UnauthRoleName": "amplify-enchantedrealms-main-a0ba1-unauthRole",
+      "StackName": "amplify-enchantedrealms-main-a0ba1",
+      "StackId": "arn:aws:cloudformation:eu-central-1:831529865861:stack/amplify-enchantedrealms-main-a0ba1/b2be43e0-23d3-11ef-8dad-0632aee1e353",
+      "AmplifyAppId": "d1kd09bzd3tp93"
+    },
+    "categories": {
+      "auth": {
+        "enchantedrealmse27d3bf7": {}
+      },
+      "storage": {
+        "enchantedrealms": {}
+      },
+      "api": {
+        "enchantedrealms": {}
+      }
+    }
+  }
+}
