@@ -42,17 +42,15 @@ const AboutAlert = ({ isOpen, onClose }: Props) => {
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             <HStack>
-            <Image boxSize="30px" src={getLogo()} />
-            <Text>Enchanted Realms</Text>
+              <Image boxSize="30px" src={getLogo()} />
+              <Text>Enchanted Realms</Text>
             </HStack>
           </AlertDialogHeader>
           <Divider />
           <AlertDialogBody>
             <Text>
               Enchanted Realms is a Virtual Table Top implementation with a
-              featureset down to the bare minimum. In addition Enchanted Realms
-              is planned to support the Game Table Touchscreen to play with
-              miniatures on a virtual map.
+              featureset down to the bare minimum. Whatever this means.
             </Text>
           </AlertDialogBody>
           <Divider />
