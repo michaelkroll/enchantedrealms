@@ -31,6 +31,9 @@ import {
   Center,
   useColorModeValue,
   HStack,
+  VStack,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
 
 // Custom imports
@@ -124,7 +127,13 @@ const MapCard = ({
               <Image src={map.mapPicS3Url!} borderTopRadius={4} />
             </Tooltip>
           </Center>
-          <HStack justifyContent={"space-between"} paddingLeft={5} paddingRight={5} paddingTop={1} paddingBottom={2}>
+          <HStack
+            justifyContent={"space-between"}
+            paddingLeft={5}
+            paddingRight={5}
+            paddingTop={1}
+            paddingBottom={2}
+          >
             <Stack mt="2" spacing="1">
               <Heading size="sm">{map.name}</Heading>
               <Text>{map.description}</Text>
@@ -132,7 +141,7 @@ const MapCard = ({
                 Category: {categoryLabel(map.category)}
               </Text>
             </Stack>
-            <Stack mt="2" spacing="1">
+            <Stack minH="40px">
               <Icon as={TbGrid4X4} display={map.gridded ? "flex" : "none"} />
               <Icon
                 as={MdOutlineShare}
