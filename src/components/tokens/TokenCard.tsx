@@ -21,7 +21,6 @@ import {
   Button,
   CardFooter,
   Divider,
-  Stack,
   Text,
   Center,
   ButtonGroup,
@@ -102,7 +101,11 @@ const TokenCard = ({
 
   return (
     <>
-      <Card variant="outline" borderColor={cardBorderColor} backgroundColor={cardBackgroundColor}>
+      <Card
+        variant="outline"
+        borderColor={cardBorderColor}
+        backgroundColor={cardBackgroundColor}
+      >
         <CardBody>
           <Center>
             <Icon
@@ -124,10 +127,12 @@ const TokenCard = ({
               <Image src={token.tokenPicS3Url!} borderRadius="lg" />
             </Tooltip>
           </Center>
-            <Heading paddingTop={2} size="sm">{token.name}</Heading>
-            <Text fontSize="xs" textColor="gray.500">
-              Category: {categoryLabel(token.category)}
-            </Text>
+          <Heading paddingTop={2} size="sm">
+            {token.name}
+          </Heading>
+          <Text fontSize="xs" textColor="gray.500">
+            Category: {categoryLabel(token.category)}
+          </Text>
         </CardBody>
         <Divider />
         <CardFooter>
