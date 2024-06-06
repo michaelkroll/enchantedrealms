@@ -47,6 +47,7 @@ type Map
   mapThumbPicS3Url: String
   mapPicPath: String
   mapPicS3Url: String
+  tags: [String]
 }
 
 type Token
@@ -64,6 +65,7 @@ type Token
   category: String!
   tokenPicPath: String
   tokenPicS3Url: String
+  tags: [String]
 }
 
 type Entity
@@ -80,6 +82,7 @@ type Entity
   tokenId: String
   tokenPicPath: String
   tokenPicS3Url: String
+  tags: [String]
 }
 
 type Scene

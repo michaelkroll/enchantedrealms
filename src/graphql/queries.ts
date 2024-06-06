@@ -108,6 +108,7 @@ export const getMap = /* GraphQL */ `query GetMap($id: ID!) {
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -129,6 +130,7 @@ export const listMaps = /* GraphQL */ `query ListMaps($filter: ModelMapFilterInp
       mapThumbPicS3Url
       mapPicPath
       mapPicS3Url
+      tags
       createdAt
       updatedAt
       __typename
@@ -150,6 +152,7 @@ export const getToken = /* GraphQL */ `query GetToken($id: ID!) {
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -173,6 +176,7 @@ export const listTokens = /* GraphQL */ `query ListTokens(
       category
       tokenPicPath
       tokenPicS3Url
+      tags
       createdAt
       updatedAt
       __typename
@@ -196,6 +200,7 @@ export const getEntity = /* GraphQL */ `query GetEntity($id: ID!) {
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -218,6 +223,7 @@ export const listEntities = /* GraphQL */ `query ListEntities(
       tokenId
       tokenPicPath
       tokenPicS3Url
+      tags
       createdAt
       updatedAt
       __typename

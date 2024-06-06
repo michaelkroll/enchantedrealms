@@ -97,6 +97,7 @@ type EagerMap = {
   readonly mapThumbPicS3Url?: string | null;
   readonly mapPicPath?: string | null;
   readonly mapPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -118,6 +119,7 @@ type LazyMap = {
   readonly mapThumbPicS3Url?: string | null;
   readonly mapPicPath?: string | null;
   readonly mapPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -143,6 +145,7 @@ type EagerToken = {
   readonly category: string;
   readonly tokenPicPath?: string | null;
   readonly tokenPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -162,6 +165,7 @@ type LazyToken = {
   readonly category: string;
   readonly tokenPicPath?: string | null;
   readonly tokenPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -186,6 +190,7 @@ type EagerEntity = {
   readonly tokenId?: string | null;
   readonly tokenPicPath?: string | null;
   readonly tokenPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -204,6 +209,7 @@ type LazyEntity = {
   readonly tokenId?: string | null;
   readonly tokenPicPath?: string | null;
   readonly tokenPicS3Url?: string | null;
+  readonly tags?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

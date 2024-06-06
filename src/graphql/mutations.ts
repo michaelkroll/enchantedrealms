@@ -148,6 +148,7 @@ export const createMap = /* GraphQL */ `mutation CreateMap(
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -174,6 +175,7 @@ export const updateMap = /* GraphQL */ `mutation UpdateMap(
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -200,6 +202,7 @@ export const deleteMap = /* GraphQL */ `mutation DeleteMap(
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -224,6 +227,7 @@ export const createToken = /* GraphQL */ `mutation CreateToken(
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -248,6 +252,7 @@ export const updateToken = /* GraphQL */ `mutation UpdateToken(
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -272,6 +277,7 @@ export const deleteToken = /* GraphQL */ `mutation DeleteToken(
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -295,6 +301,7 @@ export const createEntity = /* GraphQL */ `mutation CreateEntity(
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -318,6 +325,7 @@ export const updateEntity = /* GraphQL */ `mutation UpdateEntity(
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -341,6 +349,7 @@ export const deleteEntity = /* GraphQL */ `mutation DeleteEntity(
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename

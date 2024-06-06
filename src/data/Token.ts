@@ -10,6 +10,7 @@ interface Token {
   tokenPicPath?: string | null | undefined;
   tokenPicS3Url?: string | null | undefined;
   selected?: boolean | null | undefined;
+  tags?: (string | null)[] | null | undefined;
 }
 
 export default Token;

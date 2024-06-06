@@ -269,6 +269,14 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "tags": {
+                    "name": "tags",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -384,6 +392,14 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "tags": {
+                    "name": "tags",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -491,6 +507,14 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "tags": {
+                    "name": "tags",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -618,5 +642,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "2d4921ba55e4b4f4d0a18b134b35c88d"
+    "version": "514b44dbec7a510ca92ef30286836e30"
 };

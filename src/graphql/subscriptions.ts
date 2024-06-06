@@ -127,6 +127,7 @@ export const onCreateMap = /* GraphQL */ `subscription OnCreateMap($filter: Mode
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -150,6 +151,7 @@ export const onUpdateMap = /* GraphQL */ `subscription OnUpdateMap($filter: Mode
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -173,6 +175,7 @@ export const onDeleteMap = /* GraphQL */ `subscription OnDeleteMap($filter: Mode
     mapThumbPicS3Url
     mapPicPath
     mapPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -194,6 +197,7 @@ export const onCreateToken = /* GraphQL */ `subscription OnCreateToken($filter: 
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -215,6 +219,7 @@ export const onUpdateToken = /* GraphQL */ `subscription OnUpdateToken($filter: 
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -236,6 +241,7 @@ export const onDeleteToken = /* GraphQL */ `subscription OnDeleteToken($filter: 
     category
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -256,6 +262,7 @@ export const onCreateEntity = /* GraphQL */ `subscription OnCreateEntity($filter
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -276,6 +283,7 @@ export const onUpdateEntity = /* GraphQL */ `subscription OnUpdateEntity($filter
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename
@@ -296,6 +304,7 @@ export const onDeleteEntity = /* GraphQL */ `subscription OnDeleteEntity($filter
     tokenId
     tokenPicPath
     tokenPicS3Url
+    tags
     createdAt
     updatedAt
     __typename

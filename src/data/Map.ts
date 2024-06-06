@@ -11,6 +11,7 @@ interface Map {
   mapThumbPicS3Url?: string | null | undefined;
   mapPicPath?: string | null | undefined;
   mapPicS3Url?: string | null | undefined;
+  tags?: (string | null)[] | null | undefined;
 }
 
 export default Map;
