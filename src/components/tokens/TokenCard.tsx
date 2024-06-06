@@ -124,12 +124,10 @@ const TokenCard = ({
               <Image src={token.tokenPicS3Url!} borderRadius="lg" />
             </Tooltip>
           </Center>
-          <Stack mt="6" spacing="1">
-            <Heading size="sm">{token.name}</Heading>
+            <Heading paddingTop={2} size="sm">{token.name}</Heading>
             <Text fontSize="xs" textColor="gray.500">
               Category: {categoryLabel(token.category)}
             </Text>
-          </Stack>
         </CardBody>
         <Divider />
         <CardFooter>

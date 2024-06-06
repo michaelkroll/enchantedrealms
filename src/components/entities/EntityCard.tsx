@@ -59,7 +59,7 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
       >
         <CardBody>
           <Image src={entity.tokenPicS3Url!} borderRadius="lg" />
-          <Heading size="sm">{entity.name}</Heading>
+          <Heading size="sm" paddingTop={2}>{entity.name}</Heading>
           <Text fontSize="sm">{entity.description}</Text>
           <Text fontSize="xs" textColor="gray.500">
             Category: {categoryLabel(entity.category!)}
