@@ -31,9 +31,6 @@ import {
   Center,
   useColorModeValue,
   HStack,
-  VStack,
-  Flex,
-  Spacer,
 } from "@chakra-ui/react";
 
 // Custom imports
