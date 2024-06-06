@@ -143,6 +143,7 @@ export const createMap = /* GraphQL */ `mutation CreateMap(
     description
     shared
     category
+    gridded
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath
@@ -168,6 +169,7 @@ export const updateMap = /* GraphQL */ `mutation UpdateMap(
     description
     shared
     category
+    gridded
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath
@@ -193,6 +195,7 @@ export const deleteMap = /* GraphQL */ `mutation DeleteMap(
     description
     shared
     category
+    gridded
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath

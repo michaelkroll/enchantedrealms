@@ -103,6 +103,7 @@ export const getMap = /* GraphQL */ `query GetMap($id: ID!) {
     description
     shared
     category
+    gridded
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath
@@ -123,6 +124,7 @@ export const listMaps = /* GraphQL */ `query ListMaps($filter: ModelMapFilterInp
       description
       shared
       category
+      gridded
       mapThumbPicPath
       mapThumbPicS3Url
       mapPicPath

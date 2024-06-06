@@ -12,6 +12,8 @@ import {
   MdOutlineShare,
 } from "react-icons/md";
 
+import { TbGrid4X4 } from "react-icons/tb";
+
 // ChakraUI imports
 import {
   Card,
@@ -117,6 +119,15 @@ const MapCard = ({
               right="30px"
               display={map.shared ? "flex" : "none"}
             />
+
+            <Icon
+              as={TbGrid4X4}
+              pos="absolute"
+              top="30px"
+              left="30px"
+              display={map.gridded ? "flex" : "none"}
+            />
+
             <Tooltip
               placement="top"
               openDelay={1000}

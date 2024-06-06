@@ -234,6 +234,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "gridded": {
+                    "name": "gridded",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "mapThumbPicPath": {
                     "name": "mapThumbPicPath",
                     "isArray": false,
@@ -611,5 +618,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ad02f6bee5b2fb9906045aa52af3883d"
+    "version": "2d4921ba55e4b4f4d0a18b134b35c88d"
 };

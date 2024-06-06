@@ -42,6 +42,7 @@ type Map
   description: String
   shared: Boolean
   category: String!
+  gridded: Boolean
   mapThumbPicPath: String
   mapThumbPicS3Url: String
   mapPicPath: String

@@ -6,6 +6,7 @@ interface Map {
   shared?: boolean | null | undefined;
   description?: string | null | undefined;
   category: string;
+  gridded?: boolean | null | undefined;
   mapThumbPicPath?: string | null | undefined;
   mapThumbPicS3Url?: string | null | undefined;
   mapPicPath?: string | null | undefined;

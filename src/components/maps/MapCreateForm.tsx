@@ -19,6 +19,7 @@ import {
   Stack,
   Select,
   Switch,
+  Divider,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -65,12 +66,13 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
     ownerId: "",
     name: "",
     category: "",
+    gridded: false,
     shared: false,
     description: "",
   });
 
   const handleCreateMap = async () => {
-    const { name, category, shared } = mapData;
+    const { name, category, gridded, shared } = mapData;
 
     try {
       const result = await uploadData({
@@ -101,6 +103,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
       name,
       category,
       shared,
+      gridded,
       mapPicPath,
     };
 
@@ -172,23 +175,43 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
             </Stack>
             <FormErrorMessage>{`${errors.category?.message}`}</FormErrorMessage>
           </FormControl>
-
+          <Divider paddingTop={3}/>
           <FormControl>
-            <FormLabel paddingTop="10px" htmlFor="sharedWithOthers">
-              Shared with others?
-            </FormLabel>
-            <Switch
-              id="sharedWithOthers"
-              disabled={isFormSubmitting}
-              onChange={(event) =>
-                setMapData({
-                  ...mapData,
-                  shared: event.target.checked,
-                })
-              }
-            />
+            <HStack justifyContent={"space-between"}>
+              <FormLabel paddingTop="10px" htmlFor="sharedWithOthers">
+                Shared with others?
+              </FormLabel>
+              <Switch
+                id="sharedWithOthers"
+                disabled={isFormSubmitting}
+                onChange={(event) =>
+                  setMapData({
+                    ...mapData,
+                    shared: event.target.checked,
+                  })
+                }
+              />
+            </HStack>
           </FormControl>
-
+          <Divider />
+          <FormControl>
+            <HStack justifyContent={"space-between"}>
+              <FormLabel paddingTop="10px" htmlFor="isGridded">
+                Has already a grid?
+              </FormLabel>
+              <Switch
+                id="isGridded"
+                disabled={isFormSubmitting}
+                onChange={(event) =>
+                  setMapData({
+                    ...mapData,
+                    gridded: event.target.checked,
+                  })
+                }
+              />
+            </HStack>
+          </FormControl>
+          <Divider />
           <FormControl isInvalid={errors.map ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="map">
               Map Image
