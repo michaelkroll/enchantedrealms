@@ -18,6 +18,7 @@ import {
   ButtonGroup,
   useToast,
   useColorModeValue,
+  Stack,
 } from "@chakra-ui/react";
 import AdventureManagePlayersForm from "./AdventureManagePlayersForm";
 import { useState } from "react";
@@ -97,15 +98,28 @@ const AdventureCard = ({
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
       >
-        <CardBody>
+        <CardBody padding={0}>
           <Image src={adventure.adventurePicS3Url!} borderRadius="lg" />
-          <Heading as="h4" size="md" paddingTop="10px">
-            {adventure.name}
-          </Heading>
-          <Text paddingTop="10px">{adventure.description}</Text>
+          <Stack
+            paddingLeft={5}
+            paddingRight={5}
+            paddingTop={1}
+            paddingBottom={2}
+          >
+            <Heading as="h4" size="md" paddingTop="10px">
+              {adventure.name}
+            </Heading>
+            <Text paddingTop="10px">{adventure.description}</Text>
+          </Stack>
         </CardBody>
         <Divider />
-        <HStack justifyContent="space-between">
+        <HStack
+          justifyContent="space-between"
+          paddingLeft={2}
+          paddingRight={2}
+          paddingTop={1}
+          paddingBottom={0}
+        >
           <Text fontSize="sm" paddingLeft="10px" paddingTop="10px">
             Game Master
           </Text>
@@ -113,7 +127,10 @@ const AdventureCard = ({
             Players
           </Text>
         </HStack>
-        <HStack justifyContent="space-between" padding="10px">
+        <HStack justifyContent="space-between" padding="10px" paddingLeft={2}
+          paddingRight={2}
+          paddingTop={0}
+          paddingBottom={2}>
           <AvatarGroup size="md" padding="10px">
             <Tooltip label={adventure.creatorEmail} bg="gray.300" color="black">
               <Avatar

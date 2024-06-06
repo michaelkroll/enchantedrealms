@@ -30,6 +30,7 @@ import {
   Icon,
   Center,
   useColorModeValue,
+  HStack,
 } from "@chakra-ui/react";
 
 // Custom imports
@@ -110,24 +111,8 @@ const MapCard = ({
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
       >
-        <CardBody>
+        <CardBody padding={0}>
           <Center>
-            <Icon
-              as={MdOutlineShare}
-              pos="absolute"
-              top="30px"
-              right="30px"
-              display={map.shared ? "flex" : "none"}
-            />
-
-            <Icon
-              as={TbGrid4X4}
-              pos="absolute"
-              top="30px"
-              left="30px"
-              display={map.gridded ? "flex" : "none"}
-            />
-
             <Tooltip
               placement="top"
               openDelay={1000}
@@ -139,13 +124,22 @@ const MapCard = ({
               <Image src={map.mapPicS3Url!} borderRadius="lg" />
             </Tooltip>
           </Center>
-          <Stack mt="2" spacing="0">
-            <Heading size="sm">{map.name}</Heading>
-            <Text>{map.description}</Text>
-            <Text fontSize="xs" textColor="gray.500">
-              Category: {categoryLabel(map.category)}
-            </Text>
-          </Stack>
+          <HStack justifyContent={"space-between"} paddingLeft={5} paddingRight={5} paddingTop={1} paddingBottom={2}>
+            <Stack mt="2" spacing="1">
+              <Heading size="sm">{map.name}</Heading>
+              <Text>{map.description}</Text>
+              <Text fontSize="xs" textColor="gray.500">
+                Category: {categoryLabel(map.category)}
+              </Text>
+            </Stack>
+            <Stack mt="2" spacing="1">
+              <Icon as={TbGrid4X4} display={map.gridded ? "flex" : "none"} />
+              <Icon
+                as={MdOutlineShare}
+                display={map.shared ? "flex" : "none"}
+              />
+            </Stack>
+          </HStack>
         </CardBody>
         <Divider />
         <CardFooter>
