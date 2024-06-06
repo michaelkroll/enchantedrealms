@@ -121,7 +121,7 @@ const MapCard = ({
               bg="gray.300"
               color="black"
             >
-              <Image src={map.mapPicS3Url!} borderRadius="lg" />
+              <Image src={map.mapPicS3Url!} borderTopRadius={4} />
             </Tooltip>
           </Center>
           <HStack justifyContent={"space-between"} paddingLeft={5} paddingRight={5} paddingTop={1} paddingBottom={2}>
@@ -142,7 +142,7 @@ const MapCard = ({
           </HStack>
         </CardBody>
         <Divider />
-        <CardFooter>
+        <CardFooter padding={2}>
           <Text
             display={loggedInEmail != map.creatorEmail ? "flex" : "none"}
             padding="6px"

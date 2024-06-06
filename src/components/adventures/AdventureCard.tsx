@@ -99,7 +99,7 @@ const AdventureCard = ({
         backgroundColor={cardBackgroundColor}
       >
         <CardBody padding={0}>
-          <Image src={adventure.adventurePicS3Url!} borderRadius="lg" />
+          <Image src={adventure.adventurePicS3Url!} borderTopRadius={4}/>
           <Stack
             paddingLeft={5}
             paddingRight={5}
@@ -127,10 +127,14 @@ const AdventureCard = ({
             Players
           </Text>
         </HStack>
-        <HStack justifyContent="space-between" padding="10px" paddingLeft={2}
+        <HStack
+          justifyContent="space-between"
+          padding="10px"
+          paddingLeft={2}
           paddingRight={2}
           paddingTop={0}
-          paddingBottom={2}>
+          paddingBottom={2}
+        >
           <AvatarGroup size="md" padding="10px">
             <Tooltip label={adventure.creatorEmail} bg="gray.300" color="black">
               <Avatar
@@ -157,7 +161,7 @@ const AdventureCard = ({
           </AvatarGroup>
         </HStack>
         <Divider />
-        <CardFooter>
+        <CardFooter padding={2}>
           <ButtonGroup size="sm" isAttached>
             <Button
               // isDisabled={

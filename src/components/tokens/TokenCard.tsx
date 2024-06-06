@@ -106,7 +106,7 @@ const TokenCard = ({
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
       >
-        <CardBody>
+        <CardBody padding={3}>
           <Center>
             <Icon
               as={MdOutlineShare}
@@ -135,7 +135,7 @@ const TokenCard = ({
           </Text>
         </CardBody>
         <Divider />
-        <CardFooter>
+        <CardFooter padding={2}>
           <Text
             display={loggedInEmail != token.creatorEmail ? "flex" : "none"}
             fontSize="xs"

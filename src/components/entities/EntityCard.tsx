@@ -57,7 +57,7 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
       >
-        <CardBody>
+        <CardBody padding={3}>
           <Image src={entity.tokenPicS3Url!} borderRadius="lg" />
           <Heading size="sm" paddingTop={2}>{entity.name}</Heading>
           <Text fontSize="sm">{entity.description}</Text>
@@ -66,7 +66,7 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
           </Text>
         </CardBody>
         <Divider />
-        <CardFooter>
+        <CardFooter padding={2}>
           <ButtonGroup size="sm" isAttached>
             <Button
               isDisabled={true}
