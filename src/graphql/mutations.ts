@@ -84,6 +84,7 @@ export const createUserData = /* GraphQL */ `mutation CreateUserData(
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename
@@ -103,6 +104,7 @@ export const updateUserData = /* GraphQL */ `mutation UpdateUserData(
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename
@@ -122,6 +124,7 @@ export const deleteUserData = /* GraphQL */ `mutation DeleteUserData(
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename

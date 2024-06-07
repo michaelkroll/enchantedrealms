@@ -72,6 +72,7 @@ export const onCreateUserData = /* GraphQL */ `subscription OnCreateUserData($fi
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename
@@ -88,6 +89,7 @@ export const onUpdateUserData = /* GraphQL */ `subscription OnUpdateUserData($fi
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename
@@ -104,6 +106,7 @@ export const onDeleteUserData = /* GraphQL */ `subscription OnDeleteUserData($fi
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename

@@ -12,6 +12,8 @@ import {
   MdOutlineShare,
 } from "react-icons/md";
 
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
+
 import { TbGrid4X4 } from "react-icons/tb";
 
 // ChakraUI imports
@@ -55,6 +57,9 @@ const MapCard = ({
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
   const [isDeleteMapConfirmModalOpen, setDeleteMapConfirmModalOpen] =
+    useState(false);
+
+  const [isShowFullsizeMapModalOpen, setShowFullsizeMapModalOpen] =
     useState(false);
 
   const onDeleteMapAlertConfirmClose = () => {
@@ -171,6 +176,25 @@ const MapCard = ({
             >
               Edit
             </Button>
+            <Tooltip
+              hasArrow
+              label="Show the Map in original Size"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
+            >
+              <Button
+                display={loggedInEmail == map.creatorEmail ? "flex" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setShowFullsizeMapModalOpen(true);
+                }}
+              >
+                <HiOutlineMagnifyingGlass />
+              </Button>
+            </Tooltip>
+
             <Tooltip
               hasArrow
               label="Delete the Map"

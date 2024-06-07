@@ -4,6 +4,7 @@ interface UserData {
   sub: string;
   firstName: string;
   lastName: string;
+  nickName: string;
 }
 
 export default UserData;

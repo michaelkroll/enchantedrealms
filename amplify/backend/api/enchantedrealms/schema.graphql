@@ -28,6 +28,7 @@ type UserData
   sub: String
   firstName: String
   lastName: String
+  nickName: String
 }
 
 type Map

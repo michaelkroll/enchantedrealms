@@ -61,6 +61,7 @@ export const getUserData = /* GraphQL */ `query GetUserData($id: ID!) {
     sub
     firstName
     lastName
+    nickName
     createdAt
     updatedAt
     __typename
@@ -82,6 +83,7 @@ export const listUserData = /* GraphQL */ `query ListUserData(
       sub
       firstName
       lastName
+      nickName
       createdAt
       updatedAt
       __typename

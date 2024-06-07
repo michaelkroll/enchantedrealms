@@ -56,6 +56,7 @@ type EagerUserData = {
   readonly sub?: string | null;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
+  readonly nickName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -70,6 +71,7 @@ type LazyUserData = {
   readonly sub?: string | null;
   readonly firstName?: string | null;
   readonly lastName?: string | null;
+  readonly nickName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
