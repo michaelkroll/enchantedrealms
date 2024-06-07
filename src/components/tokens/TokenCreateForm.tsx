@@ -147,7 +147,7 @@ const TokenCreateForm = ({ handleFormClose, email, sub }: Props) => {
           </FormControl>
           <FormControl isInvalid={errors.category ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="category">
-              Category
+              Token Category
             </FormLabel>
             <Stack spacing={3}>
               <Select

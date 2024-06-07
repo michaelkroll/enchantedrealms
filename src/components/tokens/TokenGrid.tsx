@@ -266,8 +266,6 @@ const TokenGrid = ({ email, sub }: Props) => {
         isDrawerOpen={isEditDrawerOpen}
         onCloseDrawer={onEditDrawerClose}
         editToken={editToken!}
-        email={email}
-        sub={sub}
       />
 
       {error && <Text color="tomato">{error}</Text>}

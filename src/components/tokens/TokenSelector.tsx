@@ -141,9 +141,9 @@ const TokenSelector = ({
       <Text paddingBottom="10px">Token Selector</Text>
       <Divider/>
       <HStack paddingTop="10px">
-        <Text as="b" paddingRight={2}>
+        {/* <Text as="b" paddingRight={2}>
           Token Category
-        </Text>
+        </Text> */}
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             {selectedTokenCategory}

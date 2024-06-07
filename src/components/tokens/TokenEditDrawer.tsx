@@ -14,8 +14,6 @@ interface Props {
   isDrawerOpen: boolean;
   onCloseDrawer: () => void;
   editToken: Token;
-  email: string;
-  sub: string;
 }
 
 const TokenEditDrawer = ({
@@ -23,9 +21,7 @@ const TokenEditDrawer = ({
   isDrawerOpen,
   onCloseDrawer,
   editToken,
-}: // email,
-// sub,
-Props) => {
+}: Props) => {
   return (
     <Drawer
       size="md"
@@ -42,8 +38,6 @@ Props) => {
           <TokenEditForm
             handleFormClose={handleDrawerClose}
             token={editToken}
-            // email={email}
-            // sub={sub}
           />
         </DrawerBody>
       </DrawerContent>
