@@ -9,6 +9,7 @@ import { getUrl } from "aws-amplify/storage";
 
 import {
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -161,6 +162,14 @@ const EntityGrid = ({ email, sub }: Props) => {
     setEntities(newEntityArray);
   };
 
+  const entitiesCountText = (): String => {
+    if (entities.length == 1) {
+      return "Entity in this Category";
+    } else {
+      return "Entities in this Category";
+    }
+  };
+
   return (
     <>
       <HStack justifyContent={"space-between"}>
@@ -218,6 +227,11 @@ const EntityGrid = ({ email, sub }: Props) => {
         </DrawerContent>
       </Drawer>
       {error && <Text color="tomato">{error}</Text>}
+      <Center>
+        <Text mt={2}>
+          {entities.length} {entitiesCountText()}
+        </Text>
+      </Center>
       <SimpleGrid
         columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
         spacing={3}

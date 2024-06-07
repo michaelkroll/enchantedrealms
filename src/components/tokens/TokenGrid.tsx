@@ -8,6 +8,7 @@ import { generateClient } from "aws-amplify/api";
 import { listTokens } from "../../graphql/queries";
 import {
   Button,
+  Center,
   HStack,
   SimpleGrid,
   Text,
@@ -187,6 +188,14 @@ const TokenGrid = ({ email, sub }: Props) => {
     setTokens(newTokenArray);
   };
 
+  const tokenCountText = (): String => {
+    if (tokens.length == 1) {
+      return "Token in this Category";
+    } else {
+      return "Tokens in this Category";
+    }
+  };
+
   return (
     <>
       <HStack justifyContent={"space-between"}>
@@ -223,6 +232,12 @@ const TokenGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
+      <Center>
+        <Text mt={2}>
+          {" "}
+          {tokens.length} {tokenCountText()}
+        </Text>
+      </Center>
       <TokenCreateDrawer
         handleDrawerClose={handleCreateDrawerClose}
         isDrawerOpen={isCreateDrawerOpen}

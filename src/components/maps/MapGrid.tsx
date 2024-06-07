@@ -8,6 +8,7 @@ import { generateClient } from "aws-amplify/api";
 import { listMaps } from "../../graphql/queries";
 import {
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -180,6 +181,14 @@ const MapGrid = ({ email, sub }: Props) => {
     setMaps(newMapArray);
   };
 
+  const mapCountText = (): String => {
+    if (maps.length == 1) {
+      return "Map in this Category";
+    } else {
+      return "Maps in this Category";
+    }
+  };
+
   return (
     <>
       <HStack justifyContent={"space-between"}>
@@ -216,6 +225,11 @@ const MapGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
+      <Center>
+        <Text mt={2}>
+          {maps.length} {mapCountText()}
+        </Text>
+      </Center>
       <Drawer
         size="md"
         variant="permanent"
