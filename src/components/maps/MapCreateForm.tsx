@@ -150,7 +150,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
 
           <FormControl isInvalid={errors.category ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="category">
-              Category
+              Map Category
             </FormLabel>
             <Stack spacing={3}>
               <Select

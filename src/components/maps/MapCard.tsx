@@ -43,6 +43,7 @@ import MapDisplayModal from "./MapDisplayModal";
 
 interface Props {
   map: Map;
+  handleEditMap: (map: Map) => void;
   handleDeleteMap: (map: Map) => void;
   handleUpdateMap: (map: Map) => void;
   loggedInEmail: string;
@@ -50,6 +51,7 @@ interface Props {
 
 const MapCard = ({
   map,
+  handleEditMap,
   loggedInEmail,
   handleDeleteMap,
   handleUpdateMap,
@@ -172,15 +174,24 @@ const MapCard = ({
             isAttached
             display={loggedInEmail == map.creatorEmail ? "flex" : "none"}
           >
-            <Button
-              isDisabled={true}
-              display={loggedInEmail == map.creatorEmail ? "flex" : "none"}
-              variant="outline"
-              leftIcon={<MdOutlineEditNote />}
-              size="sm"
+            <Tooltip
+              hasArrow
+              label="Edit the Map"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
             >
-              Edit
-            </Button>
+              <Button
+                display={loggedInEmail == map.creatorEmail ? "flex" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  handleEditMap(map);
+                }}
+              >
+                <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
             <Tooltip
               hasArrow
               label="Show the Map in original Size"

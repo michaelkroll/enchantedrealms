@@ -9,12 +9,6 @@ import { listMaps } from "../../graphql/queries";
 import {
   Button,
   Center,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   HStack,
   SimpleGrid,
   Text,
@@ -23,13 +17,14 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
-import MapCreateForm from "./MapCreateForm";
 import MapCard from "./MapCard";
 import MapCardSkeleton from "./MapCardSkeleton";
 import Map from "../../data/Map";
 import mapCategories from "../../data/MapCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
+import MapCreateDrawer from "./MapCreateDrawer";
+import MapEditDrawer from "./MapEditDrawer";
 
 interface Props {
   email: string;
@@ -37,7 +32,19 @@ interface Props {
 }
 
 const MapGrid = ({ email, sub }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCreateDrawerOpen,
+    onOpen: onCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditDrawerOpen,
+    onOpen: onEditDrawerOpen,
+    onClose: onEditDrawerClose,
+  } = useDisclosure();
+
+  const [editMap, setEditMap] = useState<Map>();
   const [maps, setMaps] = useState<Map[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -140,8 +147,13 @@ const MapGrid = ({ email, sub }: Props) => {
       });
   };
 
-  const handleFormClose = () => {
-    onClose();
+  const handleCreateDrawerClose = () => {
+    onCreateDrawerClose();
+    handleListMaps();
+  };
+
+  const handleEditDrawerClose = () => {
+    onEditDrawerClose();
     handleListMaps();
   };
 
@@ -175,6 +187,11 @@ const MapGrid = ({ email, sub }: Props) => {
     setMaps(newMapArray);
   };
 
+  const handleEditMap = (editMap: Map) => {
+    setEditMap(editMap);
+    onEditDrawerOpen();
+  };
+
   const mapCountText = (): String => {
     if (maps.length == 1) {
       return "Map in this Category";
@@ -196,7 +213,7 @@ const MapGrid = ({ email, sub }: Props) => {
           <Button
             isDisabled={isLoading}
             colorScheme="blue"
-            onClick={onOpen}
+            onClick={onCreateDrawerOpen}
             marginLeft="10px"
           >
             <AddIcon />
@@ -224,26 +241,19 @@ const MapGrid = ({ email, sub }: Props) => {
           {maps.length} {mapCountText()}
         </Text>
       </Center>
-      <Drawer
-        size="md"
-        variant="permanent"
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton margin="5px" />
-          <DrawerHeader borderBottomWidth="1px">Create a Map</DrawerHeader>
-          <DrawerBody>
-            <MapCreateForm
-              handleFormClose={handleFormClose}
-              email={email}
-              sub={sub}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <MapCreateDrawer
+        handleDrawerClose={handleCreateDrawerClose}
+        isDrawerOpen={isCreateDrawerOpen}
+        onCloseDrawer={onCreateDrawerClose}
+        email={email}
+        sub={sub}
+      />
+      <MapEditDrawer
+        handleDrawerClose={handleEditDrawerClose}
+        isDrawerOpen={isEditDrawerOpen}
+        onCloseDrawer={onEditDrawerClose}
+        editMap={editMap!}
+      />
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
@@ -258,6 +268,7 @@ const MapGrid = ({ email, sub }: Props) => {
             map={map}
             loggedInEmail={email}
             handleDeleteMap={handleDeleteMap}
+            handleEditMap={handleEditMap}
             handleUpdateMap={handleUpdateMap}
           />
         ))}
