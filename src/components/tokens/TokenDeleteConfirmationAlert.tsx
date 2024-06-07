@@ -56,8 +56,7 @@ const TokenDeleteConfirmationAlert = ({
         query: mutations.deleteToken,
         variables: { input: tokenDetails },
       })
-      .then((response) => {
-        console.log("Deleted Token: ", response);
+      .then(() => {
         onCloseAfterDelete();
       })
       .catch((error) => {

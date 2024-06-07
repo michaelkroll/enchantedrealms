@@ -111,8 +111,7 @@ const TokenCreateForm = ({ handleFormClose, email, sub }: Props) => {
         query: mutations.createToken,
         variables: { input: tokenDetails },
       })
-      .then((response) => {
-        console.log("Response: ", response);
+      .then(() => {
         handleFormClose();
       })
       .catch((error) => {
@@ -202,7 +201,6 @@ const TokenCreateForm = ({ handleFormClose, email, sub }: Props) => {
               maxFiles={1}
               onFilesChange={(files) => {
                 setTokenPic(files.acceptedFiles[0]);
-                console.log(files.acceptedFiles[0]);
               }}
               accept="image/*"
             >

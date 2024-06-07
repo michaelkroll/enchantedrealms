@@ -36,6 +36,7 @@ import tokenCategories from "../../data/TokenCategories";
 interface Props {
   token: Token;
   updateToken: (token: Token) => void;
+  editToken: (token: Token) => void;
   deleteToken: (token: Token) => void;
   loggedInEmail: string;
 }
@@ -44,6 +45,7 @@ const TokenCard = ({
   token,
   loggedInEmail,
   updateToken,
+  editToken,
   deleteToken,
 }: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
@@ -143,15 +145,24 @@ const TokenCard = ({
             {textForSharedLabel()}
           </Text>
           <ButtonGroup size="sm" isAttached padding="2px">
-            <Button
-              isDisabled={true}
-              display={loggedInEmail == token.creatorEmail ? "flex" : "none"}
-              variant="outline"
-              leftIcon={<MdOutlineEditNote />}
-              size="sm"
+            <Tooltip
+              hasArrow
+              label="Edit the Token"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
             >
-              Edit
-            </Button>
+              <Button
+                display={loggedInEmail == token.creatorEmail ? "flex" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  editToken(token);
+                }}
+              >
+                <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
             <Tooltip
               hasArrow
               label="Delete the Token"

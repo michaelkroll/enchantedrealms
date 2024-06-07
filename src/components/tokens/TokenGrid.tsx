@@ -25,6 +25,7 @@ import tokenCategories from "../../data/TokenCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import TokenCreateDrawer from "./TokenCreateDrawer";
+import TokenEditDrawer from "./TokenEditDrawer";
 
 interface Props {
   email: string;
@@ -38,6 +39,13 @@ const TokenGrid = ({ email, sub }: Props) => {
     onClose: onCreateDrawerClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isEditDrawerOpen,
+    onOpen: onEditDrawerOpen,
+    onClose: onEditDrawerClose,
+  } = useDisclosure();
+
+  const [editToken, setEditToken] = useState<Token>();
   const [tokens, setTokens] = useState<Token[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -154,14 +162,17 @@ const TokenGrid = ({ email, sub }: Props) => {
     handleListTokens();
   };
 
+  const handleEditDrawerClose = () => {
+    onEditDrawerClose();
+    handleListTokens();
+  };
+
   const handleRefreshGrid = () => {
     setTokens([]);
     handleListTokens();
   };
 
   const handleTokenCategorySelected = (selectedCategory: Category) => {
-    console.log("Token Category Selected: ", selectedCategory);
-
     if (selectedCategory.value == "all") {
       setCurrentCategory({ value: "all", label: "All" });
     } else {
@@ -181,6 +192,11 @@ const TokenGrid = ({ email, sub }: Props) => {
           : token
       )
     );
+  };
+
+  const handleEditToken = (editToken: Token) => {
+    setEditToken(editToken);
+    onEditDrawerOpen();
   };
 
   const handleDeleteToken = (deletedToken: Token) => {
@@ -245,6 +261,15 @@ const TokenGrid = ({ email, sub }: Props) => {
         email={email}
         sub={sub}
       />
+      <TokenEditDrawer
+        handleDrawerClose={handleEditDrawerClose}
+        isDrawerOpen={isEditDrawerOpen}
+        onCloseDrawer={onEditDrawerClose}
+        editToken={editToken!}
+        email={email}
+        sub={sub}
+      />
+
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
         columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
@@ -259,6 +284,7 @@ const TokenGrid = ({ email, sub }: Props) => {
             token={token}
             loggedInEmail={email}
             updateToken={handleUpdateToken}
+            editToken={handleEditToken}
             deleteToken={handleDeleteToken}
           />
         ))}

@@ -113,8 +113,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
         query: mutations.createMap,
         variables: { input: mapDetails },
       })
-      .then((response) => {
-        console.log("Response: ", response);
+      .then(() => {
         handleFormClose();
       })
       .catch((error) => {
@@ -175,7 +174,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
             </Stack>
             <FormErrorMessage>{`${errors.category?.message}`}</FormErrorMessage>
           </FormControl>
-          <Divider paddingTop={3}/>
+          <Divider paddingTop={3} />
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="sharedWithOthers">
@@ -225,7 +224,6 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
               maxFiles={1}
               onFilesChange={(files) => {
                 setMapPic(files.acceptedFiles[0]);
-                console.log(files.acceptedFiles[0]);
               }}
               accept="image/*"
             >
