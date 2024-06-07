@@ -161,14 +161,28 @@ const MapCard = ({
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
-          <Text
-            display={loggedInEmail != map.creatorEmail ? "flex" : "none"}
-            padding="6px"
-            fontSize="sm"
-          >
-            {textForSharedLabel()}
-          </Text>
-
+          <HStack display={loggedInEmail != map.creatorEmail ? "flex" : "none"}>
+            <Tooltip
+              hasArrow
+              label="Show the Map in original Size"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setShowFullsizeMapModalOpen(true);
+                }}
+              >
+                <HiOutlineMagnifyingGlass />
+              </Button>
+            </Tooltip>
+            <Text padding="6px" fontSize="sm">
+              {textForSharedLabel()}
+            </Text>
+          </HStack>
           <ButtonGroup
             size="sm"
             isAttached
