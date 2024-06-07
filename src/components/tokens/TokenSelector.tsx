@@ -1,22 +1,15 @@
 // React imports
 import { useEffect, useState } from "react";
 
-// Chakra Icon imports
-import { ChevronDownIcon } from "@chakra-ui/icons";
-
 // Chakra UI imports
 import {
   Box,
-  Button,
   Card,
   CardBody,
   Divider,
   HStack,
   Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -51,13 +44,11 @@ const TokenSelector = ({
   const [tokens, setTokens] = useState<Token[]>([]);
 
   const [selectedTokenCategory, setSelectedTokenCategory] = useState(
-    "Select a Token Category"
+    "Please Select a Token Category"
   );
 
   useEffect(() => {
-    if (selectedTokenCategory != "Select a Token Category") {
-      handleListTokens();
-    }
+    handleListTokens();
   }, [selectedTokenCategory]);
 
   const handleListTokens = async () => {
@@ -137,31 +128,36 @@ const TokenSelector = ({
   };
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor={tokenNameMissing ? "red" :"gray.600"}>
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      padding={3}
+      borderColor={tokenNameMissing ? "red" : "gray.600"}
+    >
       <Text paddingBottom="10px">Token Selector</Text>
-      <Divider/>
+      <Divider />
       <HStack paddingTop="10px">
-        {/* <Text as="b" paddingRight={2}>
-          Token Category
-        </Text> */}
-        <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            {selectedTokenCategory}
-          </MenuButton>
-          <MenuList>
-            {tokenCategories.map((category) => (
-              <MenuItem
-                key={category.value}
-                onClick={() => {
-                  setSelectedTokenCategory(category.label);
-                }}
-              >
-                <span>{category.label}</span>
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
+        <Select
+          onChange={(event) => {
+            setSelectedTokenCategory(event.target.value);
+          }}
+        >
+          <option key={0} value={"Please Select a Token Category"}>
+            Please Select a Token Category
+          </option>
+          {tokenCategories.map((category) => (
+            <option key={category.value} value={category.label}>
+              {category.label}
+            </option>
+          ))}
+          ;
+        </Select>
       </HStack>
+      {tokens.length == 0 && selectedTokenCategory != "Please Select a Token Category" ? (
+        <Text mt={2}>There are no tokens available in this category</Text>
+      ) : (
+        ""
+      )}
       <SimpleGrid columns={3} spacing={1} paddingTop={2}>
         {tokens.map((token) => (
           <Card
