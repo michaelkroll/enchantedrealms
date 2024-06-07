@@ -220,7 +220,6 @@ const MapGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
         <CategorySelector
-          selectedCategory={currentCategory}
           onSelectCategory={handleMapCategorySelected}
           categories={mapCategories}
         />

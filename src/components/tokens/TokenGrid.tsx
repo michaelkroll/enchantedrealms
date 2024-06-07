@@ -232,7 +232,6 @@ const TokenGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
         <CategorySelector
-          selectedCategory={currentCategory}
           onSelectCategory={handleTokenCategorySelected}
           categories={tokenCategories}
         />

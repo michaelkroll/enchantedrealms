@@ -160,6 +160,7 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
               />
             </HStack>
           </FormControl>
+          <Divider/>
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="gridded">

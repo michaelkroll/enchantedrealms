@@ -1,42 +1,38 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { FaCaretDown } from "react-icons/fa";
+import { Text, Select, HStack } from "@chakra-ui/react";
+
 import Category from "../data/Category";
 
 interface Props {
   onSelectCategory: (category: Category) => void;
-  selectedCategory: Category;
   categories: Category[];
 }
 
-const CategorySelector = ({
-  onSelectCategory,
-  selectedCategory,
-  categories,
-}: Props) => {
+const CategorySelector = ({ onSelectCategory, categories }: Props) => {
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<FaCaretDown />}>
-        Category: {selectedCategory.label}
-      </MenuButton>
-      <MenuList>
-        <MenuItem
-          onClick={() => onSelectCategory({ value: "all", label: "All" })}
-          key={"all"}
-          value={"all"}
-        >
+    <HStack>
+      <Text as="b" mr={2}>Category</Text>
+      <Select
+        onChange={(event) => {
+          let cat = categories.find((category) =>
+            category.label === event.target.value ? category : null
+          );
+          if (!cat) {
+            cat = { value: "all", label: "All" };
+          }
+          onSelectCategory(cat!);
+        }}
+      >
+        <option key="all" value="All">
           All
-        </MenuItem>
+        </option>
         {categories.map((category) => (
-          <MenuItem
-            onClick={() => onSelectCategory(category)}
-            key={category.value}
-            value={category.value}
-          >
+          <option key={category.value} value={category.label}>
             {category.label}
-          </MenuItem>
+          </option>
         ))}
-      </MenuList>
-    </Menu>
+        ;
+      </Select>
+    </HStack>
   );
 };
 
