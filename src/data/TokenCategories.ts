@@ -14,6 +14,8 @@ const tokenCategories:Category[] = [
   // {value: "djinni", label: "Djinni"},
   // {value: "dragonborn", label: "Dragonborn"},
   {value: "dragons", label: "Dragons"},
+  {value: "dragons_chromatic", label: "Dragons - Chromatic"},
+  {value: "dragons_metallic", label: "Dragons - Metallic"},
   {value: "drow_dark_elves", label: "Drow - Dark Elves"},
   {value: "dwarves", label: "Dwarves"},
   // {value: "elementals", label: "Elementals"},
