@@ -68,7 +68,6 @@ const AdventureCard = ({
   };
 
   const handleUpdatePlayerList = (updatedAdventure: Adventure) => {
-    console.log("updatedAdventure: ", updatedAdventure);
     handleUpdateAdventure(updatedAdventure);
     setPlayerManageDialogOpen(false);
   };

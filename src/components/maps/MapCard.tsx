@@ -39,6 +39,7 @@ import {
 import MapDeleteConfirmationAlert from "./MapDeleteConfirmationAlert";
 import Map from "../../data/Map";
 import mapCategories from "../../data/MapCategories";
+import MapDisplayModal from "./MapDisplayModal";
 
 interface Props {
   map: Map;
@@ -69,6 +70,10 @@ const MapCard = ({
   const onDeleteMapAlertConfirmCloseAfterDelete = () => {
     setDeleteMapConfirmModalOpen(false);
     handleDeleteMap(map);
+  };
+
+  const onFullSizeMapClose = () => {
+    setShowFullsizeMapModalOpen(false);
   };
 
   const categoryLabel = (categoryValue: string): string | undefined => {
@@ -237,6 +242,13 @@ const MapCard = ({
         isOpen={isDeleteMapConfirmModalOpen}
         onClose={onDeleteMapAlertConfirmClose}
         onCloseAfterDelete={onDeleteMapAlertConfirmCloseAfterDelete}
+      />
+      <MapDisplayModal
+        map={map}
+        isOpen={isShowFullsizeMapModalOpen}
+        onClose={() => {
+          onFullSizeMapClose();
+        }}
       />
     </>
   );
