@@ -16,7 +16,7 @@ import {
   Select,
   Switch,
   Divider,
-  Text
+  Text,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -165,8 +165,12 @@ const TokenEditForm = ({ handleFormClose, token }: Props) => {
               Update Token Values
             </Button>
           </Center>
-          <Divider mt={5}/>
-          <Text mt={1} fontSize="xs">There is no need to change the image of a token. Renaming and changing the category is supported. If the token with its originaly selected/uploaded image is not needed, just delete it.</Text>
+          <Divider mt={5} />
+          <Text mt={1} fontSize="xs">
+            There is no need to change the image of a token. Renaming and
+            changing the category is supported. If the token with its originaly
+            selected/uploaded image is no longer needed, just delete it.
+          </Text>
         </form>
       </Container>
     </VStack>
