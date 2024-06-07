@@ -50,19 +50,21 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
   };
 
-  // Logout Confirmation Alert Related.
+  // Logout Confirmation Alert related
   const {
     isOpen: isLogoutConfirmAlertOpen,
     onOpen: onLogoutConfirmAlertOpen,
     onClose: onLogoutConfirmAlertClose,
   } = useDisclosure();
 
+  // About Alert related
   const {
     isOpen: isAboutAlertOpen,
     onOpen: onAboutAlertOpen,
     onClose: onAboutAlertClose,
   } = useDisclosure();
 
+  // UserData related
   const {
     isOpen: isUserDataAlertOpen,
     onOpen: onUserDataAlertOpen,

@@ -8,12 +8,6 @@ import { generateClient } from "aws-amplify/api";
 import { listTokens } from "../../graphql/queries";
 import {
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   HStack,
   SimpleGrid,
   Text,
@@ -23,13 +17,13 @@ import {
 
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
-import TokenCreateForm from "./TokenCreateForm";
 import TokenCard from "./TokenCard";
 import TokenCardSkeleton from "./TokenCardSkeleton";
 import Token from "../../data/Token";
 import tokenCategories from "../../data/TokenCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
+import TokenCreateDrawer from "./TokenCreateDrawer";
 
 interface Props {
   email: string;
@@ -37,7 +31,12 @@ interface Props {
 }
 
 const TokenGrid = ({ email, sub }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCreateDrawerOpen,
+    onOpen: onCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+  } = useDisclosure();
+
   const [tokens, setTokens] = useState<Token[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -149,8 +148,8 @@ const TokenGrid = ({ email, sub }: Props) => {
       });
   };
 
-  const handleFormClose = () => {
-    onClose();
+  const handleCreateDrawerClose = () => {
+    onCreateDrawerClose();
     handleListTokens();
   };
 
@@ -201,7 +200,7 @@ const TokenGrid = ({ email, sub }: Props) => {
           <Button
             isDisabled={isLoading}
             colorScheme="blue"
-            onClick={onOpen}
+            onClick={onCreateDrawerOpen}
             marginLeft="10px"
           >
             <AddIcon />
@@ -224,26 +223,13 @@ const TokenGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
-      <Drawer
-        size="md"
-        variant="permanent"
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton margin="5px" />
-          <DrawerHeader borderBottomWidth="1px">Create a Token</DrawerHeader>
-          <DrawerBody>
-            <TokenCreateForm
-              handleFormClose={handleFormClose}
-              email={email}
-              sub={sub}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <TokenCreateDrawer
+        handleDrawerClose={handleCreateDrawerClose}
+        isDrawerOpen={isCreateDrawerOpen}
+        onCloseDrawer={onCreateDrawerClose}
+        email={email}
+        sub={sub}
+      />
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
         columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
