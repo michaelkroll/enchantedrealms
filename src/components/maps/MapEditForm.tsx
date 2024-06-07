@@ -50,7 +50,6 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
   const [updatedMapData, setUpdatedMapData] = useState({
     id: map.id,
     name: map.name,

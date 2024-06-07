@@ -26,10 +26,11 @@ import entityCategories from "../../data/EntityCategories";
 
 interface Props {
   entity: Entity;
-  deleteEntity: (entity: Entity) => void;
+  handleEditEntity: (entity: Entity) => void;
+  handleDeleteEntity: (entity: Entity) => void;
 }
 
-const EntityCard = ({ entity, deleteEntity }: Props) => {
+const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
@@ -42,7 +43,7 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
 
   const onDeleteEntityAlertConfirmCloseAfterDelete = () => {
     setDeleteEntityConfirmModalOpen(false);
-    deleteEntity(entity);
+    handleDeleteEntity(entity);
   };
 
   const categoryLabel = (categoryValue: string): string | undefined => {
@@ -59,7 +60,9 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
       >
         <CardBody padding={3}>
           <Image src={entity.tokenPicS3Url!} borderRadius="lg" />
-          <Heading size="sm" paddingTop={2}>{entity.name}</Heading>
+          <Heading size="sm" paddingTop={2}>
+            {entity.name}
+          </Heading>
           <Text fontSize="sm">{entity.description}</Text>
           <Text fontSize="xs" textColor="gray.500">
             Category: {categoryLabel(entity.category!)}
@@ -68,14 +71,23 @@ const EntityCard = ({ entity, deleteEntity }: Props) => {
         <Divider />
         <CardFooter padding={2}>
           <ButtonGroup size="sm" isAttached>
-            <Button
-              isDisabled={true}
-              variant="outline"
-              leftIcon={<MdOutlineEditNote />}
-              size="sm"
+            <Tooltip
+              hasArrow
+              label="Edit the Entity"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
             >
-              Edit
-            </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  handleEditEntity(entity);
+                }}
+              >
+                <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
             <Tooltip
               hasArrow
               label="Delete the Entity"

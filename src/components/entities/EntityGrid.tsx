@@ -10,12 +10,6 @@ import { getUrl } from "aws-amplify/storage";
 import {
   Button,
   Center,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   HStack,
   SimpleGrid,
   Text,
@@ -24,13 +18,15 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
-import EntityCreateForm from "./EntityCreateForm";
+
 import EntityCard from "./EntityCard";
 import EntityCardSkeleton from "./EntityCardSkeleton";
 import Entity from "../../data/Entity";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import entityCategories from "../../data/EntityCategories";
+import EntityCreateDrawer from "./EntityCreateDrawer";
+import EntityEditDrawer from "./EntityEditDrawer";
 
 interface Props {
   email: string;
@@ -38,7 +34,19 @@ interface Props {
 }
 
 const EntityGrid = ({ email, sub }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCreateDrawerOpen,
+    onOpen: onCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditDrawerOpen,
+    onOpen: onEditDrawerOpen,
+    onClose: onEditDrawerClose,
+  } = useDisclosure();
+
+  const [editEntity, setEditEntity] = useState<Entity>();
   const [entities, setEntities] = useState<Entity[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -132,9 +140,13 @@ const EntityGrid = ({ email, sub }: Props) => {
       });
   };
 
-  const handleFormClose = () => {
-    onClose();
-    setEntities([]);
+  const handleCreateDrawerClose = () => {
+    onCreateDrawerClose();
+    handleListEntities();
+  };
+
+  const handleEditDrawerClose = () => {
+    onEditDrawerClose();
     handleListEntities();
   };
 
@@ -162,6 +174,11 @@ const EntityGrid = ({ email, sub }: Props) => {
     setEntities(newEntityArray);
   };
 
+  const handleEditEntity = (editEntity: Entity) => {
+    setEditEntity(editEntity);
+    onEditDrawerOpen();
+  };
+
   const entitiesCountText = (): String => {
     if (entities.length == 1) {
       return "Entity in this Category";
@@ -183,7 +200,7 @@ const EntityGrid = ({ email, sub }: Props) => {
           <Button
             isDisabled={isLoading}
             colorScheme="blue"
-            onClick={onOpen}
+            onClick={onCreateDrawerOpen}
             marginLeft="10px"
           >
             <AddIcon />
@@ -205,32 +222,30 @@ const EntityGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
-      <Drawer
-        size="md"
-        variant="permanent"
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton margin="5px" />
-          <DrawerHeader borderBottomWidth="1px">Create an Entity</DrawerHeader>
-          <DrawerBody>
-            <EntityCreateForm
-              handleFormClose={handleFormClose}
-              email={email}
-              sub={sub}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
       {error && <Text color="tomato">{error}</Text>}
       <Center>
         <Text mt={2}>
           {entities.length} {entitiesCountText()}
         </Text>
       </Center>
+
+      <EntityCreateDrawer
+        handleDrawerClose={handleCreateDrawerClose}
+        isDrawerOpen={isCreateDrawerOpen}
+        onCloseDrawer={onCreateDrawerClose}
+        email={email}
+        sub={sub}
+      />
+
+      <EntityEditDrawer
+        handleDrawerClose={handleEditDrawerClose}
+        isDrawerOpen={isEditDrawerOpen}
+        onCloseDrawer={onEditDrawerClose}
+        editEntity={editEntity!}
+        email={email}
+        sub={sub}
+      />
+
       <SimpleGrid
         columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
         spacing={3}
@@ -242,7 +257,8 @@ const EntityGrid = ({ email, sub }: Props) => {
           <EntityCard
             key={entity.id}
             entity={entity}
-            deleteEntity={handleDeleteEntity}
+            handleDeleteEntity={handleDeleteEntity}
+            handleEditEntity={handleEditEntity}
           />
         ))}
       </SimpleGrid>
