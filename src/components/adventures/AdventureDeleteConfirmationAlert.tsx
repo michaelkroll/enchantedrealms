@@ -55,8 +55,7 @@ const AdventureDeleteConfirmationAlert = ({
         query: mutations.deleteAdventure,
         variables: { input: adventureDetails },
       })
-      .then((response) => {
-        console.log("Deleted Adventure: ", response);
+      .then(() => {
         onCloseAfterDelete();
       })
       .catch((error) => {

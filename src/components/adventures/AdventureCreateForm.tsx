@@ -84,7 +84,6 @@ const AdventureCreateForm = ({ handleFormClose, email, sub }: Props) => {
           },
         },
       }).result;
-      console.log("Path from response: ", result.path);
       adventurePicPath = result.path;
     } catch (error) {
       console.log("Error: ", error);
@@ -105,8 +104,7 @@ const AdventureCreateForm = ({ handleFormClose, email, sub }: Props) => {
         query: mutations.createAdventure,
         variables: { input: adventureDetails },
       })
-      .then((response) => {
-        console.log("Response: ", response);
+      .then(() => {
         handleFormClose();
       })
       .catch((error) => {
@@ -173,7 +171,6 @@ const AdventureCreateForm = ({ handleFormClose, email, sub }: Props) => {
               maxFiles={1}
               onFilesChange={(files) => {
                 setAdventurePic(files.acceptedFiles[0]);
-                console.log(files.acceptedFiles[0]);
               }}
               accept="image/*"
             >

@@ -137,8 +137,7 @@ const UserDataAlert = ({
           query: mutations.updateUserData,
           variables: { input: userDataDetails },
         })
-        .then((response) => {
-          console.log("updateUserData Response: ", response);
+        .then(() => {
           setIsFormSubmitting(false);
           onClose();
         })
@@ -160,8 +159,7 @@ const UserDataAlert = ({
           query: mutations.createUserData,
           variables: { input: userDataDetails },
         })
-        .then((response) => {
-          console.log("createUserData Response: ", response);
+        .then(() => {
           setIsFormSubmitting(false);
           onClose();
         })

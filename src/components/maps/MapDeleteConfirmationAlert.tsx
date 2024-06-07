@@ -23,7 +23,12 @@ interface Props {
   map: Map;
 }
 
-const MapDeleteConfirmationAlert = ({ isOpen, onClose, onCloseAfterDelete, map }: Props) => {
+const MapDeleteConfirmationAlert = ({
+  isOpen,
+  onClose,
+  onCloseAfterDelete,
+  map,
+}: Props) => {
   const cancelRef = useRef(null);
 
   const handleDeleteMap = async (mapToDelete: Map) => {
@@ -48,8 +53,7 @@ const MapDeleteConfirmationAlert = ({ isOpen, onClose, onCloseAfterDelete, map }
         query: mutations.deleteMap,
         variables: { input: mapDetails },
       })
-      .then((response) => {
-        console.log("Deleted Map: ", response);
+      .then(() => {
         onCloseAfterDelete();
       })
       .catch((error) => {

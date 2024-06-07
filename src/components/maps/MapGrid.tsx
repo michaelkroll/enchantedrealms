@@ -151,8 +151,6 @@ const MapGrid = ({ email, sub }: Props) => {
   };
 
   const handleMapCategorySelected = (selectedCategory: Category) => {
-    console.log("Map Category Selected: ", selectedCategory);
-
     if (selectedCategory.value == "all") {
       setCurrentCategory({ value: "all", label: "All" });
     } else {
@@ -167,17 +165,13 @@ const MapGrid = ({ email, sub }: Props) => {
   const handleUpdateMap = (updatedMap: Map) => {
     setMaps(
       maps.map((map) =>
-        map.id === updatedMap.id
-          ? { ...map, shared: updatedMap.shared }
-          : map
+        map.id === updatedMap.id ? { ...map, shared: updatedMap.shared } : map
       )
     );
   };
 
   const handleDeleteMap = (deletedMap: Map) => {
-    const newMapArray = maps.filter(
-      (map) => map.id != deletedMap.id
-    );
+    const newMapArray = maps.filter((map) => map.id != deletedMap.id);
     setMaps(newMapArray);
   };
 

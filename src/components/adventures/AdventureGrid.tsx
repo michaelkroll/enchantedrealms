@@ -112,7 +112,6 @@ const AdventureGrid = ({ email, sub }: Props) => {
   };
 
   const handleUpdateAdventure = (updatedAdventure: Adventure) => {
-    console.log("updatedAdventure: ", updatedAdventure);
     setAdventures(
       adventures.map((adventure) =>
         adventure.id === updatedAdventure.id

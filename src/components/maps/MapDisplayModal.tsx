@@ -23,7 +23,6 @@ interface Props {
 
 const MapDisplayModal = ({ isOpen, onClose, map }: Props) => {
   useEffect(() => {
-    console.log("Map Url: ", map.mapPicS3Url);
     fetchImageSize();
   }, []);
 
@@ -31,10 +30,8 @@ const MapDisplayModal = ({ isOpen, onClose, map }: Props) => {
 
   const fetchImageSize = () => {
     if (map != null) {
-      console.log("MapPicPath: ", map.mapPicS3Url);
       getImageSize(map.mapPicS3Url!)
         .then((dimensions) => {
-          console.log(dimensions);
           setMapDimensions(dimensions);
         })
         .catch((error) => {

@@ -42,8 +42,7 @@ const EntityDeleteConfirmationAlert = ({
         query: mutations.deleteEntity,
         variables: { input: entityDetails },
       })
-      .then((response) => {
-        console.log("Deleted Entity: ", response);
+      .then(() => {
         onCloseAfterDelete();
       })
       .catch((error) => {

@@ -142,8 +142,6 @@ const EntityGrid = ({ email, sub }: Props) => {
   };
 
   const handleEntityCategorySelected = (selectedCategory: Category) => {
-    console.log("Entity Category Selected: ", selectedCategory);
-
     if (selectedCategory.value == "all") {
       setCurrentCategory({ value: "all", label: "All" });
     } else {

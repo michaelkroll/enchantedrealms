@@ -88,8 +88,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
         query: mutations.createEntity,
         variables: { input: entityDetails },
       })
-      .then((response) => {
-        console.log("Create Entity Response: ", response);
+      .then(() => {
         handleFormClose();
       })
       .catch((error) => {
@@ -98,7 +97,11 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
   };
 
   const onTokenSelected = (selectedToken: Token) => {
-    setEntityData({ ...entityData, tokenId: selectedToken.id, tokenPicPath: selectedToken.tokenPicPath! });
+    setEntityData({
+      ...entityData,
+      tokenId: selectedToken.id,
+      tokenPicPath: selectedToken.tokenPicPath!,
+    });
     setSelectedTokenName(selectedToken.name);
   };
 

@@ -72,11 +72,9 @@ const AdventureManagePlayersForm = ({ isOpen, onClose, handleUpdatePlayerList, a
   };
 
   const updatePlayerList = (id: string) => {
-    console.log("UpdatePlayerList for adventure with id: ", id);
     setIsSubmittingForm(true);
 
     const graphqlClient = generateClient();
-
     const adventureDetails = {
       id: id,
       players: playerEmails,
