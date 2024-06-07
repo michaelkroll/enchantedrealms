@@ -68,6 +68,7 @@ const UserDataAlert = ({
     sub: "",
     firstName: "",
     lastName: "",
+    nickName: "",
   });
 
   const handleFetchUserData = (email: string) => {
@@ -95,18 +96,20 @@ const UserDataAlert = ({
             sub: "",
             firstName: "",
             lastName: "",
+            nickName: "",
           });
         } else {
-          const responseData = response.data.listUserData.items[0];
+          const responseUserData = response.data.listUserData.items[0];
 
-          if (responseData) {
+          if (responseUserData) {
             setIsUserDataStoredOnServer(true);
             setUserData({
-              id: responseData.id,
-              email: responseData.email!,
-              sub: responseData.sub!,
-              firstName: responseData.firstName!,
-              lastName: responseData.lastName!,
+              id: responseUserData.id,
+              email: responseUserData.email!,
+              sub: responseUserData.sub!,
+              firstName: responseUserData.firstName!,
+              lastName: responseUserData.lastName!,
+              nickName: responseUserData.nickName!,
             });
           }
         }
@@ -126,6 +129,7 @@ const UserDataAlert = ({
         sub: loggedInSub,
         firstName: userData.firstName,
         lastName: userData.lastName,
+        nickName: userData.nickName,
       };
 
       graphqlClient
@@ -148,6 +152,7 @@ const UserDataAlert = ({
         sub: loggedInSub,
         firstName: userData.firstName,
         lastName: userData.lastName,
+        nickName: userData.nickName,
       };
 
       graphqlClient
@@ -189,6 +194,29 @@ const UserDataAlert = ({
                     </FormLabel>
                     <Text as="b">{loggedInEmail}</Text>
                   </FormControl>
+
+                  <FormControl isInvalid={errors.nickName ? true : undefined}>
+                    <FormLabel paddingTop="10px" htmlFor="nickName">
+                      Nickname
+                    </FormLabel>
+                    <Input
+                      {...register("nickName", {
+                        required: "Please enter your nickname",
+                      })}
+                      id="nickName"
+                      value={userData.nickName}
+                      disabled={isFormSubmitting}
+                      placeholder="Nickname"
+                      onChange={(event) =>
+                        setUserData({
+                          ...userData,
+                          nickName: event.target.value,
+                        })
+                      }
+                    />
+                    <FormErrorMessage>{`${errors.nickName?.message}`}</FormErrorMessage>
+                  </FormControl>
+
                   <FormControl isInvalid={errors.firstName ? true : undefined}>
                     <FormLabel paddingTop="10px" htmlFor="firstName">
                       Firstname
