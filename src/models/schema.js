@@ -659,6 +659,28 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "adventureId": {
+                    "name": "adventureId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "mapId": {
+                    "name": "mapId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "entityIds": {
+                    "name": "entityIds",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -705,5 +727,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "e0541c78c00ed863e604a531b8cfd7ea"
+    "version": "e26d129435954870c83880964177c6b4"
 };

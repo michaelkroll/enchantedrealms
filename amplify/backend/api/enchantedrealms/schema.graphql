@@ -104,4 +104,7 @@ type Scene
   creatorId: String!
   name: String!
   description: String
+  adventureId: String!
+  mapId: String!
+  entityIds: [String]
 }

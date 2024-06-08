@@ -248,6 +248,9 @@ type EagerScene = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly adventureId: string;
+  readonly mapId: string;
+  readonly entityIds?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -262,6 +265,9 @@ type LazyScene = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly adventureId: string;
+  readonly mapId: string;
+  readonly entityIds?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
