@@ -7,6 +7,12 @@ interface Map {
   description?: string | null | undefined;
   category: string;
   gridded?: boolean | null | undefined;
+  gridOffsetX?: number | null | undefined;
+  gridOffsetY?: number | null | undefined;
+  gridColumns?: number | null | undefined;
+  gridRows?: number | null | undefined;
+  gridCellWidth?: number | null | undefined;
+  gridCellHeight?: number | null | undefined;
   mapThumbPicPath?: string | null | undefined;
   mapThumbPicS3Url?: string | null | undefined;
   mapPicPath?: string | null | undefined;

@@ -126,6 +126,12 @@ export const onCreateMap = /* GraphQL */ `subscription OnCreateMap($filter: Mode
     shared
     category
     gridded
+    gridOffsetX
+    gridOffsetY
+    gridColumns
+    gridRows
+    gridCellWidth
+    gridCellHeight
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath
@@ -150,6 +156,12 @@ export const onUpdateMap = /* GraphQL */ `subscription OnUpdateMap($filter: Mode
     shared
     category
     gridded
+    gridOffsetX
+    gridOffsetY
+    gridColumns
+    gridRows
+    gridCellWidth
+    gridCellHeight
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath
@@ -174,6 +186,12 @@ export const onDeleteMap = /* GraphQL */ `subscription OnDeleteMap($filter: Mode
     shared
     category
     gridded
+    gridOffsetX
+    gridOffsetY
+    gridColumns
+    gridRows
+    gridCellWidth
+    gridCellHeight
     mapThumbPicPath
     mapThumbPicS3Url
     mapPicPath

@@ -248,6 +248,48 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "gridOffsetX": {
+                    "name": "gridOffsetX",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridOffsetY": {
+                    "name": "gridOffsetY",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridColumns": {
+                    "name": "gridColumns",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridRows": {
+                    "name": "gridRows",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridCellWidth": {
+                    "name": "gridCellWidth",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridCellHeight": {
+                    "name": "gridCellHeight",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "mapThumbPicPath": {
                     "name": "mapThumbPicPath",
                     "isArray": false,
@@ -649,5 +691,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ef9e9f68f3825a24fc4c6eac7453a24a"
+    "version": "22303123dcd0b4275ecad18ab7b3b7c7"
 };

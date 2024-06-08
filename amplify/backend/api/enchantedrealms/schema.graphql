@@ -44,6 +44,12 @@ type Map
   shared: Boolean
   category: String!
   gridded: Boolean
+  gridOffsetX: Int
+  gridOffsetY: Int
+  gridColumns: Int
+  gridRows: Int
+  gridCellWidth: Int
+  gridCellHeight: Int
   mapThumbPicPath: String
   mapThumbPicS3Url: String
   mapPicPath: String

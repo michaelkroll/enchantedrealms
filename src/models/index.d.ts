@@ -95,6 +95,12 @@ type EagerMap = {
   readonly shared?: boolean | null;
   readonly category: string;
   readonly gridded?: boolean | null;
+  readonly gridOffsetX?: number | null;
+  readonly gridOffsetY?: number | null;
+  readonly gridColumns?: number | null;
+  readonly gridRows?: number | null;
+  readonly gridCellWidth?: number | null;
+  readonly gridCellHeight?: number | null;
   readonly mapThumbPicPath?: string | null;
   readonly mapThumbPicS3Url?: string | null;
   readonly mapPicPath?: string | null;
@@ -117,6 +123,12 @@ type LazyMap = {
   readonly shared?: boolean | null;
   readonly category: string;
   readonly gridded?: boolean | null;
+  readonly gridOffsetX?: number | null;
+  readonly gridOffsetY?: number | null;
+  readonly gridColumns?: number | null;
+  readonly gridRows?: number | null;
+  readonly gridCellWidth?: number | null;
+  readonly gridCellHeight?: number | null;
   readonly mapThumbPicPath?: string | null;
   readonly mapThumbPicS3Url?: string | null;
   readonly mapPicPath?: string | null;

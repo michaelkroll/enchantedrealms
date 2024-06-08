@@ -18,6 +18,12 @@ import {
   Divider,
   Text,
   HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Box,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -45,6 +51,12 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
           category: map.category,
           shared: map.shared,
           gridded: map.gridded,
+          gridOffsetX: map.gridOffsetX,
+          gridOffsetY: map.gridOffsetY,
+          gridColumns: map.gridColumns,
+          gridRows: map.gridRows,
+          gridCellWidth: map.gridCellWidth,
+          gridCellHeight: map.gridCellHeight
         }
       : undefined,
   });
@@ -56,16 +68,40 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
     category: map.category,
     shared: map.shared,
     gridded: map.gridded,
+    gridOffsetX: map.gridOffsetX,
+    gridOffsetY: map.gridOffsetY,
+    gridColumns: map.gridColumns,
+    gridRows: map.gridRows,
+    gridCellWidth: map.gridCellWidth,
+    gridCellHeight: map.gridCellHeight
   });
 
   const handleUpdateMap = async () => {
-    const { id, name, category, shared, gridded } = updatedMapData;
+    const {
+      id,
+      name,
+      category,
+      shared,
+      gridded,
+      gridOffsetX,
+      gridOffsetY,
+      gridColumns,
+      gridRows,
+      gridCellWidth,
+      gridCellHeight
+    } = updatedMapData;
     const mapUpdateDetails = {
       id,
       name,
       category,
       shared,
       gridded,
+      gridOffsetX,
+      gridOffsetY,
+      gridColumns,
+      gridRows,
+      gridCellWidth,
+      gridCellHeight
     };
 
     const graphqlClient = generateClient();
@@ -163,7 +199,7 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="gridded">
-                Has already a grid?
+                Has a grid printed on the Map?
               </FormLabel>
               <Switch
                 defaultChecked={map.gridded!}
@@ -178,7 +214,167 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
               />
             </HStack>
           </FormControl>
-          <Divider />
+          <Box display={updatedMapData.gridded ? "" : "none"}>
+            <Divider mt={2} />
+            <Text m={2} fontSize="sm">
+              The Grid starts at the following coordinates on the map:
+            </Text>
+            <FormControl>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridOffsetX">
+                  x-Coordinate for the grid to start
+                </FormLabel>
+                <NumberInput
+                  id="gridOffsetX"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridOffsetX: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridOffsetX", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridOffsetY">
+                  y-Coordinate for the grid to start
+                </FormLabel>
+                <NumberInput
+                  id="gridOffsetY"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridOffsetY: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridOffsetY", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridColumns">
+                  Number of Grid Columns
+                </FormLabel>
+                <NumberInput
+                  id="gridColumns"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridColumns: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridColumns", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridRows">
+                  Number of Grid Columns
+                </FormLabel>
+                <NumberInput
+                  id="gridRows"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridRows: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridRows", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridCellWidth">
+                  Width of one cell in pixels
+                </FormLabel>
+                <NumberInput
+                  id="gridCellWidth"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridCellWidth: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridCellWidth", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridCellHeight">
+                  Height of one cell in pixels
+                </FormLabel>
+                <NumberInput
+                  id="gridCellHeight"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridCellHeight: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridCellHeight", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>                                    
+          </Box>
+          <Divider mt={2} />
           <Center>
             <Button
               mt={4}
@@ -190,7 +386,7 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
               Update Map
             </Button>
           </Center>
-          <Divider mt={5} />
+          <Divider mt={4} />
           <Center>
             <Text mt={1} fontSize="xs">
               Updating the map image is currently unsupported.
