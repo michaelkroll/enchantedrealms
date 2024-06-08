@@ -20,6 +20,12 @@ import {
   Select,
   Switch,
   Divider,
+  Box,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -67,12 +73,33 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
     name: "",
     category: "",
     gridded: false,
+    drawGrid: false,
+    gridHtmlColor: "",
+    gridOffsetX: 0,
+    gridOffsetY: 0,
+    gridColumns: 0,
+    gridRows: 0,
+    gridCellWidth: 0,
+    gridCellHeight: 0,
     shared: false,
     description: "",
   });
 
   const handleCreateMap = async () => {
-    const { name, category, gridded, shared } = mapData;
+    const {
+      name,
+      category,
+      shared,
+      gridded,
+      drawGrid,
+      gridHtmlColor,
+      gridOffsetX,
+      gridOffsetY,
+      gridColumns,
+      gridRows,
+      gridCellWidth,
+      gridCellHeight,
+    } = mapData;
 
     try {
       const result = await uploadData({
@@ -104,6 +131,14 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
       category,
       shared,
       gridded,
+      drawGrid,
+      gridHtmlColor,
+      gridOffsetX,
+      gridOffsetY,
+      gridColumns,
+      gridRows,
+      gridCellWidth,
+      gridCellHeight,
       mapPicPath,
     };
 
@@ -196,7 +231,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="isGridded">
-                Has already a grid?
+                Define Grid?
               </FormLabel>
               <Switch
                 id="isGridded"
@@ -210,6 +245,200 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
               />
             </HStack>
           </FormControl>
+          <Box display={mapData.gridded ? "" : "none"}>
+            <Divider mt={2} />
+            <Text m={2} fontSize="sm">
+              The Grid starts at the following coordinates on the map:
+            </Text>
+            <FormControl>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridOffsetX">
+                  x-Coordinate for the grid to start
+                </FormLabel>
+                <NumberInput
+                  id="gridOffsetX"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridOffsetX: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridOffsetX", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridOffsetY">
+                  y-Coordinate for the grid to start
+                </FormLabel>
+                <NumberInput
+                  id="gridOffsetY"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridOffsetY: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridOffsetY", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridColumns">
+                  Number of Grid Columns
+                </FormLabel>
+                <NumberInput
+                  id="gridColumns"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridColumns: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridColumns", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridRows">
+                  Number of Grid Columns
+                </FormLabel>
+                <NumberInput
+                  id="gridRows"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridRows: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridRows", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridCellWidth">
+                  Width of one cell in pixels
+                </FormLabel>
+                <NumberInput
+                  id="gridCellWidth"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridCellWidth: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridCellWidth", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+
+            <FormControl mt={2}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridCellHeight">
+                  Height of one cell in pixels
+                </FormLabel>
+                <NumberInput
+                  id="gridCellHeight"
+                  defaultValue={0}
+                  min={0}
+                  maxW="100"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridCellHeight: parseInt(event),
+                    });
+                  }}
+                >
+                  <NumberInputField {...register("gridCellHeight", {})} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="drawGrid">
+                  Do you want the grid to be rendered?
+                </FormLabel>
+                <Switch
+                  id="drawGrid"
+                  disabled={isFormSubmitting}
+                  onChange={(event) =>
+                    setMapData({
+                      ...mapData,
+                      drawGrid: event.target.checked,
+                    })
+                  }
+                />
+              </HStack>
+            </FormControl>
+            <FormControl display={mapData.drawGrid ? "" : "none"}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridHtmlColor">
+                  Grid Color
+                </FormLabel>
+                <input
+                  {...register("gridHtmlColor", {})}
+                  type="color"
+                  onChange={(event) => {
+                    setMapData({
+                      ...mapData,
+                      gridHtmlColor: event.target.value,
+                    });
+                  }}
+                />
+              </HStack>
+            </FormControl>
+          </Box>
           <Divider />
           <FormControl isInvalid={errors.map ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="map">

@@ -7,6 +7,8 @@ interface Map {
   description?: string | null | undefined;
   category: string;
   gridded?: boolean | null | undefined;
+  drawGrid?: boolean | null | undefined;
+  gridHtmlColor?: string | null | undefined;
   gridOffsetX?: number | null | undefined;
   gridOffsetY?: number | null | undefined;
   gridColumns?: number | null | undefined;

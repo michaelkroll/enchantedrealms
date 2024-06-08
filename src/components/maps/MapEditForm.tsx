@@ -51,12 +51,14 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
           category: map.category,
           shared: map.shared,
           gridded: map.gridded,
+          drawGrid: map.drawGrid,
+          gridHtmlColor: map.gridHtmlColor,
           gridOffsetX: map.gridOffsetX,
           gridOffsetY: map.gridOffsetY,
           gridColumns: map.gridColumns,
           gridRows: map.gridRows,
           gridCellWidth: map.gridCellWidth,
-          gridCellHeight: map.gridCellHeight
+          gridCellHeight: map.gridCellHeight,
         }
       : undefined,
   });
@@ -68,12 +70,14 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
     category: map.category,
     shared: map.shared,
     gridded: map.gridded,
+    drawGrid: map.drawGrid,
+    gridHtmlColor: map.gridHtmlColor,
     gridOffsetX: map.gridOffsetX,
     gridOffsetY: map.gridOffsetY,
     gridColumns: map.gridColumns,
     gridRows: map.gridRows,
     gridCellWidth: map.gridCellWidth,
-    gridCellHeight: map.gridCellHeight
+    gridCellHeight: map.gridCellHeight,
   });
 
   const handleUpdateMap = async () => {
@@ -83,12 +87,14 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
       category,
       shared,
       gridded,
+      drawGrid,
+      gridHtmlColor,
       gridOffsetX,
       gridOffsetY,
       gridColumns,
       gridRows,
       gridCellWidth,
-      gridCellHeight
+      gridCellHeight,
     } = updatedMapData;
     const mapUpdateDetails = {
       id,
@@ -96,12 +102,14 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
       category,
       shared,
       gridded,
+      drawGrid,
+      gridHtmlColor,
       gridOffsetX,
       gridOffsetY,
       gridColumns,
       gridRows,
       gridCellWidth,
-      gridCellHeight
+      gridCellHeight,
     };
 
     const graphqlClient = generateClient();
@@ -199,9 +207,10 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="gridded">
-                Has a grid printed on the Map?
+                Define Grid?
               </FormLabel>
               <Switch
+                {...register("gridded", {})}
                 defaultChecked={map.gridded!}
                 id="gridded"
                 disabled={isFormSubmitting}
@@ -215,11 +224,8 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
             </HStack>
           </FormControl>
           <Box display={updatedMapData.gridded ? "" : "none"}>
-            <Divider mt={2} />
-            <Text m={2} fontSize="sm">
-              The Grid starts at the following coordinates on the map:
-            </Text>
-            <FormControl>
+            <Divider mt={1} />
+            <FormControl mt={2}>
               <HStack justifyContent={"space-between"}>
                 <FormLabel ml={5} paddingTop="10px" htmlFor="gridOffsetX">
                   x-Coordinate for the grid to start
@@ -372,9 +378,44 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
                   </NumberInputStepper>
                 </NumberInput>
               </HStack>
-            </FormControl>                                    
+            </FormControl>
+            <FormControl>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="drawGrid">
+                  Do you want the grid to be rendered?
+                </FormLabel>
+                <Switch
+                  {...register("drawGrid", {})}
+                  id="drawGrid"
+                  disabled={isFormSubmitting}
+                  onChange={(event) =>
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      drawGrid: event.target.checked,
+                    })
+                  }
+                />
+              </HStack>
+            </FormControl>
+            <FormControl display={updatedMapData.drawGrid ? "" : "none"}>
+              <HStack justifyContent={"space-between"}>
+                <FormLabel ml={5} paddingTop="10px" htmlFor="gridHtmlColor">
+                  Grid Color
+                </FormLabel>
+                <input
+                  {...register("gridHtmlColor", {})}
+                  type="color"
+                  onChange={(event) => {
+                    setUpdatedMapData({
+                      ...updatedMapData,
+                      gridHtmlColor: event.target.value,
+                    });
+                  }}
+                />
+              </HStack>
+            </FormControl>
           </Box>
-          <Divider mt={2} />
+          <Divider mt={1} />
           <Center>
             <Button
               mt={4}

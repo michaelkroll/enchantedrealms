@@ -95,6 +95,8 @@ type EagerMap = {
   readonly shared?: boolean | null;
   readonly category: string;
   readonly gridded?: boolean | null;
+  readonly drawGrid?: boolean | null;
+  readonly gridHtmlColor?: string | null;
   readonly gridOffsetX?: number | null;
   readonly gridOffsetY?: number | null;
   readonly gridColumns?: number | null;
@@ -123,6 +125,8 @@ type LazyMap = {
   readonly shared?: boolean | null;
   readonly category: string;
   readonly gridded?: boolean | null;
+  readonly drawGrid?: boolean | null;
+  readonly gridHtmlColor?: string | null;
   readonly gridOffsetX?: number | null;
   readonly gridOffsetY?: number | null;
   readonly gridColumns?: number | null;

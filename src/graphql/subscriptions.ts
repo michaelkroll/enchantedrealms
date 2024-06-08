@@ -126,6 +126,8 @@ export const onCreateMap = /* GraphQL */ `subscription OnCreateMap($filter: Mode
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns
@@ -156,6 +158,8 @@ export const onUpdateMap = /* GraphQL */ `subscription OnUpdateMap($filter: Mode
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns
@@ -186,6 +190,8 @@ export const onDeleteMap = /* GraphQL */ `subscription OnDeleteMap($filter: Mode
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns

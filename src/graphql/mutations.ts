@@ -147,6 +147,8 @@ export const createMap = /* GraphQL */ `mutation CreateMap(
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns
@@ -180,6 +182,8 @@ export const updateMap = /* GraphQL */ `mutation UpdateMap(
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns
@@ -213,6 +217,8 @@ export const deleteMap = /* GraphQL */ `mutation DeleteMap(
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns

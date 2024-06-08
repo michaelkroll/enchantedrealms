@@ -248,45 +248,59 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "drawGrid": {
+                    "name": "drawGrid",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gridHtmlColor": {
+                    "name": "gridHtmlColor",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "gridOffsetX": {
                     "name": "gridOffsetX",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
                 "gridOffsetY": {
                     "name": "gridOffsetY",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
                 "gridColumns": {
                     "name": "gridColumns",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
                 "gridRows": {
                     "name": "gridRows",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
                 "gridCellWidth": {
                     "name": "gridCellWidth",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
                 "gridCellHeight": {
                     "name": "gridCellHeight",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -691,5 +705,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "22303123dcd0b4275ecad18ab7b3b7c7"
+    "version": "e0541c78c00ed863e604a531b8cfd7ea"
 };

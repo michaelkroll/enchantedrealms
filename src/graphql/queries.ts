@@ -106,6 +106,8 @@ export const getMap = /* GraphQL */ `query GetMap($id: ID!) {
     shared
     category
     gridded
+    drawGrid
+    gridHtmlColor
     gridOffsetX
     gridOffsetY
     gridColumns
@@ -134,6 +136,8 @@ export const listMaps = /* GraphQL */ `query ListMaps($filter: ModelMapFilterInp
       shared
       category
       gridded
+      drawGrid
+      gridHtmlColor
       gridOffsetX
       gridOffsetY
       gridColumns
