@@ -9,12 +9,6 @@ import { listAdventures } from "../../graphql/queries";
 
 import {
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   HStack,
   SimpleGrid,
   Text,
@@ -23,10 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
-import AdventureCreateForm from "./AdventureCreateForm";
 import AdventureCard from "./AdventureCard";
 import AdventureCardSkeleton from "./AdventureCardSkeleton";
 import Adventure from "../../data/Adventure";
+import AdventureCreateDrawer from "./AdventureCreateDrawer";
+import AdventureEditDrawer from "./AdventureEditDrawer";
 
 interface Props {
   email: string;
@@ -34,7 +29,19 @@ interface Props {
 }
 
 const AdventureGrid = ({ email, sub }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCreateDrawerOpen,
+    onOpen: onCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditDrawerOpen,
+    onOpen: onEditDrawerOpen,
+    onClose: onEditDrawerClose,
+  } = useDisclosure();
+
+  const [editAdventure, setEditAdventure] = useState<Adventure>();
   const [adventures, setAdventures] = useState<Adventure[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -101,8 +108,13 @@ const AdventureGrid = ({ email, sub }: Props) => {
       });
   };
 
-  const handleFormClose = () => {
-    onClose();
+  const handleCreateDrawerClose = () => {
+    onCreateDrawerClose();
+    handleListAdventures();
+  };
+
+  const handleEditDrawerClose = () => {
+    onEditDrawerClose();
     handleListAdventures();
   };
 
@@ -121,6 +133,11 @@ const AdventureGrid = ({ email, sub }: Props) => {
     );
   };
 
+  const handleEditAdventure = (editAdventure: Adventure) => {
+    setEditAdventure(editAdventure);
+    onEditDrawerOpen();
+  };
+
   return (
     <>
       <HStack justifyContent={"space-between"}>
@@ -134,7 +151,7 @@ const AdventureGrid = ({ email, sub }: Props) => {
           <Button
             isDisabled={isLoading}
             colorScheme="blue"
-            onClick={onOpen}
+            onClick={onCreateDrawerOpen}
             marginLeft="10px"
           >
             <AddIcon />
@@ -152,28 +169,22 @@ const AdventureGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
-      <Drawer
-        size="md"
-        variant="permanent"
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton margin="5px" />
-          <DrawerHeader borderBottomWidth="1px">
-            Create an Adventure
-          </DrawerHeader>
-          <DrawerBody>
-            <AdventureCreateForm
-              handleFormClose={handleFormClose}
-              email={email}
-              sub={sub}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+
+      <AdventureCreateDrawer
+        handleDrawerClose={handleCreateDrawerClose}
+        isDrawerOpen={isCreateDrawerOpen}
+        onCloseDrawer={onCreateDrawerClose}
+        email={email}
+        sub={sub}
+      />
+
+      <AdventureEditDrawer
+        handleDrawerClose={handleEditDrawerClose}
+        isDrawerOpen={isEditDrawerOpen}
+        onCloseDrawer={onEditDrawerClose}
+        editAdventure={editAdventure!}
+      />
+
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
@@ -189,6 +200,7 @@ const AdventureGrid = ({ email, sub }: Props) => {
             loggedInEmail={email}
             refreshGrid={handleRefreshGrid}
             handleUpdateAdventure={handleUpdateAdventure}
+            handleEditAdventure={handleEditAdventure}
           />
         ))}
       </SimpleGrid>

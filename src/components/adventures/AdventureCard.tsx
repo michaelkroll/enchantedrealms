@@ -28,6 +28,7 @@ interface Props {
   adventure: Adventure;
   loggedInEmail: string;
   handleUpdateAdventure: (adventure: Adventure) => void;
+  handleEditAdventure: (adventure: Adventure) => void;
   refreshGrid: () => void;
 }
 
@@ -42,6 +43,7 @@ const AdventureCard = ({
   adventure,
   loggedInEmail,
   handleUpdateAdventure,
+  handleEditAdventure,
   refreshGrid,
 }: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
@@ -98,7 +100,7 @@ const AdventureCard = ({
         backgroundColor={cardBackgroundColor}
       >
         <CardBody padding={0}>
-          <Image src={adventure.adventurePicS3Url!} borderTopRadius={4}/>
+          <Image src={adventure.adventurePicS3Url!} borderTopRadius={4} />
           <Stack
             paddingLeft={3}
             paddingRight={3}
@@ -161,50 +163,64 @@ const AdventureCard = ({
         </HStack>
         <Divider />
         <CardFooter padding={2}>
-          <ButtonGroup size="sm" isAttached>
-            <Button
-              // isDisabled={
-              //   !checkIfUserCanJoinAdventure(adventure, loggedInEmail)
-              // }
-              isDisabled={true}
-              variant="solid"
-              leftIcon={<MdOutlineMeetingRoom />}
-              size="sm"
-              onClick={() =>
-                toast({
-                  title: "Join the Adventure.",
-                  description:
-                    "Stay tuned. This is the next challenge to take!",
-                  status: "warning",
-                  position: "top",
-                  duration: 3000,
-                  isClosable: true,
-                })
-              }
+          <Button
+            // isDisabled={
+            //   !checkIfUserCanJoinAdventure(adventure, loggedInEmail)
+            // }
+            isDisabled={true}
+            variant="solid"
+            leftIcon={<MdOutlineMeetingRoom />}
+            size="sm"
+            onClick={() =>
+              toast({
+                title: "Join the Adventure.",
+                description: "Stay tuned. This is the next challenge to take!",
+                status: "warning",
+                position: "top",
+                duration: 3000,
+                isClosable: true,
+              })
+            }
+          >
+            Join
+          </Button>
+          <ButtonGroup ml={2} size="sm" isAttached>
+            <Tooltip
+              hasArrow
+              label="Edit the Adventure"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
             >
-              Join
-            </Button>
-            <Button
-              isDisabled={true}
-              display={loggedInEmail == adventure.creatorEmail ? "" : "none"}
-              variant="outline"
-              leftIcon={<MdOutlineEditNote />}
-              size="sm"
-              onClick={() => {}}
+              <Button
+                display={loggedInEmail == adventure.creatorEmail ? "" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  handleEditAdventure(adventure);
+                }}
+              >
+                <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              hasArrow
+              label="Manage Players of the Adventure"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
             >
-              Edit
-            </Button>
-            <Button
-              display={loggedInEmail == adventure.creatorEmail ? "" : "none"}
-              variant="outline"
-              leftIcon={<MdOutlineManageAccounts />}
-              size="sm"
-              onClick={() => {
-                setPlayerManageDialogOpen(true);
-              }}
-            >
-              Players
-            </Button>
+              <Button
+                display={loggedInEmail == adventure.creatorEmail ? "" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setPlayerManageDialogOpen(true);
+                }}
+              >
+                <MdOutlineManageAccounts />
+              </Button>
+            </Tooltip>
             <Tooltip
               hasArrow
               label="Delete the Adventure"

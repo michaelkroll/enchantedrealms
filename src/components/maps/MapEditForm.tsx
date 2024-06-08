@@ -159,7 +159,7 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
               />
             </HStack>
           </FormControl>
-          <Divider/>
+          <Divider />
           <FormControl>
             <HStack justifyContent={"space-between"}>
               <FormLabel paddingTop="10px" htmlFor="gridded">
@@ -184,18 +184,18 @@ const MapEditForm = ({ handleFormClose, map }: Props) => {
               mt={4}
               colorScheme="blue"
               type="submit"
-              loadingText="Updating Map"
+              loadingText="Updating Map..."
               isLoading={isFormSubmitting}
             >
-              Update Token Values
+              Update Map
             </Button>
           </Center>
           <Divider mt={5} />
-          <Text mt={1} fontSize="xs">
-            There is no need to change the image of a map. Renaming and changing
-            the category and flags is supported. If the map with its originaly
-            selected/uploaded image is no longer needed, just delete it.
-          </Text>
+          <Center>
+            <Text mt={1} fontSize="xs">
+              Updating the map image is currently unsupported.
+            </Text>
+          </Center>
         </form>
       </Container>
     </VStack>

@@ -159,18 +159,18 @@ const TokenEditForm = ({ handleFormClose, token }: Props) => {
               mt={4}
               colorScheme="blue"
               type="submit"
-              loadingText="Updating Token"
+              loadingText="Updating Token..."
               isLoading={isFormSubmitting}
             >
-              Update Token Values
+              Update Token
             </Button>
           </Center>
           <Divider mt={5} />
-          <Text mt={1} fontSize="xs">
-            There is no need to change the image of a token. Renaming and
-            changing the category is supported. If the token with its originaly
-            selected/uploaded image is no longer needed, just delete it.
-          </Text>
+          <Center>
+            <Text mt={1} fontSize="xs">
+              Updating the token image is currently unsupported.
+            </Text>
+          </Center>
         </form>
       </Container>
     </VStack>

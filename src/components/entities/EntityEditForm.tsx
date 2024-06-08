@@ -61,6 +61,7 @@ const EntityEditForm = ({ handleFormClose, entity }: Props) => {
 
   const handleUpdateEntity = async () => {
     const { id, name, description, category } = updatedEntityData;
+    
     const entityUpdateDetails = {
       id,
       name,
@@ -169,16 +170,18 @@ const EntityEditForm = ({ handleFormClose, entity }: Props) => {
               mt={4}
               colorScheme="blue"
               type="submit"
-              loadingText="Updating Entity Values"
+              loadingText="Updating Entity..."
               isLoading={isFormSubmitting}
             >
-              Update Entity Values
+              Update Entity
             </Button>
           </Center>
           <Divider mt={5} />
-          <Text mt={1} fontSize="xs">
-            Updating the token for an entity is currently unsupported.
-          </Text>
+          <Center>
+            <Text mt={1} fontSize="xs">
+              Updating the token for an entity is currently unsupported.
+            </Text>
+          </Center>
         </form>
       </Container>
     </VStack>
