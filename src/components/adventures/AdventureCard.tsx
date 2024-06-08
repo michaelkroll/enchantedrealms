@@ -60,7 +60,7 @@ const AdventureCard = ({
     setDeleteAdventureConfirmModalOpen(false);
   };
 
-  const onDeleteMapAlertConfirmCloseAfterDelete = () => {
+  const onDeleteAdventureAlertConfirmCloseAfterDelete = () => {
     setDeleteAdventureConfirmModalOpen(false);
     refreshGrid();
   };
@@ -252,7 +252,7 @@ const AdventureCard = ({
         adventure={adventure}
         isOpen={isDeleteAdventureConfirmModalOpen}
         onClose={onDeleteAdventureAlertConfirmClose}
-        onCloseAfterDelete={onDeleteMapAlertConfirmCloseAfterDelete}
+        onCloseAfterDelete={onDeleteAdventureAlertConfirmCloseAfterDelete}
       />
     </>
   );
