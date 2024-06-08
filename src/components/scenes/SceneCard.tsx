@@ -1,36 +1,41 @@
 // React imports
 import { useState } from "react";
 
-// React Icon imports
-import { MdOutlineEditNote, MdOutlineDelete } from "react-icons/md";
-
 // Chakra UI imports
 import {
   Card,
   CardBody,
   Heading,
-  Button,
-  CardFooter,
-  Divider,
   Text,
-  Stack,
-  ButtonGroup,
+  Divider,
+  CardFooter,
+  Button,
   Tooltip,
+  ButtonGroup,
   useColorModeValue,
+  Stack,
 } from "@chakra-ui/react";
 
+// React Icon imports
+import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
+
 // Custom imports
-//import EntityDeleteConfirmationAlert from "./EntityDeleteConfirmationAlert";
 import Scene from "../../data/Scene";
 import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
-//import entityCategories from "../../data/EntityCategories";
 
 interface Props {
   scene: Scene;
-  deleteScene: (entity: Scene) => void;
+  loggedInEmail: string;
+  handleEditScene: (adventure: Scene) => void;
+  refreshGrid: () => void;
 }
 
-const SceneCard = ({ scene, deleteScene }: Props) => {
+const SceneCard = ({
+  scene,
+  loggedInEmail,
+  handleEditScene,
+  refreshGrid,
+}: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
@@ -43,13 +48,8 @@ const SceneCard = ({ scene, deleteScene }: Props) => {
 
   const onDeleteSceneAlertConfirmCloseAfterDelete = () => {
     setDeleteSceneConfirmModalOpen(false);
-    deleteScene(scene);
+    refreshGrid();
   };
-
-  // const categoryLabel = (categoryValue: string): string | undefined => {
-  //   return entityCategories.find((category) => category.value === categoryValue)
-  //     ?.label;
-  // };
 
   return (
     <>
@@ -58,31 +58,49 @@ const SceneCard = ({ scene, deleteScene }: Props) => {
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
       >
-        <CardBody>
-          <Stack mt="6" spacing="1">
-            <Heading size="sm">{scene.name}</Heading>
-            <Text fontSize="sm">{scene.description}</Text>
+        <CardBody padding={0}>
+          <Stack
+            paddingLeft={3}
+            paddingRight={3}
+            paddingTop={1}
+            paddingBottom={2}
+          >
+            <Heading as="h4" size="md" paddingTop="10px">
+              {scene.name}
+            </Heading>
+            <Text paddingTop="10px">{scene.description}</Text>
           </Stack>
         </CardBody>
         <Divider />
-        <CardFooter>
-          <ButtonGroup size="sm" isAttached>
-            <Button
-              isDisabled={true}
-              variant="outline"
-              leftIcon={<MdOutlineEditNote />}
-              size="sm"
-            >
-              Edit
-            </Button>
+        <CardFooter padding={2}>
+          <ButtonGroup ml={2} size="sm" isAttached>
             <Tooltip
               hasArrow
-              label="Delete the Entity"
+              label="Edit the Scene"
               bg="gray.300"
               color="black"
               openDelay={1000}
             >
               <Button
+                display={loggedInEmail == scene.creatorEmail ? "" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  handleEditScene(scene);
+                }}
+              >
+                <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              hasArrow
+              label="Delete the Scene"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
+            >
+              <Button
+                display={loggedInEmail == scene.creatorEmail ? "" : "none"}
                 variant="outline"
                 size="sm"
                 onClick={() => {

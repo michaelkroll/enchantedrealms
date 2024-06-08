@@ -1,8 +1,11 @@
+// React imports
 import { useRef } from "react";
 
+// DynamoDB imports
 import { generateClient } from "aws-amplify/api";
 import * as mutations from "../../graphql/mutations";
 
+// Chakra UI imports
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,20 +16,21 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+// Custom imports
 import Scene from "../../data/Scene";
 
 interface Props {
+  scene: Scene;
   isOpen: boolean;
   onClose: () => void;
   onCloseAfterDelete: () => void;
-  scene: Scene;
 }
 
 const SceneDeleteConfirmationAlert = ({
+  scene,
   isOpen,
   onClose,
   onCloseAfterDelete,
-  scene,
 }: Props) => {
   const cancelRef = useRef(null);
 
@@ -42,12 +46,11 @@ const SceneDeleteConfirmationAlert = ({
         query: mutations.deleteScene,
         variables: { input: sceneDetails },
       })
-      .then((response) => {
-        console.log("Deleted Scene: ", response);
+      .then(() => {
         onCloseAfterDelete();
       })
       .catch((error) => {
-        console.log("Deleting Scene Error: ", error);
+        console.log("Delete Scene Error: ", error);
         onClose();
       });
   };

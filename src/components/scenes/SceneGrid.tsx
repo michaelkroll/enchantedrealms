@@ -1,49 +1,56 @@
-// React Imports
+// React imports
 import { useEffect, useState } from "react";
-import { IoReload } from "react-icons/io5";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
 import { listScenes } from "../../graphql/queries";
 
-// Storage S3
-//import { getUrl } from "aws-amplify/storage";
-
-// Chakra UI Icon Imports
-import { AddIcon } from "@chakra-ui/icons";
-
-// Chakra UI Imports
+// CHakra UI imports
 import {
   Button,
   HStack,
   SimpleGrid,
   Text,
   Tooltip,
-  //useDisclosure,
-  useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 
-// Custom Imports
-import Scene from "../../data/Scene";
-import SceneCardSkeleton from "./SceneCardSkeleton";
+// React Icon imports
+import { AddIcon } from "@chakra-ui/icons";
+import { IoReload } from "react-icons/io5";
+
+// Custom imports
 import SceneCard from "./SceneCard";
+import SceneCardSkeleton from "./SceneCardSkeleton";
+import Scene from "../../data/Scene";
+
+import SceneCreateDrawer from "./SceneCreateDrawer";
+//import AdventureEditDrawer from "./AdventureEditDrawer";
 
 interface Props {
   email: string;
   sub: string;
 }
 
-const SceneGrid = ({ email /*sub*/ }: Props) => {
-  const toast = useToast();
+const SceneGrid = ({ email, sub }: Props) => {
+  const {
+    isOpen: isCreateDrawerOpen,
+    onOpen: onCreateDrawerOpen,
+    onClose: onCreateDrawerClose,
+  } = useDisclosure();
 
-  //  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isEditDrawerOpen,
+    onOpen: onEditDrawerOpen,
+    onClose: onEditDrawerClose,
+  } = useDisclosure();
+
+  const [editScene, setEditScene] = useState<Scene>();
   const [scenes, setScenes] = useState<Scene[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const skeletons = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
+  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
     if (email != "") {
@@ -55,7 +62,7 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
     setLoading(true);
     const graphqlClient = generateClient();
 
-    let listSceneVariables = {
+    const filters = {
       filter: {
         or: [
           {
@@ -70,19 +77,31 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
     graphqlClient
       .graphql({
         query: listScenes,
-        variables: listSceneVariables,
+        variables: filters,
       })
       .then((response) => {
         const sceneList = response.data.listScenes.items;
         sceneList.sort((a, b) => a.name.localeCompare(b.name));
+
         setScenes(sceneList);
         setLoading(false);
       })
       .catch((error) => {
+        console.log("Error loading scenes: ", error);
         setScenes([]);
         setError(error);
         setLoading(false);
       });
+  };
+
+  const handleCreateDrawerClose = () => {
+    onCreateDrawerClose();
+    handleListScenes();
+  };
+
+  const handleEditDrawerClose = () => {
+    onEditDrawerClose();
+    handleListScenes();
   };
 
   const handleRefreshGrid = () => {
@@ -90,11 +109,9 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
     handleListScenes();
   };
 
-  const handleDeleteScene = (deletedScene: Scene) => {
-    const newScenesArray = scenes.filter(
-      (scene) => scene.id != deletedScene.id
-    );
-    setScenes(newScenesArray);
+  const handleEditScene = (editScene: Scene) => {
+    setEditScene(editScene);
+    onEditDrawerOpen();
   };
 
   return (
@@ -110,30 +127,15 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
           <Button
             isDisabled={isLoading}
             colorScheme="blue"
-            onClick={() =>
-              toast({
-                title: "Add a new Scene.",
-                description:
-                  "Stay tuned. Implementing the functionality right now.",
-                status: "warning",
-                position: "top",
-                duration: 3000,
-                isClosable: true,
-              })
-            }
+            onClick={onCreateDrawerOpen}
             marginLeft="10px"
           >
             <AddIcon />
           </Button>
         </Tooltip>
-        {/* <CategorySelector
-      selectedCategory={currentCategory}
-      onSelectCategory={handleEntityCategorySelected}
-      categories={entityCategories}
-    /> */}
         <Tooltip
           hasArrow
-          label="Reload the Entities"
+          label="Reload the Scenes"
           bg="gray.300"
           color="black"
           openDelay={1000}
@@ -143,9 +145,25 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
+
+      <SceneCreateDrawer
+        handleDrawerClose={handleCreateDrawerClose}
+        isDrawerOpen={isCreateDrawerOpen}
+        onCloseDrawer={onCreateDrawerClose}
+        email={email}
+        sub={sub}
+      />
+
+      {/* <SceneEditDrawer
+        handleDrawerClose={handleEditDrawerClose}
+        isDrawerOpen={isEditDrawerOpen}
+        onCloseDrawer={onEditDrawerClose}
+        editAdventure={editAdventure!}
+      /> */}
+
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
-        columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
+        columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}
         margin="10px"
       >
@@ -155,7 +173,9 @@ const SceneGrid = ({ email /*sub*/ }: Props) => {
           <SceneCard
             key={scene.id}
             scene={scene}
-            deleteScene={handleDeleteScene}
+            loggedInEmail={email}
+            refreshGrid={handleRefreshGrid}
+            handleEditScene={handleEditScene}
           />
         ))}
       </SimpleGrid>
