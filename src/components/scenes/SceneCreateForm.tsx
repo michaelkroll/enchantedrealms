@@ -43,15 +43,10 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
     ownerId: "",
     name: "",
     description: "",
-    adventureId: "",
-    adventureName: "",
-    mapId: "",
-    mapName: "",
   });
 
   const handleCreateScene = async () => {
-    const { name, description, adventureId, adventureName, mapId, mapName } =
-      sceneData;
+    const { name, description } = sceneData;
 
     const sceneDetails = {
       id: uuid(),
@@ -59,10 +54,6 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
       creatorId: sub,
       name,
       description,
-      adventureId,
-      adventureName,
-      mapId,
-      mapName,
     };
 
     const graphqlClient = generateClient();

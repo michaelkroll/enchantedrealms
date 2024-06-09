@@ -659,56 +659,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "adventureId": {
-                    "name": "adventureId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "adventureName": {
-                    "name": "adventureName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "mapId": {
-                    "name": "mapId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "mapName": {
-                    "name": "mapName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "mapPicPath": {
-                    "name": "mapPicPath",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "mapPicS3Url": {
-                    "name": "mapPicS3Url",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "entityIds": {
-                    "name": "entityIds",
-                    "isArray": true,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -755,5 +705,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "caf3bc782e68269c03c701cf55ea603a"
+    "version": "e0541c78c00ed863e604a531b8cfd7ea"
 };

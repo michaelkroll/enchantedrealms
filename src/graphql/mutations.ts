@@ -396,13 +396,6 @@ export const createScene = /* GraphQL */ `mutation CreateScene(
     creatorId
     name
     description
-    adventureId
-    adventureName
-    mapId
-    mapName
-    mapPicPath
-    mapPicS3Url
-    entityIds
     createdAt
     updatedAt
     __typename
@@ -422,13 +415,6 @@ export const updateScene = /* GraphQL */ `mutation UpdateScene(
     creatorId
     name
     description
-    adventureId
-    adventureName
-    mapId
-    mapName
-    mapPicPath
-    mapPicS3Url
-    entityIds
     createdAt
     updatedAt
     __typename
@@ -448,13 +434,6 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
     creatorId
     name
     description
-    adventureId
-    adventureName
-    mapId
-    mapName
-    mapPicPath
-    mapPicS3Url
-    entityIds
     createdAt
     updatedAt
     __typename

@@ -261,13 +261,6 @@ export const getScene = /* GraphQL */ `query GetScene($id: ID!) {
     creatorId
     name
     description
-    adventureId
-    adventureName
-    mapId
-    mapName
-    mapPicPath
-    mapPicS3Url
-    entityIds
     createdAt
     updatedAt
     __typename
@@ -286,13 +279,6 @@ export const listScenes = /* GraphQL */ `query ListScenes(
       creatorId
       name
       description
-      adventureId
-      adventureName
-      mapId
-      mapName
-      mapPicPath
-      mapPicS3Url
-      entityIds
       createdAt
       updatedAt
       __typename
