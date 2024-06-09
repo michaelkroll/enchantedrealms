@@ -687,6 +687,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "mapPicPath": {
+                    "name": "mapPicPath",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "mapPicS3Url": {
+                    "name": "mapPicS3Url",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "entityIds": {
                     "name": "entityIds",
                     "isArray": true,
@@ -741,5 +755,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "1d0adfa8e225eb02f6eae319f6017c5b"
+    "version": "caf3bc782e68269c03c701cf55ea603a"
 };

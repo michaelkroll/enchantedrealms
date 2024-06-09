@@ -158,6 +158,7 @@ const SceneGrid = ({ email, sub }: Props) => {
         handleDrawerClose={handleEditDrawerClose}
         isDrawerOpen={isEditDrawerOpen}
         onCloseDrawer={onEditDrawerClose}
+        email={email}
         editScene={editScene!}
       />
 

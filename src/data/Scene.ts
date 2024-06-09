@@ -8,6 +8,8 @@ interface Scene {
   adventureName: string;
   mapId: string;
   mapName: string;
+  mapPicPath?: string | null | undefined;
+  mapPicS3Url?: string | null | undefined;
   entityIds?: (string | null)[] | null | undefined;
 }
 

@@ -15,6 +15,7 @@ import SceneEditForm from "./SceneEditForm";
 interface Props {
   handleDrawerClose: () => void;
   onCloseDrawer: () => void;
+  email: string;
   isDrawerOpen: boolean;
   editScene: Scene;
 }
@@ -22,6 +23,7 @@ interface Props {
 const SceneEditDrawer = ({
   handleDrawerClose,
   onCloseDrawer,
+  email,
   isDrawerOpen,
   editScene,
 }: Props) => {
@@ -36,11 +38,12 @@ const SceneEditDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton margin="5px" />
-        <DrawerHeader borderBottomWidth="1px">Edit Adventure</DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px">Edit Scene</DrawerHeader>
         <DrawerBody>
           <SceneEditForm
             handleFormClose={handleDrawerClose}
             editScene={editScene!}
+            email={email}
           />
         </DrawerBody>
       </DrawerContent>

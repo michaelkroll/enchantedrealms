@@ -352,6 +352,8 @@ export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: 
     adventureName
     mapId
     mapName
+    mapPicPath
+    mapPicS3Url
     entityIds
     createdAt
     updatedAt
@@ -373,6 +375,8 @@ export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: 
     adventureName
     mapId
     mapName
+    mapPicPath
+    mapPicS3Url
     entityIds
     createdAt
     updatedAt
@@ -394,6 +398,8 @@ export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: 
     adventureName
     mapId
     mapName
+    mapPicPath
+    mapPicS3Url
     entityIds
     createdAt
     updatedAt

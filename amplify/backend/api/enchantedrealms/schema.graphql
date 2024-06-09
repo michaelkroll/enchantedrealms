@@ -108,5 +108,7 @@ type Scene
   adventureName: String!
   mapId: String!
   mapName: String!
+  mapPicPath: String
+  mapPicS3Url: String
   entityIds: [String]
 }

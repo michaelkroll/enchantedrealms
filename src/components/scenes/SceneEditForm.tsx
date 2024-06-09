@@ -21,13 +21,16 @@ import * as mutations from "../../graphql/mutations";
 
 // Custom imports
 import Scene from "../../data/Scene";
+import Map from "../../data/Map";
+import MapSelector from "../maps/MapSelector";
 
 interface Props {
   handleFormClose: () => void;
+  email: string;
   editScene: Scene;
 }
 
-const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
+const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   const {
     register,
     handleSubmit,
@@ -42,6 +45,8 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  //const [selectedMapName, setSelectedMapName] = useState("");
+  //const [isMapNameMissing, setIsMapNameMissing] = useState(false);
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
     id: editScene.id,
@@ -70,6 +75,11 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
       .catch((error) => {
         console.log("Error: ", error);
       });
+  };
+
+  const onMapSelected = (selectedMap: Map) => {
+    console.log(selectedMap);
+    //setSelectedMapName(selectedMap.name);
   };
 
   return (
@@ -101,7 +111,7 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
             />
             <FormErrorMessage>{`${errors.name?.message}`}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.description ? true : undefined}>
+          <FormControl mb={3} isInvalid={errors.description ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="description">
               Description
             </FormLabel>
@@ -122,6 +132,12 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
             />
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
           </FormControl>
+
+          <MapSelector
+            email={email}
+            handleSelectedMap={onMapSelected}
+            /*mapNameMissing={isMapNameMissing}*/
+          />
 
           <Center>
             <Button

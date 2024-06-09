@@ -19,6 +19,7 @@ interface Map {
   mapThumbPicS3Url?: string | null | undefined;
   mapPicPath?: string | null | undefined;
   mapPicS3Url?: string | null | undefined;
+  selected?: boolean | null | undefined;
   tags?: (string | null)[] | null | undefined;
 }
 
