@@ -5,7 +5,7 @@ const mapCategories:Category[] =[
   {value: "coast", label: "Coast"},
   {value: "dungeon", label: "Dungeon"},
   {value: "field", label: "Field"},
-  {value: "forrest", label: "Forrest"},
+  {value: "forest", label: "Forest"},
   {value: "lake", label: "Lake"},
   {value: "mansion", label: "Mansion"},
   {value: "meadow", label: "Meadow"},

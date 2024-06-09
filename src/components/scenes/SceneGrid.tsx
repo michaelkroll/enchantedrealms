@@ -25,7 +25,7 @@ import SceneCardSkeleton from "./SceneCardSkeleton";
 import Scene from "../../data/Scene";
 
 import SceneCreateDrawer from "./SceneCreateDrawer";
-//import AdventureEditDrawer from "./AdventureEditDrawer";
+import SceneEditDrawer from "./SceneEditDrawer";
 
 interface Props {
   email: string;
@@ -154,12 +154,12 @@ const SceneGrid = ({ email, sub }: Props) => {
         sub={sub}
       />
 
-      {/* <SceneEditDrawer
+      <SceneEditDrawer
         handleDrawerClose={handleEditDrawerClose}
         isDrawerOpen={isEditDrawerOpen}
         onCloseDrawer={onEditDrawerClose}
-        editAdventure={editAdventure!}
-      /> */}
+        editScene={editScene!}
+      />
 
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
