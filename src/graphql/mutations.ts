@@ -21,6 +21,10 @@ export const createAdventure = /* GraphQL */ `mutation CreateAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -43,6 +47,10 @@ export const updateAdventure = /* GraphQL */ `mutation UpdateAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -65,6 +73,10 @@ export const deleteAdventure = /* GraphQL */ `mutation DeleteAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -160,6 +172,10 @@ export const createMap = /* GraphQL */ `mutation CreateMap(
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -195,6 +211,10 @@ export const updateMap = /* GraphQL */ `mutation UpdateMap(
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -230,6 +250,10 @@ export const deleteMap = /* GraphQL */ `mutation DeleteMap(
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -392,10 +416,51 @@ export const createScene = /* GraphQL */ `mutation CreateScene(
 ) {
   createScene(input: $input, condition: $condition) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -411,10 +476,51 @@ export const updateScene = /* GraphQL */ `mutation UpdateScene(
 ) {
   updateScene(input: $input, condition: $condition) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -430,10 +536,51 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
 ) {
   deleteScene(input: $input, condition: $condition) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename

@@ -18,6 +18,10 @@ export const onCreateAdventure = /* GraphQL */ `subscription OnCreateAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -37,6 +41,10 @@ export const onUpdateAdventure = /* GraphQL */ `subscription OnUpdateAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -56,6 +64,10 @@ export const onDeleteAdventure = /* GraphQL */ `subscription OnDeleteAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -139,6 +151,10 @@ export const onCreateMap = /* GraphQL */ `subscription OnCreateMap($filter: Mode
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -171,6 +187,10 @@ export const onUpdateMap = /* GraphQL */ `subscription OnUpdateMap($filter: Mode
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -203,6 +223,10 @@ export const onDeleteMap = /* GraphQL */ `subscription OnDeleteMap($filter: Mode
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -344,10 +368,51 @@ export const onDeleteEntity = /* GraphQL */ `subscription OnDeleteEntity($filter
 export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: ModelSubscriptionSceneFilterInput) {
   onCreateScene(filter: $filter) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -360,10 +425,51 @@ export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: 
 export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: ModelSubscriptionSceneFilterInput) {
   onUpdateScene(filter: $filter) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -376,10 +482,51 @@ export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: 
 export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: ModelSubscriptionSceneFilterInput) {
   onDeleteScene(filter: $filter) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename

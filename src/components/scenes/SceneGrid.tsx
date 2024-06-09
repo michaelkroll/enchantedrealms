@@ -82,8 +82,6 @@ const SceneGrid = ({ email, sub }: Props) => {
       .then((response) => {
         const sceneList = response.data.listScenes.items;
         sceneList.sort((a, b) => a.name.localeCompare(b.name));
-
-        console.log("List of Scenes: ", sceneList);
         setScenes(sceneList);
         setLoading(false);
       })

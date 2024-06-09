@@ -6,7 +6,6 @@ import {
   Box,
   Card,
   CardBody,
-  Divider,
   HStack,
   Image,
   Select,
@@ -29,8 +28,7 @@ import mapCategories from "../../data/MapCategories";
 
 interface Props {
   email: string;
-  handleSelectedMap: (selectedMap: Map) => void;
-  //mapNameMissing: boolean;
+  handleSelectedMap: (selectedMap: Map | null) => void;
 }
 
 const MapSelector = ({
@@ -41,13 +39,14 @@ const MapSelector = ({
   const mapCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
   const [maps, setMaps] = useState<Map[]>([]);
-
   const [selectedMapCategory, setSelectedMapCategory] = useState(
     "Please Select a Map Category"
   );
 
   useEffect(() => {
-    handleListMaps();
+    if (selectedMapCategory !== "Please Select a Map Category") {
+      handleListMaps();
+    }
   }, [selectedMapCategory]);
 
   const handleListMaps = async () => {
@@ -118,7 +117,7 @@ const MapSelector = ({
         map.id != selectedMap.id ? { ...map, selected: false } : map
       )
     );
-    handleSelectedMap(selectedMap);
+    handleSelectedMap(selectedMap.selected ? selectedMap : null);
   };
 
   return (
@@ -129,9 +128,7 @@ const MapSelector = ({
       //borderColor={mapNameMissing ? "red" : "gray.600"}
       borderColor="gray.600"
     >
-      <Text paddingBottom="10px">Map Selector</Text>
-      <Divider />
-      <HStack paddingTop="10px">
+      <HStack>
         <Select
           onChange={(event) => {
             setSelectedMapCategory(event.target.value);
@@ -154,7 +151,7 @@ const MapSelector = ({
       ) : (
         ""
       )}
-      <SimpleGrid columns={3} spacing={1} paddingTop={2}>
+      <SimpleGrid columns={3} spacing={1} paddingTop={maps.length == 0 ? 0 : 2}>
         {maps.map((map) => (
           <Card
             key={map.id}
@@ -172,6 +169,7 @@ const MapSelector = ({
               <Stack>
                 <Image src={map.mapPicS3Url!}></Image>
                 <Text fontSize="xs">{map.name}</Text>
+                <Text fontSize="xs" textColor="gray.400"> {map.gridded ? "has Grid": ""}</Text>
               </Stack>
             </CardBody>
           </Card>

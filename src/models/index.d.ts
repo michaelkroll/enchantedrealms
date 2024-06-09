@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
 
 
@@ -19,6 +19,7 @@ type EagerAdventure = {
   readonly adventurePicPath?: string | null;
   readonly adventurePicS3Url?: string | null;
   readonly players?: (string | null)[] | null;
+  readonly scenes?: (Scene | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -36,6 +37,7 @@ type LazyAdventure = {
   readonly adventurePicPath?: string | null;
   readonly adventurePicS3Url?: string | null;
   readonly players?: (string | null)[] | null;
+  readonly scenes: AsyncCollection<Scene>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -108,6 +110,7 @@ type EagerMap = {
   readonly mapPicPath?: string | null;
   readonly mapPicS3Url?: string | null;
   readonly tags?: (string | null)[] | null;
+  readonly scenes?: (Scene | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -138,6 +141,7 @@ type LazyMap = {
   readonly mapPicPath?: string | null;
   readonly mapPicS3Url?: string | null;
   readonly tags?: (string | null)[] | null;
+  readonly scenes: AsyncCollection<Scene>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -244,10 +248,14 @@ type EagerScene = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly adventureId: string;
+  readonly mapId: string;
   readonly creatorEmail: string;
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly adventure?: Adventure | null;
+  readonly map?: Map | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -258,10 +266,14 @@ type LazyScene = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly adventureId: string;
+  readonly mapId: string;
   readonly creatorEmail: string;
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly adventure: AsyncItem<Adventure | undefined>;
+  readonly map: AsyncItem<Map | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

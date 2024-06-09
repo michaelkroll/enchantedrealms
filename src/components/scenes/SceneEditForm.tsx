@@ -47,7 +47,6 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
- //const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   //const [isMapNameMissing, setIsMapNameMissing] = useState(false);
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
@@ -58,13 +57,13 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   });
 
   const handleUpdateScene = async () => {
-    const { id, name, description/*, adventure*/ } = updatedSceneData;
+    const { id, name, description /*, adventure*/ } = updatedSceneData;
 
     const sceneDetails = {
       id,
       name,
       description,
-      //adventureId: selectedAdventure?.id,
+      //adventure: selectedAdventure,
     };
 
     console.log(sceneDetails);
@@ -83,9 +82,8 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
       });
   };
 
-  const onAdventureSelected = (adventure: Adventure) => {
+  const onAdventureSelected = (adventure: Adventure | null) => {
     console.log("Adventure Selected for the scene: ", adventure);
-    //setSelectedAdventure(adventure);
   };
 
   return (
@@ -97,6 +95,16 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
             handleUpdateScene();
           })}
         >
+          <FormControl>
+            <FormLabel paddingTop="10px" htmlFor="adventure">
+              Adventure
+            </FormLabel>
+            <AdventureSelector
+              email={email}
+              handleSelectedAdventure={onAdventureSelected}
+            />
+          </FormControl>
+
           <FormControl isInvalid={errors.name ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="name">
               Name
@@ -138,15 +146,6 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
             />
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
           </FormControl>
-
-          <AdventureSelector
-            email={email}
-            handleSelectedAdventure={onAdventureSelected}
-          />
-          {/* <MapSelector
-            email={email}
-            handleSelectedMap={onMapSelected}
-          /> */}
 
           <Center>
             <Button

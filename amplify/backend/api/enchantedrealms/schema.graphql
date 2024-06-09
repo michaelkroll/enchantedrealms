@@ -16,6 +16,7 @@ type Adventure
   adventurePicPath: String
   adventurePicS3Url: String
   players: [String]
+  scenes: [Scene] @hasMany(indexName: "byAdventure", fields: ["id"])
 }
 
 type UserData
@@ -57,6 +58,7 @@ type Map
   mapPicPath: String
   mapPicS3Url: String
   tags: [String]
+  scenes: [Scene] @hasMany(indexName: "byMap", fields: ["id"])
 }
 
 type Token
@@ -100,8 +102,12 @@ type Scene
     rules: [{ allow: private, operations: [create, read, update, delete] }]
   ) {
   id: ID!
+  adventureId: ID! @index(name: "byAdventure", sortKeyFields: ["name"])
+  mapId: ID! @index(name: "byMap", sortKeyFields: ["name"])
   creatorEmail: String!
   creatorId: String!
   name: String!
   description: String
+  adventure: Adventure @belongsTo(fields: ["adventureId"])
+  map: Map @belongsTo(fields: ["mapId"])
 }

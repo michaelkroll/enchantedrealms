@@ -22,6 +22,12 @@ import * as mutations from "../../graphql/mutations";
 // Custom imports
 import { v4 as uuid } from "uuid";
 
+import AdventureSelector from "../adventures/AdventureSelector";
+import Adventure from "../../data/Adventure";
+
+import MapSelector from "../maps/MapSelector";
+import Map from "../../data/Map";
+
 interface Props {
   handleFormClose: () => void;
   email: string;
@@ -32,6 +38,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -43,10 +50,12 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
     ownerId: "",
     name: "",
     description: "",
+    adventureId: "",
+    mapId: "",
   });
 
   const handleCreateScene = async () => {
-    const { name, description } = sceneData;
+    const { name, description, adventureId, mapId } = sceneData;
 
     const sceneDetails = {
       id: uuid(),
@@ -54,6 +63,8 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
       creatorId: sub,
       name,
       description,
+      adventureId: adventureId,
+      mapId: mapId,
     };
 
     const graphqlClient = generateClient();
@@ -70,6 +81,26 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
       });
   };
 
+  const onAdventureSelected = (adventure: Adventure | null) => {
+    if (adventure) {
+      setSceneData({ ...sceneData, adventureId: adventure.id });
+      setValue("adventure", adventure.name);
+    } else {
+      setSceneData({ ...sceneData, adventureId: "" });
+      setValue("adventure", "");
+    }
+  };
+
+  const onMapSelected = (map: Map | null) => {
+    if (map) {
+      setSceneData({ ...sceneData, mapId: map.id });
+      setValue("map", map.name);
+    } else {
+      setSceneData({ ...sceneData, mapId: "" });
+      setValue("map", "");
+    }
+  };
+
   return (
     <VStack>
       <Container>
@@ -79,6 +110,47 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             handleCreateScene();
           })}
         >
+          <FormControl isInvalid={errors.adventure ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="adventure">
+              Adventure
+            </FormLabel>
+            <Input
+              readOnly={true}
+              mb={2}
+              {...register("adventure", {
+                required: "Please select an adventure",
+              })}
+              id="adventure"
+              disabled={isFormSubmitting}
+              placeholder="Please select an adcenture"
+              //value={selectedAdventureName}
+            />
+            <AdventureSelector
+              email={email}
+              handleSelectedAdventure={onAdventureSelected}
+            />
+            <FormErrorMessage>{`${errors.adventure?.message}`}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={errors.map ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="map">
+              Map
+            </FormLabel>
+            <Input
+              mb={2}
+              {...register("map", {
+                required: "Please select a map",
+              })}
+              id="map"
+              readOnly={true}
+              disabled={isFormSubmitting}
+              placeholder="Please select a map"
+            />
+
+            <MapSelector email={email} handleSelectedMap={onMapSelected} />
+            <FormErrorMessage>{`${errors.map?.message}`}</FormErrorMessage>
+          </FormControl>
+
           <FormControl isInvalid={errors.name ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="name">
               Name
@@ -96,7 +168,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             />
             <FormErrorMessage>{`${errors.name?.message}`}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.description ? true : undefined}>
+          <FormControl mb={3} isInvalid={errors.description ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="description">
               Description
             </FormLabel>
@@ -116,6 +188,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             />
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
           </FormControl>
+
           <Center>
             <Button
               mt={4}

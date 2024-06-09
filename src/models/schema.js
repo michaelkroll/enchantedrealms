@@ -60,6 +60,22 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
+                "scenes": {
+                    "name": "scenes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Scene"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "adventure"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -339,6 +355,22 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true
+                },
+                "scenes": {
+                    "name": "scenes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Scene"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "map"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -631,6 +663,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "adventureId": {
+                    "name": "adventureId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "mapId": {
+                    "name": "mapId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "creatorEmail": {
                     "name": "creatorEmail",
                     "isArray": false,
@@ -659,6 +705,36 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "adventure": {
+                    "name": "adventure",
+                    "isArray": false,
+                    "type": {
+                        "model": "Adventure"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "adventureId"
+                        ]
+                    }
+                },
+                "map": {
+                    "name": "map",
+                    "isArray": false,
+                    "type": {
+                        "model": "Map"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "mapId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -684,6 +760,26 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byAdventure",
+                        "fields": [
+                            "adventureId",
+                            "name"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byMap",
+                        "fields": [
+                            "mapId",
+                            "name"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -705,5 +801,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "e0541c78c00ed863e604a531b8cfd7ea"
+    "version": "2192f0b790797141c31516f58ad9fef7"
 };

@@ -6,7 +6,6 @@ import {
   Box,
   Card,
   CardBody,
-  Divider,
   SimpleGrid,
   Stack,
   Text,
@@ -22,7 +21,7 @@ import Adventure from "../../data/Adventure";
 
 interface Props {
   email: string;
-  handleSelectedAdventure: (selectedAdventure: Adventure) => void;
+  handleSelectedAdventure: (selectedAdventure: Adventure | null) => void;
 }
 
 const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
@@ -70,15 +69,14 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
           : adventure
       )
     );
-    handleSelectedAdventure(selectedAdventure);
+    handleSelectedAdventure(
+      selectedAdventure.selected ? selectedAdventure : null
+    );
   };
 
   return (
     <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
-      <Text paddingBottom="10px">Adventure Selector</Text>
-      <Divider />
-
-      <SimpleGrid columns={1} spacing={1} paddingTop={2}>
+      <SimpleGrid columns={1} spacing={1} paddingTop={0}>
         {adventures.map((adventure) => (
           <Card
             key={adventure.id}

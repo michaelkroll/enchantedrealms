@@ -18,6 +18,10 @@ export const getAdventure = /* GraphQL */ `query GetAdventure($id: ID!) {
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -119,6 +123,10 @@ export const getMap = /* GraphQL */ `query GetMap($id: ID!) {
     mapPicPath
     mapPicS3Url
     tags
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -257,10 +265,51 @@ export const listEntities = /* GraphQL */ `query ListEntities(
 export const getScene = /* GraphQL */ `query GetScene($id: ID!) {
   getScene(id: $id) {
     id
+    adventureId
+    mapId
     creatorEmail
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
+    map {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      shared
+      category
+      gridded
+      drawGrid
+      gridHtmlColor
+      gridOffsetX
+      gridOffsetY
+      gridColumns
+      gridRows
+      gridCellWidth
+      gridCellHeight
+      mapThumbPicPath
+      mapThumbPicS3Url
+      mapPicPath
+      mapPicS3Url
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -275,6 +324,8 @@ export const listScenes = /* GraphQL */ `query ListScenes(
   listScenes(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      adventureId
+      mapId
       creatorEmail
       creatorId
       name
@@ -290,4 +341,76 @@ export const listScenes = /* GraphQL */ `query ListScenes(
 ` as GeneratedQuery<
   APITypes.ListScenesQueryVariables,
   APITypes.ListScenesQuery
+>;
+export const scenesByAdventureIdAndName = /* GraphQL */ `query ScenesByAdventureIdAndName(
+  $adventureId: ID!
+  $name: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSceneFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  scenesByAdventureIdAndName(
+    adventureId: $adventureId
+    name: $name
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      adventureId
+      mapId
+      creatorEmail
+      creatorId
+      name
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ScenesByAdventureIdAndNameQueryVariables,
+  APITypes.ScenesByAdventureIdAndNameQuery
+>;
+export const scenesByMapIdAndName = /* GraphQL */ `query ScenesByMapIdAndName(
+  $mapId: ID!
+  $name: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSceneFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  scenesByMapIdAndName(
+    mapId: $mapId
+    name: $name
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      adventureId
+      mapId
+      creatorEmail
+      creatorId
+      name
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ScenesByMapIdAndNameQueryVariables,
+  APITypes.ScenesByMapIdAndNameQuery
 >;

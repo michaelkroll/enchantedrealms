@@ -1,5 +1,3 @@
-import Adventure from "./Adventure";
-
 interface Scene {
   id: string;
   name: string;
@@ -7,7 +5,7 @@ interface Scene {
   creatorId: string;
   description?: string | null | undefined;
   adventureId?: string;
-  adventure?: Adventure | null;
+  mapId?: string;
 }
 
 export default Scene;

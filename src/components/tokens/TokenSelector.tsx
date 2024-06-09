@@ -48,7 +48,9 @@ const TokenSelector = ({
   );
 
   useEffect(() => {
-    handleListTokens();
+    if (selectedTokenCategory !== "Please Select a Token Category") {
+      handleListTokens();
+    }
   }, [selectedTokenCategory]);
 
   const handleListTokens = async () => {
@@ -153,7 +155,8 @@ const TokenSelector = ({
           ;
         </Select>
       </HStack>
-      {tokens.length == 0 && selectedTokenCategory != "Please Select a Token Category" ? (
+      {tokens.length == 0 &&
+      selectedTokenCategory != "Please Select a Token Category" ? (
         <Text mt={2}>There are no tokens available in this category</Text>
       ) : (
         ""
