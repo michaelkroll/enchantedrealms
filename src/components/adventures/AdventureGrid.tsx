@@ -98,7 +98,7 @@ const AdventureGrid = ({ email, sub }: Props) => {
 
         adventureList.sort((a, b) => a.name.localeCompare(b.name));
 
-        console.log(adventureList);
+        console.log("Adventure List: ", adventureList);
 
         setAdventures(adventureList);
         setLoading(false);

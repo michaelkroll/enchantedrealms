@@ -18,10 +18,6 @@ export const getAdventure = /* GraphQL */ `query GetAdventure($id: ID!) {
     adventurePicPath
     adventurePicS3Url
     players
-    scenes {
-      nextToken
-      __typename
-    }
     createdAt
     updatedAt
     __typename
@@ -265,23 +261,8 @@ export const getScene = /* GraphQL */ `query GetScene($id: ID!) {
     creatorId
     name
     description
-    adventure {
-      id
-      creatorEmail
-      creatorId
-      name
-      description
-      adventurePicPath
-      adventurePicS3Url
-      players
-      createdAt
-      updatedAt
-      __typename
-    }
     createdAt
     updatedAt
-    adventureScenesId
-    sceneAdventureId
     __typename
   }
 }
@@ -300,8 +281,6 @@ export const listScenes = /* GraphQL */ `query ListScenes(
       description
       createdAt
       updatedAt
-      adventureScenesId
-      sceneAdventureId
       __typename
     }
     nextToken

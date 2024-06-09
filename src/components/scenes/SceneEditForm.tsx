@@ -47,7 +47,7 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  //const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
+  const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   //const [isMapNameMissing, setIsMapNameMissing] = useState(false);
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
@@ -64,7 +64,7 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
       id,
       name,
       description,
-      adventure: adventure,
+      //adventureId: selectedAdventure?.id,
     };
 
     console.log(sceneDetails);
@@ -85,7 +85,7 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
 
   const onAdventureSelected = (adventure: Adventure) => {
     console.log("Adventure Selected for the scene: ", adventure);
-    //setSelectedAdventure(adventure);
+    setSelectedAdventure(adventure);
   };
 
   return (

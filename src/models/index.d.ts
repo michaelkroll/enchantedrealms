@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
@@ -19,7 +19,6 @@ type EagerAdventure = {
   readonly adventurePicPath?: string | null;
   readonly adventurePicS3Url?: string | null;
   readonly players?: (string | null)[] | null;
-  readonly scenes?: (Scene | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -37,7 +36,6 @@ type LazyAdventure = {
   readonly adventurePicPath?: string | null;
   readonly adventurePicS3Url?: string | null;
   readonly players?: (string | null)[] | null;
-  readonly scenes: AsyncCollection<Scene>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -250,11 +248,8 @@ type EagerScene = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
-  readonly adventure?: Adventure | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly adventureScenesId?: string | null;
-  readonly sceneAdventureId?: string | null;
 }
 
 type LazyScene = {
@@ -267,11 +262,8 @@ type LazyScene = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
-  readonly adventure: AsyncItem<Adventure | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly adventureScenesId?: string | null;
-  readonly sceneAdventureId?: string | null;
 }
 
 export declare type Scene = LazyLoading extends LazyLoadingDisabled ? EagerScene : LazyScene

@@ -60,22 +60,6 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
-                "scenes": {
-                    "name": "scenes",
-                    "isArray": true,
-                    "type": {
-                        "model": "Scene"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "adventureScenesId"
-                        ]
-                    }
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -675,24 +659,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "adventure": {
-                    "name": "adventure",
-                    "isArray": false,
-                    "type": {
-                        "model": "Adventure"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "sceneAdventureId"
-                        ]
-                    }
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -708,20 +674,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "adventureScenesId": {
-                    "name": "adventureScenesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "sceneAdventureId": {
-                    "name": "sceneAdventureId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -730,15 +682,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "gsi-Adventure.scenes",
-                        "fields": [
-                            "adventureScenesId"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -762,5 +705,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "44148e738ad9d2fa4101673c25984d15"
+    "version": "e0541c78c00ed863e604a531b8cfd7ea"
 };

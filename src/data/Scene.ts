@@ -6,6 +6,7 @@ interface Scene {
   creatorEmail: string;
   creatorId: string;
   description?: string | null | undefined;
+  adventureId?: string;
   adventure?: Adventure | null;
 }
 
