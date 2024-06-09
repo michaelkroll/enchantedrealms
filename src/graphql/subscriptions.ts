@@ -18,6 +18,10 @@ export const onCreateAdventure = /* GraphQL */ `subscription OnCreateAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -37,6 +41,10 @@ export const onUpdateAdventure = /* GraphQL */ `subscription OnUpdateAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -56,6 +64,10 @@ export const onDeleteAdventure = /* GraphQL */ `subscription OnDeleteAdventure($
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -348,8 +360,23 @@ export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: 
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }
@@ -364,8 +391,23 @@ export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: 
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }
@@ -380,8 +422,23 @@ export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: 
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }

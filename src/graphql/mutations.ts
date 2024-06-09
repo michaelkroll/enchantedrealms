@@ -21,6 +21,10 @@ export const createAdventure = /* GraphQL */ `mutation CreateAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -43,6 +47,10 @@ export const updateAdventure = /* GraphQL */ `mutation UpdateAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -65,6 +73,10 @@ export const deleteAdventure = /* GraphQL */ `mutation DeleteAdventure(
     adventurePicPath
     adventurePicS3Url
     players
+    scenes {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -396,8 +408,23 @@ export const createScene = /* GraphQL */ `mutation CreateScene(
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }
@@ -415,8 +442,23 @@ export const updateScene = /* GraphQL */ `mutation UpdateScene(
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }
@@ -434,8 +476,23 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
     creatorId
     name
     description
+    adventure {
+      id
+      creatorEmail
+      creatorId
+      name
+      description
+      adventurePicPath
+      adventurePicS3Url
+      players
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
+    adventureScenesId
+    sceneAdventureId
     __typename
   }
 }

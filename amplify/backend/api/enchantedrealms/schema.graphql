@@ -16,6 +16,7 @@ type Adventure
   adventurePicPath: String
   adventurePicS3Url: String
   players: [String]
+  scenes: [Scene] @hasMany
 }
 
 type UserData
@@ -104,4 +105,5 @@ type Scene
   creatorId: String!
   name: String!
   description: String
+  adventure: Adventure @hasOne
 }

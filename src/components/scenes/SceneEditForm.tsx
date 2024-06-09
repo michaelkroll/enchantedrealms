@@ -21,8 +21,10 @@ import * as mutations from "../../graphql/mutations";
 
 // Custom imports
 import Scene from "../../data/Scene";
-import Map from "../../data/Map";
-import MapSelector from "../maps/MapSelector";
+// import Map from "../../data/Map";
+// import MapSelector from "../maps/MapSelector";
+import AdventureSelector from "../adventures/AdventureSelector";
+import Adventure from "../../data/Adventure";
 
 interface Props {
   handleFormClose: () => void;
@@ -45,23 +47,27 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  //const [selectedMapName, setSelectedMapName] = useState("");
+  //const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   //const [isMapNameMissing, setIsMapNameMissing] = useState(false);
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
     id: editScene.id,
     name: editScene.name,
     description: editScene.description,
+    adventure: editScene.adventure,
   });
 
   const handleUpdateScene = async () => {
-    const { id, name, description } = updatedSceneData;
+    const { id, name, description, adventure } = updatedSceneData;
 
     const sceneDetails = {
       id,
       name,
       description,
+      adventure: adventure,
     };
+
+    console.log(sceneDetails);
 
     const graphqlClient = generateClient();
     graphqlClient
@@ -77,9 +83,9 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
       });
   };
 
-  const onMapSelected = (selectedMap: Map) => {
-    console.log(selectedMap);
-    //setSelectedMapName(selectedMap.name);
+  const onAdventureSelected = (adventure: Adventure) => {
+    console.log("Adventure Selected for the scene: ", adventure);
+    //setSelectedAdventure(adventure);
   };
 
   return (
@@ -133,11 +139,14 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
           </FormControl>
 
-          <MapSelector
+          <AdventureSelector
+            email={email}
+            handleSelectedAdventure={onAdventureSelected}
+          />
+          {/* <MapSelector
             email={email}
             handleSelectedMap={onMapSelected}
-            /*mapNameMissing={isMapNameMissing}*/
-          />
+          /> */}
 
           <Center>
             <Button

@@ -7,6 +7,7 @@ interface Adventure {
   description?: string | null | undefined
   adventurePicPath?: string | null | undefined;
   adventurePicS3Url?: string | null | undefined;
+  selected?: boolean | null | undefined;
 }
 
 export default Adventure;

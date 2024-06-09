@@ -78,8 +78,29 @@ export type Adventure = {
   adventurePicPath?: string | null,
   adventurePicS3Url?: string | null,
   players?: Array< string | null > | null,
+  scenes?: ModelSceneConnection | null,
   createdAt: string,
   updatedAt: string,
+};
+
+export type ModelSceneConnection = {
+  __typename: "ModelSceneConnection",
+  items:  Array<Scene | null >,
+  nextToken?: string | null,
+};
+
+export type Scene = {
+  __typename: "Scene",
+  id: string,
+  creatorEmail: string,
+  creatorId: string,
+  name: string,
+  description?: string | null,
+  adventure?: Adventure | null,
+  createdAt: string,
+  updatedAt: string,
+  adventureScenesId?: string | null,
+  sceneAdventureId?: string | null,
 };
 
 export type UpdateAdventureInput = {
@@ -406,6 +427,8 @@ export type CreateSceneInput = {
   creatorId: string,
   name: string,
   description?: string | null,
+  adventureScenesId?: string | null,
+  sceneAdventureId?: string | null,
 };
 
 export type ModelSceneConditionInput = {
@@ -418,17 +441,24 @@ export type ModelSceneConditionInput = {
   not?: ModelSceneConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
+  adventureScenesId?: ModelIDInput | null,
+  sceneAdventureId?: ModelIDInput | null,
 };
 
-export type Scene = {
-  __typename: "Scene",
-  id: string,
-  creatorEmail: string,
-  creatorId: string,
-  name: string,
-  description?: string | null,
-  createdAt: string,
-  updatedAt: string,
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
 };
 
 export type UpdateSceneInput = {
@@ -437,6 +467,8 @@ export type UpdateSceneInput = {
   creatorId?: string | null,
   name?: string | null,
   description?: string | null,
+  adventureScenesId?: string | null,
+  sceneAdventureId?: string | null,
 };
 
 export type DeleteSceneInput = {
@@ -457,22 +489,6 @@ export type ModelAdventureFilterInput = {
   and?: Array< ModelAdventureFilterInput | null > | null,
   or?: Array< ModelAdventureFilterInput | null > | null,
   not?: ModelAdventureFilterInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type ModelAdventureConnection = {
@@ -596,12 +612,8 @@ export type ModelSceneFilterInput = {
   and?: Array< ModelSceneFilterInput | null > | null,
   or?: Array< ModelSceneFilterInput | null > | null,
   not?: ModelSceneFilterInput | null,
-};
-
-export type ModelSceneConnection = {
-  __typename: "ModelSceneConnection",
-  items:  Array<Scene | null >,
-  nextToken?: string | null,
+  adventureScenesId?: ModelIDInput | null,
+  sceneAdventureId?: ModelIDInput | null,
 };
 
 export type ModelSubscriptionAdventureFilterInput = {
@@ -617,6 +629,7 @@ export type ModelSubscriptionAdventureFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionAdventureFilterInput | null > | null,
   or?: Array< ModelSubscriptionAdventureFilterInput | null > | null,
+  adventureScenesId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -752,6 +765,7 @@ export type ModelSubscriptionSceneFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionSceneFilterInput | null > | null,
   or?: Array< ModelSubscriptionSceneFilterInput | null > | null,
+  sceneAdventureId?: ModelSubscriptionIDInput | null,
 };
 
 export type CreateAdventureMutationVariables = {
@@ -770,6 +784,10 @@ export type CreateAdventureMutation = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -791,6 +809,10 @@ export type UpdateAdventureMutation = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -812,6 +834,10 @@ export type DeleteAdventureMutation = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1130,8 +1156,23 @@ export type CreateSceneMutation = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1148,8 +1189,23 @@ export type UpdateSceneMutation = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1166,8 +1222,23 @@ export type DeleteSceneMutation = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1186,6 +1257,10 @@ export type GetAdventureQuery = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1445,8 +1520,23 @@ export type GetSceneQuery = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1468,6 +1558,8 @@ export type ListScenesQuery = {
       description?: string | null,
       createdAt: string,
       updatedAt: string,
+      adventureScenesId?: string | null,
+      sceneAdventureId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1488,6 +1580,10 @@ export type OnCreateAdventureSubscription = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1508,6 +1604,10 @@ export type OnUpdateAdventureSubscription = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1528,6 +1628,10 @@ export type OnDeleteAdventureSubscription = {
     adventurePicPath?: string | null,
     adventurePicS3Url?: string | null,
     players?: Array< string | null > | null,
+    scenes?:  {
+      __typename: "ModelSceneConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1833,8 +1937,23 @@ export type OnCreateSceneSubscription = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1850,8 +1969,23 @@ export type OnUpdateSceneSubscription = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
 
@@ -1867,7 +2001,22 @@ export type OnDeleteSceneSubscription = {
     creatorId: string,
     name: string,
     description?: string | null,
+    adventure?:  {
+      __typename: "Adventure",
+      id: string,
+      creatorEmail: string,
+      creatorId: string,
+      name: string,
+      description?: string | null,
+      adventurePicPath?: string | null,
+      adventurePicS3Url?: string | null,
+      players?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
+    adventureScenesId?: string | null,
+    sceneAdventureId?: string | null,
   } | null,
 };
