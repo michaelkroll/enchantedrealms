@@ -7,6 +7,7 @@ import {
   Card,
   CardBody,
   HStack,
+  Icon,
   Image,
   Select,
   SimpleGrid,
@@ -14,6 +15,9 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+// React Icon imports
+import { TbGrid4X4 } from "react-icons/tb";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
@@ -165,11 +169,16 @@ const MapSelector = ({
               handleMapSelection(map);
             }}
           >
-            <CardBody>
+            <CardBody padding={1}>
               <Stack>
-                <Image src={map.mapPicS3Url!}></Image>
-                <Text fontSize="xs">{map.name}</Text>
-                <Text fontSize="xs" textColor="gray.400"> {map.gridded ? "has Grid": ""}</Text>
+              <Icon position="absolute" top="10px" right="10px"
+                      as={TbGrid4X4}
+                      display={map.gridded ? "flex" : "none"}
+                    />
+                <Image src={map.mapPicS3Url!} borderTopRadius={4}></Image>
+                <Box ml={1}>
+                  <Text fontSize="xs">{map.name}</Text>
+                </Box>
               </Stack>
             </CardBody>
           </Card>
