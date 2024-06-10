@@ -28,13 +28,14 @@ import entityCategories from "../../data/EntityCategories";
 
 interface Props {
   email: string;
-  handleSelectedEntity: (selectedEntity: Entity | null) => void;
+  handleSelectedEntity: (selectedEntity: Entity) => void;
 }
 
 const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
+  const [isEntitiesSelected, setIsEntitiesSelected] = useState(false);
   const [entities, setEntities] = useState<Entity[]>([]);
 
   const [selectedEntityCategory, setSelectedEntityCategory] = useState(
@@ -71,8 +72,6 @@ const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
       },
     };
 
-    console.log(listEntityVariables);
-
     graphqlClient
       .graphql({
         query: listEntities,
@@ -105,10 +104,12 @@ const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
   const handleEntitySelection = (selectedEntity: Entity) => {
     setEntities(
       entities.map((entity) =>
-        entity.id != selectedEntity.id ? { ...entity, selected: false } : entity
+        entity.id != selectedEntity.id
+          ? { ...entity, selected: entity.selected }
+          : entity
       )
     );
-    handleSelectedEntity(selectedEntity.selected ? selectedEntity : null);
+    handleSelectedEntity(selectedEntity);
   };
 
   return (

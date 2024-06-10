@@ -35,8 +35,8 @@ const TokenSelector = ({ email, handleSelectedToken }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
+  const [isTokenSelected, setIsTokenSelected] = useState(false);
   const [tokens, setTokens] = useState<Token[]>([]);
-
   const [selectedTokenCategory, setSelectedTokenCategory] = useState(
     "Please Select a Token Category"
   );
@@ -121,6 +121,17 @@ const TokenSelector = ({ email, handleSelectedToken }: Props) => {
       )
     );
     handleSelectedToken(selectedToken.selected ? selectedToken : null);
+    setIsTokenSelected(selectedToken.selected!);
+  };
+
+  const displaySelectTokenText = (): string => {
+    if (isTokenSelected) {
+      return "none";
+    } else if (tokens.length == 0) {
+      return "none";
+    } else {
+      return "block";
+    }
   };
 
   return (
@@ -148,6 +159,10 @@ const TokenSelector = ({ email, handleSelectedToken }: Props) => {
       ) : (
         ""
       )}
+      <Text mb={0} mt={2} fontSize="md" display={displaySelectTokenText()}>
+        Please select a Token from the list
+      </Text>
+
       <SimpleGrid columns={3} spacing={1} paddingTop={2}>
         {tokens.map((token) => (
           <Card

@@ -126,7 +126,7 @@ const AdventureManagePlayersForm = ({ isOpen, onClose, handleUpdatePlayerList, a
             : ""}
         </Text>
 
-        <List hidden={playerEmails.length == 0} spacing={5} padding="20px">
+        <List hidden={playerEmails.length == 0} spacing={3} padding={5}>
           {playerEmails.map((playerEmail) => (
             <ListItem key={uuid()}>
               <HStack justifyContent="space-between">

@@ -13,11 +13,21 @@ import {
   FormErrorMessage,
   Container,
   Center,
+  ListItem,
+  Text,
+  List,
+  HStack,
+  ListIcon,
+  Box,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
 import * as mutations from "../../graphql/mutations";
+
+// React Icon imports
+import { IoRemoveCircle } from "react-icons/io5";
+import { MdOutlineDataObject } from "react-icons/md";
 
 // Custom imports
 import { v4 as uuid } from "uuid";
@@ -45,6 +55,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
   } = useForm();
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
 
   // States used to create a new Scene
   const [sceneData, setSceneData] = useState({
@@ -103,16 +114,31 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
     }
   };
 
-  const onEntitySelected = (entity: Entity | null) => {
-    if (entity) {
-      //setSceneData({ ...sceneData, mapId: entity.id });
-      setValue("entities", entity.name);
+  const onEntitySelected = (selectedEntity: Entity) => {
+    if (selectedEntity.selected) {
+      setSelectedEntities([...selectedEntities, selectedEntity]);
     } else {
-      //setSceneData({ ...sceneData, mapId: "" });
-      setValue("entities", "");
+      setSelectedEntities(
+        selectedEntities.filter((entity) => entity.id !== selectedEntity.id)
+      );
     }
   };
 
+  const getTextForNoOfSelectedEntities = (): string => {
+    const result = selectedEntities.length.toString();
+    if (selectedEntities.length == 0) {
+      setValue("entities", "");
+    } else {
+      setValue("entities", result);
+    }
+    return result;
+  };
+
+  const removeSelectedEntity = (entityToRemove: Entity) => {
+    setSelectedEntities(
+      selectedEntities.filter((entity) => entity.id !== entityToRemove.id)
+    );
+  };
 
   return (
     <VStack>
@@ -206,7 +232,38 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <FormLabel paddingTop="10px" htmlFor="entities">
               Entities
             </FormLabel>
+            <Text fontSize="xs" mb={2}>
+              Number Selected Entities: {getTextForNoOfSelectedEntities()}
+            </Text>
+            <Box borderWidth="1px" borderRadius="lg" hidden={selectedEntities.length == 0} mb={2}>
+              <List
+                
+                spacing={3}
+                padding={3}
+              >
+                {selectedEntities.map((entity) => (
+                  <ListItem key={entity.id}>
+                    <HStack justifyContent="space-between">
+                      <HStack>
+                        <ListIcon as={MdOutlineDataObject} color="green.500" />
+                        <Text>{entity.name}</Text>
+                      </HStack>
+                      <Button
+                        rightIcon={<IoRemoveCircle />}
+                        colorScheme="red"
+                        size="xs"
+                        onClick={() => removeSelectedEntity(entity)}
+                        isDisabled={isFormSubmitting}
+                      >
+                        Remove
+                      </Button>
+                    </HStack>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
             <Input
+              display="none"
               mb={2}
               {...register("entities", {
                 required: "Please select one or more entities",
@@ -217,7 +274,10 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               placeholder="Please select one or more entities"
             />
 
-            <EntitySelector email={email} handleSelectedEntity={onEntitySelected} />
+            <EntitySelector
+              email={email}
+              handleSelectedEntity={onEntitySelected}
+            />
             <FormErrorMessage>{`${errors.entities?.message}`}</FormErrorMessage>
           </FormControl>
 
