@@ -6,7 +6,6 @@ import {
   Box,
   Card,
   CardBody,
-  Divider,
   HStack,
   Image,
   Select,
@@ -29,15 +28,10 @@ import tokenCategories from "../../data/TokenCategories";
 
 interface Props {
   email: string;
-  handleSelectedToken: (selectedToken: Token) => void;
-  tokenNameMissing: boolean;
+  handleSelectedToken: (selectedToken: Token | null) => void;
 }
 
-const TokenSelector = ({
-  email,
-  handleSelectedToken,
-  tokenNameMissing,
-}: Props) => {
+const TokenSelector = ({ email, handleSelectedToken }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -126,19 +120,12 @@ const TokenSelector = ({
         token.id != selectedToken.id ? { ...token, selected: false } : token
       )
     );
-    handleSelectedToken(selectedToken);
+    handleSelectedToken(selectedToken.selected ? selectedToken : null);
   };
 
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      padding={3}
-      borderColor={tokenNameMissing ? "red" : "gray.600"}
-    >
-      <Text paddingBottom="10px">Token Selector</Text>
-      <Divider />
-      <HStack paddingTop="10px">
+    <Box borderWidth="1px" borderRadius="lg" padding={3}>
+      <HStack>
         <Select
           onChange={(event) => {
             setSelectedTokenCategory(event.target.value);
@@ -164,6 +151,7 @@ const TokenSelector = ({
       <SimpleGrid columns={3} spacing={1} paddingTop={2}>
         {tokens.map((token) => (
           <Card
+            variant="outline"
             key={token.id}
             backgroundColor={
               token.selected ? tokenCardSelectedColor : tokenCardColor
@@ -177,10 +165,12 @@ const TokenSelector = ({
               handleTokenSelection(token);
             }}
           >
-            <CardBody>
+            <CardBody padding={1}>
               <Stack>
                 <Image src={token.tokenPicS3Url!}></Image>
-                <Text fontSize="xs">{token.name}</Text>
+                <Text ml={1} fontSize="xs">
+                  {token.name}
+                </Text>
               </Stack>
             </CardBody>
           </Card>

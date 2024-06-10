@@ -17,7 +17,6 @@ import {
   Stack,
   Select,
   Textarea,
-  Text,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
