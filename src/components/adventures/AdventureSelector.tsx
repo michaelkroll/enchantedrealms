@@ -6,7 +6,9 @@ import {
   Box,
   Card,
   CardBody,
+  HStack,
   SimpleGrid,
+  Spinner,
   Stack,
   Text,
   useColorModeValue,
@@ -76,9 +78,27 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
 
   return (
     <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
+      <Text mb="1" fontSize="xs">
+        Select an Adventure from the list
+      </Text>
+      {adventures.length == 0 ? (
+        <HStack>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="md"
+          />
+          <Text>Fetching Adventures...</Text>
+          </HStack>
+      ) : (
+        ""
+      )}
       <SimpleGrid columns={1} spacing={1} paddingTop={0}>
         {adventures.map((adventure) => (
           <Card
+            variant="outline"
             key={adventure.id}
             backgroundColor={
               adventure.selected
@@ -94,7 +114,7 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
               handleAdventureSelection(adventure);
             }}
           >
-            <CardBody>
+            <CardBody padding={2}>
               <Stack>
                 <Text fontSize="xs">{adventure.name}</Text>
               </Stack>
