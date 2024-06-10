@@ -31,6 +31,7 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
   const adventureCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
   const [adventures, setAdventures] = useState<Adventure[]>([]);
+  const [isAdventureSelected, setIsAdventureSelected] = useState(false);
 
   useEffect(() => {
     handleListAdventures();
@@ -74,12 +75,13 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
     handleSelectedAdventure(
       selectedAdventure.selected ? selectedAdventure : null
     );
+    setIsAdventureSelected(selectedAdventure.selected!);
   };
 
   return (
     <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
-      <Text mb="1" fontSize="xs">
-        Select an Adventure from the list
+      <Text mb="1" fontSize="md" display={isAdventureSelected ? "none" : "block"}>
+        Please select an Adventure from the list
       </Text>
       {adventures.length == 0 ? (
         <HStack>
@@ -91,7 +93,7 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
             size="md"
           />
           <Text>Fetching Adventures...</Text>
-          </HStack>
+        </HStack>
       ) : (
         ""
       )}

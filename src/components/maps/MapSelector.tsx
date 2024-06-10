@@ -39,6 +39,7 @@ const MapSelector = ({ email, handleSelectedMap }: Props) => {
   const mapCardColor = useColorModeValue("gray.200", "gray.600");
   const mapCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
+  const [isMapSelected, setIsMapSelected] = useState(false);
   const [maps, setMaps] = useState<Map[]>([]);
   const [selectedMapCategory, setSelectedMapCategory] = useState(
     "Please Select a Map Category"
@@ -119,6 +120,17 @@ const MapSelector = ({ email, handleSelectedMap }: Props) => {
       )
     );
     handleSelectedMap(selectedMap.selected ? selectedMap : null);
+    setIsMapSelected(selectedMap.selected!);
+  };
+
+  const displaySelectMapText = (): string => {
+    if (isMapSelected) {
+      return "none";
+    } else if (maps.length == 0) {
+      return "none";
+    } else {
+      return "block";
+    }
   };
 
   return (
@@ -146,6 +158,10 @@ const MapSelector = ({ email, handleSelectedMap }: Props) => {
       ) : (
         ""
       )}
+      <Text mb={0} mt={2} fontSize="md" display={displaySelectMapText()}>
+        Please select a Map from the list
+      </Text>
+
       <SimpleGrid columns={3} spacing={1} paddingTop={maps.length == 0 ? 0 : 2}>
         {maps.map((map) => (
           <Card
