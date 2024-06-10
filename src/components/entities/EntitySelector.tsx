@@ -35,7 +35,6 @@ const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
-  const [isEntitiesSelected, setIsEntitiesSelected] = useState(false);
   const [entities, setEntities] = useState<Entity[]>([]);
 
   const [selectedEntityCategory, setSelectedEntityCategory] = useState(
