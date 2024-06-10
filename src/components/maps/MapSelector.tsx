@@ -35,10 +35,7 @@ interface Props {
   handleSelectedMap: (selectedMap: Map | null) => void;
 }
 
-const MapSelector = ({
-  email,
-  handleSelectedMap /*, mapNameMissing*/,
-}: Props) => {
+const MapSelector = ({ email, handleSelectedMap }: Props) => {
   const mapCardColor = useColorModeValue("gray.200", "gray.600");
   const mapCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -125,13 +122,7 @@ const MapSelector = ({
   };
 
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      padding={3}
-      //borderColor={mapNameMissing ? "red" : "gray.600"}
-      borderColor="gray.600"
-    >
+    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
       <HStack>
         <Select
           onChange={(event) => {
@@ -158,6 +149,7 @@ const MapSelector = ({
       <SimpleGrid columns={3} spacing={1} paddingTop={maps.length == 0 ? 0 : 2}>
         {maps.map((map) => (
           <Card
+            variant="outline"
             key={map.id}
             backgroundColor={map.selected ? mapCardSelectedColor : mapCardColor}
             onClick={() => {
@@ -171,10 +163,13 @@ const MapSelector = ({
           >
             <CardBody padding={1}>
               <Stack>
-              <Icon position="absolute" top="10px" right="10px"
-                      as={TbGrid4X4}
-                      display={map.gridded ? "flex" : "none"}
-                    />
+                <Icon
+                  position="absolute"
+                  top="10px"
+                  right="10px"
+                  as={TbGrid4X4}
+                  display={map.gridded ? "flex" : "none"}
+                />
                 <Image src={map.mapPicS3Url!} borderTopRadius={4}></Image>
                 <Box ml={1}>
                   <Text fontSize="xs">{map.name}</Text>
