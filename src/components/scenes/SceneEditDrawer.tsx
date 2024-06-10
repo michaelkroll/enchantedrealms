@@ -23,7 +23,6 @@ interface Props {
 const SceneEditDrawer = ({
   handleDrawerClose,
   onCloseDrawer,
-  email,
   isDrawerOpen,
   editScene,
 }: Props) => {
@@ -43,7 +42,6 @@ const SceneEditDrawer = ({
           <SceneEditForm
             handleFormClose={handleDrawerClose}
             editScene={editScene!}
-            email={email}
           />
         </DrawerBody>
       </DrawerContent>
