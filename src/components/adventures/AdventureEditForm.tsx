@@ -75,8 +75,6 @@ const AdventureEditForm = ({ handleFormClose, editAdventure }: Props) => {
 
   const handleUpdateAdventure = async () => {
     const { id, name, description } = updatedAdventureData;
-    console.log("New Adventure Pic: ", newAdventurePic);
-    console.log("Old Adventure Pic: ", editAdventure.adventurePicPath);
 
     if (newAdventurePic) {
       try {
@@ -158,7 +156,7 @@ const AdventureEditForm = ({ handleFormClose, editAdventure }: Props) => {
     <VStack>
       <Container>
         <Text mt={2}>Adventure Image</Text>
-        <Box mt={2} borderWidth="1px" borderRadius="lg" padding={3}>
+        <Box mt={2} borderWidth="1px" borderRadius="lg" padding={4}>
           <Center>
             <Image src={editAdventure.adventurePicS3Url!} maxW={400} />
           </Center>
