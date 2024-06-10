@@ -40,12 +40,11 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [selectedTokenName, setSelectedTokenName] = useState("");
-  const [isTokenNameMissing, setIsTokenNameMissing] = useState(false);
 
   // States used to create a new Token
   const [entityData, setEntityData] = useState({
@@ -96,13 +95,22 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
       });
   };
 
-  const onTokenSelected = (selectedToken: Token) => {
-    setEntityData({
-      ...entityData,
-      tokenId: selectedToken.id,
-      tokenPicPath: selectedToken.tokenPicPath!,
-    });
-    setSelectedTokenName(selectedToken.name);
+  const onTokenSelected = (selectedToken: Token | null) => {
+    if (selectedToken) {
+      setEntityData({
+        ...entityData,
+        tokenId: selectedToken.id,
+        tokenPicPath: selectedToken.tokenPicPath!,
+      });
+      setValue("tokenName", selectedToken.name);
+    } else {
+      setEntityData({
+        ...entityData,
+        tokenId: "",
+        tokenPicPath: "",
+      });
+      setValue("tokenName", "");
+    }
   };
 
   return (
@@ -110,12 +118,8 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
       <Container marginBottom={10}>
         <form
           onSubmit={handleSubmit(() => {
-            if (selectedTokenName === "") {
-              setIsTokenNameMissing(true);
-            } else {
-              setIsFormSubmitting(true);
-              handleCreateEntity();
-            }
+            setIsFormSubmitting(true);
+            handleCreateEntity();
           })}
         >
           <FormControl isInvalid={errors.name ? true : undefined}>
@@ -192,31 +196,24 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
             isInvalid={errors.tokenName ? true : undefined}
           >
             <FormLabel paddingTop="10px" htmlFor="tokenName">
-              Token Name
+              Token
             </FormLabel>
             <Input
+              readOnly={true}
+              mb={2}
+              {...register("tokenName", {
+                required: "Please select a token",
+              })}
               id="tokenName"
-              disabled={true}
-              value={selectedTokenName}
-              placeholder="Will be set if you select a token"
-              onChange={(value) => console.log(value)}
+              disabled={isFormSubmitting}
+              placeholder="Please select a token"
+            />
+            <TokenSelector
+              email={email}
+              handleSelectedToken={onTokenSelected}
             />
             <FormErrorMessage>{`${errors.tokenName?.message}`}</FormErrorMessage>
           </FormControl>
-
-          <TokenSelector
-            email={email}
-            handleSelectedToken={onTokenSelected}
-            tokenNameMissing={isTokenNameMissing}
-          />
-          <Text
-            display={isTokenNameMissing ? "flex" : "none"}
-            paddingTop={1}
-            textColor="red"
-            fontSize="sm"
-          >
-            Please select a Token
-          </Text>
 
           <Center>
             <Button

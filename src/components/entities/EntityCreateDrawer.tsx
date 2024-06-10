@@ -34,7 +34,7 @@ const EntityCreateDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton margin="5px" />
-        <DrawerHeader borderBottomWidth="1px">Create a Map</DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px">Create an Entity</DrawerHeader>
         <DrawerBody>
           <EntityCreateForm
             handleFormClose={handleDrawerClose}

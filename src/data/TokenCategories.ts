@@ -4,6 +4,7 @@ const tokenCategories:Category[] = [
   // {value: "all", label: "All"},
   // {value: "abberations", label: "Abberations"},
   // {value: "angels", label: "Angels"},
+  {value: "animals", label: "Animals"},
   // {value: "beasts", label: "Beasts"},
   // {value: "bird_folk", label: "Bird-folk"},
   // {value: "celestials", label: "Celestials"},

@@ -148,7 +148,7 @@ const SceneCard = ({
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
-          <ButtonGroup ml={2} size="sm" isAttached>
+          <ButtonGroup size="sm" isAttached>
             <Tooltip
               hasArrow
               label="Edit the Scene"
