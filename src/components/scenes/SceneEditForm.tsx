@@ -23,16 +23,15 @@ import * as mutations from "../../graphql/mutations";
 import Scene from "../../data/Scene";
 // import Map from "../../data/Map";
 // import MapSelector from "../maps/MapSelector";
-import AdventureSelector from "../adventures/AdventureSelector";
-import Adventure from "../../data/Adventure";
+// import AdventureSelector from "../adventures/AdventureSelector";
+// import Adventure from "../../data/Adventure";
 
 interface Props {
   handleFormClose: () => void;
-  email: string;
   editScene: Scene;
 }
 
-const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
+const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
   const {
     register,
     handleSubmit,
@@ -47,23 +46,20 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
   });
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  //const [isMapNameMissing, setIsMapNameMissing] = useState(false);
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
     id: editScene.id,
     name: editScene.name,
     description: editScene.description,
-    adventure: editScene.adventure,
   });
 
   const handleUpdateScene = async () => {
-    const { id, name, description /*, adventure*/ } = updatedSceneData;
+    const { id, name, description } = updatedSceneData;
 
     const sceneDetails = {
       id,
       name,
       description,
-      //adventure: selectedAdventure,
     };
 
     console.log(sceneDetails);
@@ -82,9 +78,9 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
       });
   };
 
-  const onAdventureSelected = (adventure: Adventure | null) => {
-    console.log("Adventure Selected for the scene: ", adventure);
-  };
+  // const onAdventureSelected = (adventure: Adventure | null) => {
+  //   console.log("Adventure Selected for the scene: ", adventure);
+  // };
 
   return (
     <VStack>
@@ -95,7 +91,7 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
             handleUpdateScene();
           })}
         >
-          <FormControl>
+          {/* <FormControl>
             <FormLabel paddingTop="10px" htmlFor="adventure">
               Adventure
             </FormLabel>
@@ -103,7 +99,7 @@ const SceneEditForm = ({ handleFormClose, email, editScene }: Props) => {
               email={email}
               handleSelectedAdventure={onAdventureSelected}
             />
-          </FormControl>
+          </FormControl> */}
 
           <FormControl isInvalid={errors.name ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="name">

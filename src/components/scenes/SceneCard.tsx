@@ -22,7 +22,6 @@ import {
   ButtonGroup,
   useColorModeValue,
   Stack,
-  HStack,
 } from "@chakra-ui/react";
 
 // React Icon imports
@@ -126,7 +125,7 @@ const SceneCard = ({
         }}
       >
         <CardBody padding={0}>
-        <Image mb={1} src={mapImageUrl} borderTopRadius={4} />
+          <Image mb={1} src={mapImageUrl} borderTopRadius={4} />
           <Stack
             paddingLeft={3}
             paddingRight={3}
@@ -137,13 +136,14 @@ const SceneCard = ({
               {scene.name}
             </Heading>
             <Text>{scene.description}</Text>
-            <Divider/>
+            <Divider />
             <Text as="b">Adventure</Text>
             <Text>{adventureName}</Text>
-            <Divider/>
+            <Divider />
             <Text as="b">Map</Text>
             <Text>{mapName}</Text>
-
+            <Divider />
+            <Text as="b">Entities</Text>
           </Stack>
         </CardBody>
         <Divider />

@@ -64,13 +64,9 @@ const SceneGrid = ({ email, sub }: Props) => {
 
     const filters = {
       filter: {
-        or: [
-          {
-            creatorEmail: {
-              eq: email,
-            },
-          },
-        ],
+        creatorEmail: {
+          eq: email,
+        },
       },
     };
 

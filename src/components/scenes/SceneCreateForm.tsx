@@ -27,6 +27,8 @@ import Adventure from "../../data/Adventure";
 
 import MapSelector from "../maps/MapSelector";
 import Map from "../../data/Map";
+import Entity from "../../data/Entity";
+import EntitySelector from "../entities/EntitySelector";
 
 interface Props {
   handleFormClose: () => void;
@@ -101,6 +103,17 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
     }
   };
 
+  const onEntitySelected = (entity: Entity | null) => {
+    if (entity) {
+      //setSceneData({ ...sceneData, mapId: entity.id });
+      setValue("entities", entity.name);
+    } else {
+      //setSceneData({ ...sceneData, mapId: "" });
+      setValue("entities", "");
+    }
+  };
+
+
   return (
     <VStack>
       <Container>
@@ -110,6 +123,45 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             handleCreateScene();
           })}
         >
+          <FormControl isInvalid={errors.name ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="name">
+              Name
+            </FormLabel>
+            <Input
+              {...register("name", {
+                required: "Please enter a scene name",
+              })}
+              id="name"
+              disabled={isFormSubmitting}
+              placeholder="Name of the Scene"
+              onChange={(event) =>
+                setSceneData({ ...sceneData, name: event.target.value })
+              }
+            />
+            <FormErrorMessage>{`${errors.name?.message}`}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={errors.description ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="description">
+              Description
+            </FormLabel>
+            <Textarea
+              {...register("description", {
+                required: "Please enter a scene description",
+              })}
+              id="description"
+              placeholder="A short description of the scene"
+              disabled={isFormSubmitting}
+              onChange={(event) =>
+                setSceneData({
+                  ...sceneData,
+                  description: event.target.value,
+                })
+              }
+            />
+            <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
+          </FormControl>
+
           <FormControl isInvalid={errors.adventure ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="adventure">
               Adventure
@@ -123,7 +175,6 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               id="adventure"
               disabled={isFormSubmitting}
               placeholder="Please select an adcenture"
-              //value={selectedAdventureName}
             />
             <AdventureSelector
               email={email}
@@ -151,42 +202,23 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <FormErrorMessage>{`${errors.map?.message}`}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.name ? true : undefined}>
-            <FormLabel paddingTop="10px" htmlFor="name">
-              Name
+          <FormControl isInvalid={errors.entities ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="entities">
+              Entities
             </FormLabel>
             <Input
-              {...register("name", {
-                required: "Please enter a scene name",
+              mb={2}
+              {...register("entities", {
+                required: "Please select one or more entities",
               })}
-              id="name"
+              id="entities"
+              readOnly={true}
               disabled={isFormSubmitting}
-              placeholder="Name of the Scene"
-              onChange={(event) =>
-                setSceneData({ ...sceneData, name: event.target.value })
-              }
+              placeholder="Please select one or more entities"
             />
-            <FormErrorMessage>{`${errors.name?.message}`}</FormErrorMessage>
-          </FormControl>
-          <FormControl mb={3} isInvalid={errors.description ? true : undefined}>
-            <FormLabel paddingTop="10px" htmlFor="description">
-              Description
-            </FormLabel>
-            <Textarea
-              {...register("description", {
-                required: "Please enter a scene description",
-              })}
-              id="description"
-              placeholder="A short description of the scene"
-              disabled={isFormSubmitting}
-              onChange={(event) =>
-                setSceneData({
-                  ...sceneData,
-                  description: event.target.value,
-                })
-              }
-            />
-            <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
+
+            <EntitySelector email={email} handleSelectedEntity={onEntitySelected} />
+            <FormErrorMessage>{`${errors.entities?.message}`}</FormErrorMessage>
           </FormControl>
 
           <Center>
