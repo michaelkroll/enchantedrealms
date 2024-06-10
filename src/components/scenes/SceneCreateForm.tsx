@@ -174,7 +174,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               })}
               id="adventure"
               disabled={isFormSubmitting}
-              placeholder="Please select an adcenture"
+              placeholder="Please select an adventure"
             />
             <AdventureSelector
               email={email}
