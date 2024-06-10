@@ -41,6 +41,7 @@ const tokenCategories:Category[] = [
   // {value: "kenku", label: "Kenku"},
   {value: "kobolds", label: "Kobolds"},
   //{value: "kor", label: "Kor"},
+  {value: "loot", label: "Loot"},
   // {value: "loxodon", label: "Loxodon"},
   // {value: "minotaurs", label: "Minotaurs"},
   // {value: "miscellaneous_monsters", label: "Miscellaneous Monsters"},

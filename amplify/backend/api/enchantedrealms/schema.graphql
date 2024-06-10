@@ -104,6 +104,7 @@ type Scene
   id: ID!
   adventureId: ID! @index(name: "byAdventure", sortKeyFields: ["name"])
   mapId: ID! @index(name: "byMap", sortKeyFields: ["name"])
+  entityIds: [String]
   creatorEmail: String!
   creatorId: String!
   name: String!

@@ -70,6 +70,10 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
   const handleCreateScene = async () => {
     const { name, description, adventureId, mapId } = sceneData;
 
+    const entityIdArray:string[] = [];
+    
+    selectedEntities.map((entity) => {entityIdArray.push(entity.id)});
+
     const sceneDetails = {
       id: uuid(),
       creatorEmail: email,
@@ -78,6 +82,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
       description,
       adventureId: adventureId,
       mapId: mapId,
+      entityIds: entityIdArray,
     };
 
     const graphqlClient = generateClient();
@@ -235,12 +240,13 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <Text fontSize="xs" mb={2}>
               Number Selected Entities: {getTextForNoOfSelectedEntities()}
             </Text>
-            <Box borderWidth="1px" borderRadius="lg" hidden={selectedEntities.length == 0} mb={2}>
-              <List
-                
-                spacing={3}
-                padding={3}
-              >
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              hidden={selectedEntities.length == 0}
+              mb={2}
+            >
+              <List spacing={3} padding={3}>
                 {selectedEntities.map((entity) => (
                   <ListItem key={entity.id}>
                     <HStack justifyContent="space-between">

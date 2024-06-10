@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
-import { getAdventure, getMap } from "../../graphql/queries";
+import { getAdventure, getMap, getEntity } from "../../graphql/queries";
 
 // Storage S3
 import { getUrl } from "aws-amplify/storage";
@@ -22,14 +22,23 @@ import {
   ButtonGroup,
   useColorModeValue,
   Stack,
+  List,
+  ListItem,
+  HStack,
+  ListIcon,
 } from "@chakra-ui/react";
 
 // React Icon imports
 import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
+import { FaRegUser, FaUser } from "react-icons/fa6";
+import { GiMonsterGrasp, GiCrystalWand } from "react-icons/gi";
+import { VscWorkspaceUnknown } from "react-icons/vsc";
 
 // Custom imports
 import Scene from "../../data/Scene";
 import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
+import Entity from "../../data/Entity";
+import { IconType } from "react-icons";
 
 interface Props {
   scene: Scene;
@@ -47,6 +56,7 @@ const SceneCard = ({
   useEffect(() => {
     loadAdventureDetails();
     loadMapDetails();
+    loadEntityDetails();
   }, []);
 
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
@@ -57,6 +67,7 @@ const SceneCard = ({
 
   const [adventureName, setAdventureName] = useState("");
   const [mapName, setMapName] = useState("");
+  const [entities, setEntities] = useState<Entity[]>([]);
   const [mapImageUrl, setMapImageUrl] = useState("");
 
   const onDeleteSceneAlertConfirmClose = () => {
@@ -114,6 +125,46 @@ const SceneCard = ({
       });
   };
 
+  const loadEntityDetails = () => {
+    let entityArray: Entity[] = [];
+
+    scene.entityIds!.forEach((entityId) => {
+      const graphqlClient = generateClient();
+      graphqlClient
+        .graphql({
+          query: getEntity,
+          variables: { id: entityId! },
+        })
+        .then((response) => {
+          const entity = response.data.getEntity;
+          entityArray.push(entity!);
+        })
+        .catch((error) => {
+          console.log("Error loading Entity details: ", error);
+        });
+    });
+
+    const sortedArray = entityArray.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    setEntities(sortedArray);
+  };
+
+  const getEntityIcon = (entityCategory: string): IconType => {
+    if (entityCategory == "monster") {
+      return GiMonsterGrasp;
+    } else if (entityCategory == "player") {
+      return FaUser;
+    } else if (entityCategory == "npc") {
+      return FaRegUser;
+    } else if (entityCategory == "item") {
+      return GiCrystalWand;
+    } else {
+      return VscWorkspaceUnknown;
+    }
+  };
+
   return (
     <>
       <Card
@@ -144,6 +195,20 @@ const SceneCard = ({
             <Text>{mapName}</Text>
             <Divider />
             <Text as="b">Entities</Text>
+
+            <List spacing={3} padding={1}>
+              {entities.map((entity) => (
+                <ListItem key={entity.id}>
+                  <HStack>
+                    <ListIcon
+                      as={getEntityIcon(entity.category!)}
+                      color="blue.500"
+                    />
+                    <Text>{entity.name}</Text>
+                  </HStack>
+                </ListItem>
+              ))}
+            </List>
           </Stack>
         </CardBody>
         <Divider />
