@@ -39,7 +39,7 @@ interface Props {
 const MapSelector = ({ email, handleSelectedMap, isInvalid }: Props) => {
   const mapCardColor = useColorModeValue("gray.200", "gray.600");
   const mapCardSelectedColor = useColorModeValue("blue.200", "blue.600");
-  const mapGidIndicatorColor = useColorModeValue("gray.200", "gray.400");
+  const mapGridIndicatorColor = useColorModeValue("gray.200", "gray.400");
 
   const [isMapSelected, setIsMapSelected] = useState(false);
   const [maps, setMaps] = useState<Map[]>([]);
@@ -195,7 +195,7 @@ const MapSelector = ({ email, handleSelectedMap, isInvalid }: Props) => {
               <Stack>
                 <Icon
                   position="absolute"
-                  color={mapGidIndicatorColor}
+                  color={mapGridIndicatorColor}
                   top="10px"
                   right="10px"
                   as={TbGrid4X4}
