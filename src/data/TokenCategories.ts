@@ -19,7 +19,7 @@ const tokenCategories:Category[] = [
   {value: "dragons_metallic", label: "Dragons - Metallic"},
   {value: "drow_dark_elves", label: "Drow - Dark Elves"},
   {value: "dwarves", label: "Dwarves"},
-  // {value: "elementals", label: "Elementals"},
+  {value: "elementals", label: "Elementals"},
   {value: "elves_half_elves", label: "Elves and Half-Elves"},
   // {value: "faeries", label: "Faeries"},
   // {value: "fey", label: "Fey"},
