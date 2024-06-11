@@ -85,7 +85,7 @@ const AdventureSelector = ({
 
   const getBorderColor = (): string => {
     if (isInvalid) {
-      return "red.400"
+      return "red.300"
     }
     return "gray.600";
   };
@@ -95,6 +95,7 @@ const AdventureSelector = ({
       borderWidth="1px"
       borderRadius="lg"
       padding={3}
+      border={isInvalid ? "2px": "1px"}
       borderColor={getBorderColor()}
     >
       <Text

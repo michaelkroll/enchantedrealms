@@ -114,7 +114,7 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
 
   const getBorderColor = (): string => {
     if (isInvalid) {
-      return "red.400";
+      return "red.300";
     }
     return "gray.600";
   };
@@ -123,6 +123,7 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
     <Box
       borderWidth="1px"
       borderRadius="lg"
+      border={isInvalid ? "2px" : "1px"}
       padding={3}
       borderColor={getBorderColor()}
     >

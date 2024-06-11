@@ -136,13 +136,18 @@ const MapSelector = ({ email, handleSelectedMap, isInvalid }: Props) => {
 
   const getBorderColor = (): string => {
     if (isInvalid) {
-      return "red.400"
+      return "red.300";
     }
     return "gray.600";
   };
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor={getBorderColor()}>
+    <Box
+      border={isInvalid ? "2px" : "1px"}
+      borderRadius="lg"
+      padding={3}
+      borderColor={getBorderColor()}
+    >
       <HStack>
         <Select
           onChange={(event) => {
