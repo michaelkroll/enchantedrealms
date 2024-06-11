@@ -223,6 +223,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               Adventure
             </FormLabel>
             <Input
+              display="none"
               readOnly={true}
               mb={2}
               {...register("adventure", {
@@ -235,6 +236,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <AdventureSelector
               email={email}
               handleSelectedAdventure={onAdventureSelected}
+              isInvalid={errors.adventure ? true : undefined}
             />
             <FormErrorMessage>{`${errors.adventure?.message}`}</FormErrorMessage>
           </FormControl>
@@ -244,6 +246,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               Map
             </FormLabel>
             <Input
+              display="none"
               mb={2}
               {...register("map", {
                 required: "Please select a map",
@@ -254,7 +257,11 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
               placeholder="Please select a map"
             />
 
-            <MapSelector email={email} handleSelectedMap={onMapSelected} />
+            <MapSelector
+              email={email}
+              handleSelectedMap={onMapSelected}
+              isInvalid={errors.map ? true : undefined}
+            />
             <FormErrorMessage>{`${errors.map?.message}`}</FormErrorMessage>
           </FormControl>
 
@@ -311,6 +318,7 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <EntitySelector
               email={email}
               handleSelectedEntity={onEntitySelected}
+              isInvalid={errors.entities ? true : undefined}
             />
             <FormErrorMessage>{`${errors.entities?.message}`}</FormErrorMessage>
           </FormControl>

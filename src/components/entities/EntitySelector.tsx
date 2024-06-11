@@ -29,9 +29,10 @@ import entityCategories from "../../data/EntityCategories";
 interface Props {
   email: string;
   handleSelectedEntity: (selectedEntity: Entity) => void;
+  isInvalid: boolean | undefined;
 }
 
-const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
+const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -111,8 +112,20 @@ const EntitySelector = ({ email, handleSelectedEntity }: Props) => {
     handleSelectedEntity(selectedEntity);
   };
 
+  const getBorderColor = (): string => {
+    if (isInvalid) {
+      return "red.400";
+    }
+    return "gray.600";
+  };
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3}>
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      padding={3}
+      borderColor={getBorderColor()}
+    >
       <HStack>
         <Select
           onChange={(event) => {

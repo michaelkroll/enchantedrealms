@@ -1,8 +1,10 @@
-import { Card, CardBody, SkeletonText } from "@chakra-ui/react";
+// Chakra UI imports
+import { Card, CardBody, Skeleton, SkeletonText } from "@chakra-ui/react";
 
 const SceneCardSkeleton = () => {
   return (
     <Card>
+      <Skeleton height="300px" width="400px" />
       <CardBody>
         <SkeletonText noOfLines={5} spacing="4" />
       </CardBody>

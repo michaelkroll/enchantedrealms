@@ -33,9 +33,10 @@ import mapCategories from "../../data/MapCategories";
 interface Props {
   email: string;
   handleSelectedMap: (selectedMap: Map | null) => void;
+  isInvalid: boolean | undefined;
 }
 
-const MapSelector = ({ email, handleSelectedMap }: Props) => {
+const MapSelector = ({ email, handleSelectedMap, isInvalid }: Props) => {
   const mapCardColor = useColorModeValue("gray.200", "gray.600");
   const mapCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -133,8 +134,15 @@ const MapSelector = ({ email, handleSelectedMap }: Props) => {
     }
   };
 
+  const getBorderColor = (): string => {
+    if (isInvalid) {
+      return "red.400"
+    }
+    return "gray.600";
+  };
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
+    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor={getBorderColor()}>
       <HStack>
         <Select
           onChange={(event) => {

@@ -24,9 +24,14 @@ import Adventure from "../../data/Adventure";
 interface Props {
   email: string;
   handleSelectedAdventure: (selectedAdventure: Adventure | null) => void;
+  isInvalid: boolean | undefined;
 }
 
-const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
+const AdventureSelector = ({
+  email,
+  handleSelectedAdventure,
+  isInvalid,
+}: Props) => {
   const adventureCardColor = useColorModeValue("gray.200", "gray.600");
   const adventureCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -78,9 +83,25 @@ const AdventureSelector = ({ email, handleSelectedAdventure }: Props) => {
     setIsAdventureSelected(selectedAdventure.selected!);
   };
 
+  const getBorderColor = (): string => {
+    if (isInvalid) {
+      return "red.400"
+    }
+    return "gray.600";
+  };
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3} borderColor="gray.600">
-      <Text mb="1" fontSize="md" display={isAdventureSelected ? "none" : "block"}>
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      padding={3}
+      borderColor={getBorderColor()}
+    >
+      <Text
+        mb="1"
+        fontSize="md"
+        display={isAdventureSelected ? "none" : "block"}
+      >
         Please select an Adventure from the list
       </Text>
       {adventures.length == 0 ? (

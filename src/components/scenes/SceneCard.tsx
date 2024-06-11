@@ -182,7 +182,23 @@ const SceneCard = ({
         }}
       >
         <CardBody padding={0}>
-          <Image mb={1} src={mapImageUrl} borderTopRadius={4} />
+          <Stack>
+            <Text
+              textColor="gray.300"
+              backgroundColor="gray.800"
+              position="absolute"
+              left="5px"
+              top="5px"
+              paddingLeft="10px"
+              paddingRight="10px"
+              paddingTop="2px"
+              paddingBottom="2px"
+              borderRadius={10}
+            >
+              {mapName}
+            </Text>
+            <Image mb={1} src={mapImageUrl} borderTopRadius={4} minH="200" minW="300"/>
+          </Stack>
           <Stack
             paddingLeft={3}
             paddingRight={3}
@@ -193,12 +209,6 @@ const SceneCard = ({
               {scene.name}
             </Heading>
             <Text>{scene.description}</Text>
-            <Divider />
-            <Text as="b">Adventure</Text>
-            <Text>{adventureName}</Text>
-            <Divider />
-            <Text as="b">Map</Text>
-            <Text>{mapName}</Text>
             <Divider />
             <Text as="b">Entities</Text>
 
