@@ -58,8 +58,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  useEffect(() => {}, [adventures]);
-
   useEffect(() => {
     if (selectedAdventure) {
       handleListScenes(selectedAdventure);
@@ -129,6 +127,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   const handleEditScene = (editScene: Scene, entities: Entity[]) => {
     setEditScene(editScene);
+    setEditSceneEntities(entities);
     onEditDrawerOpen();
   };
 

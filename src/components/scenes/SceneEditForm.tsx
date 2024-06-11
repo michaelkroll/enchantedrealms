@@ -1,5 +1,5 @@
 // React imports
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 // Chakra UI imports
@@ -72,6 +72,11 @@ const SceneEditForm = ({
       : undefined,
   });
 
+  useEffect(() => {
+    console.log("Edit Screne Entities: ", editSceneEntities);
+    setSelectedEntities(editSceneEntities);
+  }, []);
+
   const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const toast = useToast();
@@ -84,16 +89,20 @@ const SceneEditForm = ({
   });
 
   const handleUpdateScene = async () => {
-    const { id, name, description, entityIds } = updatedSceneData;
+    const { id, name, description } = updatedSceneData;
+
+    const entityIdArray: string[] = [];
+
+    selectedEntities.map((entity) => {
+      entityIdArray.push(entity.id);
+    });
 
     const sceneDetails = {
       id,
       name,
       description,
-      entityIds,
+      entityIds: entityIdArray,
     };
-
-    console.log(sceneDetails);
 
     const graphqlClient = generateClient();
     graphqlClient
