@@ -31,14 +31,17 @@ import MapGrid from "./components/maps/MapGrid";
 import TokenGrid from "./components/tokens/TokenGrid";
 import EntityGrid from "./components/entities/EntityGrid";
 import SceneGrid from "./components/scenes/SceneGrid";
+import Adventure from "./data/Adventure";
 
 // Configures the Amplify library with the settings from aws-exports.js, which includes all the AWS service configurations for this project.
 Amplify.configure(awsExports);
 
 function App() {
   const { signOut } = useAuthenticator((context) => [context.user]);
+  const [adventures, setAdventures] = useState<Adventure[]>([]);
   const [email, setEmail] = useState("");
   const [sub, setSub] = useState("");
+
 
   const handleFetchUserProperties = () => {
     readUserAttributes();
@@ -53,6 +56,11 @@ function App() {
       console.log("Error fetching the user attributes:", error);
     }
   };
+
+  const onAdventuresUpdated = (adventures: Adventure[]) => {
+    console.log("The Adventures are updated: ", adventures);
+    setAdventures(adventures);
+  }
 
   return (
     <Authenticator>
@@ -131,7 +139,7 @@ function App() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AdventureGrid email={email} sub={sub} />
+                <AdventureGrid email={email} sub={sub} onAdventuresUpdated={onAdventuresUpdated}/>
               </TabPanel>
               <TabPanel>
                 <MapGrid email={email} sub={sub} />
@@ -143,7 +151,7 @@ function App() {
                 <EntityGrid email={email} sub={sub} />
               </TabPanel>
               <TabPanel>
-                <SceneGrid email={email} sub={sub} />
+                <SceneGrid email={email} sub={sub} adventures={adventures}/>
               </TabPanel>
             </TabPanels>
           </Tabs>

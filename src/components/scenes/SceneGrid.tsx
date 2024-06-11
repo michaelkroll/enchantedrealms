@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
-import { listScenes, listAdventures } from "../../graphql/queries";
+import { listScenes } from "../../graphql/queries";
 
 // CHakra UI imports
 import {
@@ -32,9 +32,10 @@ import Adventure from "../../data/Adventure";
 interface Props {
   email: string;
   sub: string;
+  adventures: Adventure[];
 }
 
-const SceneGrid = ({ email, sub }: Props) => {
+const SceneGrid = ({ email, sub, adventures }: Props) => {
   const {
     isOpen: isCreateDrawerOpen,
     onOpen: onCreateDrawerOpen,
@@ -49,7 +50,6 @@ const SceneGrid = ({ email, sub }: Props) => {
 
   const [editScene, setEditScene] = useState<Scene>();
   const [scenes, setScenes] = useState<Scene[]>([]);
-  const [adventures, setAdventures] = useState<Adventure[]>([]);
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -57,47 +57,14 @@ const SceneGrid = ({ email, sub }: Props) => {
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
-    if (email != "") {
-      handleListAdventures();
-    }
-  }, [email]);
+
+  }, [adventures])
 
   useEffect(() => {
     if (selectedAdventure) {
       handleListScenes(selectedAdventure);
     }
   }, [selectedAdventure]);
-
-  const handleListAdventures = async () => {
-    setLoading(true);
-    const graphqlClient = generateClient();
-
-    const filters = {
-      filter: {
-        creatorEmail: {
-          eq: email,
-        },
-      },
-    };
-
-    graphqlClient
-      .graphql({
-        query: listAdventures,
-        variables: filters,
-      })
-      .then((response) => {
-        const adventureList = response.data.listAdventures.items;
-        adventureList.sort((a, b) => a.name.localeCompare(b.name));
-        setAdventures(adventureList);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Error loading adventures: ", error);
-        setAdventures([]);
-        setError(error);
-        setLoading(false);
-      });
-  };
 
   const handleListScenes = async (adventure: Adventure) => {
     setLoading(true);

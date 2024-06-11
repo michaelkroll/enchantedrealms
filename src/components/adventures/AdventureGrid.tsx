@@ -26,9 +26,10 @@ import AdventureEditDrawer from "./AdventureEditDrawer";
 interface Props {
   email: string;
   sub: string;
+  onAdventuresUpdated: (adventures: Adventure[]) => void;
 }
 
-const AdventureGrid = ({ email, sub }: Props) => {
+const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
   const {
     isOpen: isCreateDrawerOpen,
     onOpen: onCreateDrawerOpen,
@@ -98,10 +99,12 @@ const AdventureGrid = ({ email, sub }: Props) => {
 
         adventureList.sort((a, b) => a.name.localeCompare(b.name));
         setAdventures(adventureList);
+        onAdventuresUpdated(adventureList);
         setLoading(false);
       })
       .catch((error) => {
         setAdventures([]);
+        onAdventuresUpdated([]);
         setError(error);
         setLoading(false);
       });
@@ -123,13 +126,15 @@ const AdventureGrid = ({ email, sub }: Props) => {
   };
 
   const handleUpdateAdventure = (updatedAdventure: Adventure) => {
-    setAdventures(
-      adventures.map((adventure) =>
-        adventure.id === updatedAdventure.id
-          ? { ...adventure, players: updatedAdventure.players }
-          : adventure
-      )
+
+    const updatedAdventures = adventures.map((adventure) =>
+      adventure.id === updatedAdventure.id
+        ? { ...adventure, players: updatedAdventure.players }
+        : adventure
     );
+
+    setAdventures(updatedAdventures);
+    onAdventuresUpdated(updatedAdventures);
   };
 
   const handleEditAdventure = (editAdventure: Adventure) => {
