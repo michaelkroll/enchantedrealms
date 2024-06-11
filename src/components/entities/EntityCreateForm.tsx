@@ -16,6 +16,7 @@ import {
   Center,
   Stack,
   Select,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
 
@@ -44,6 +45,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
   } = useForm();
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [selectedToken, setSelectedToken] = useState<Token>();
 
   // States used to create a new Token
   const [entityData, setEntityData] = useState({
@@ -102,6 +104,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
         tokenPicPath: selectedToken.tokenPicPath!,
       });
       setValue("tokenName", selectedToken.name);
+      setSelectedToken(selectedToken);
     } else {
       setEntityData({
         ...entityData,
@@ -109,6 +112,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
         tokenPicPath: "",
       });
       setValue("tokenName", "");
+      setSelectedToken(undefined);
     }
   };
 
@@ -197,6 +201,10 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <FormLabel paddingTop="10px" htmlFor="tokenName">
               Token
             </FormLabel>
+            <Text fontSize="xs" mb={2}>
+              Selected:{" "}
+              {selectedToken != null ? selectedToken.name : "Noting selected"}
+            </Text>
             <Input
               display="none"
               readOnly={true}

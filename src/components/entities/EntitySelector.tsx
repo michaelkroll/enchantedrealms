@@ -102,6 +102,12 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
   };
 
   const handleEntitySelection = (selectedEntity: Entity) => {
+    if (selectedEntity.selected != null) {
+      selectedEntity.selected = !selectedEntity.selected;
+    } else {
+      selectedEntity.selected = true;
+    }
+
     setEntities(
       entities.map((entity) =>
         entity.id != selectedEntity.id
@@ -159,11 +165,6 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
               entity.selected ? tokenCardSelectedColor : tokenCardColor
             }
             onClick={() => {
-              if (entity.selected != null) {
-                entity.selected = !entity.selected;
-              } else {
-                entity.selected = true;
-              }
               handleEntitySelection(entity);
             }}
           >
