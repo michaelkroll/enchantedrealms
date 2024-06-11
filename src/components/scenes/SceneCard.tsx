@@ -31,7 +31,7 @@ import {
 // React Icon imports
 import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
 import { FaRegUser, FaUser } from "react-icons/fa6";
-import { GiMonsterGrasp, GiCrystalWand } from "react-icons/gi";
+import { GiMonsterGrasp, GiBatteredAxe, GiBorderedShield } from "react-icons/gi";
 import { VscWorkspaceUnknown } from "react-icons/vsc";
 
 // Custom imports
@@ -158,8 +158,10 @@ const SceneCard = ({
       return FaUser;
     } else if (entityCategory == "npc") {
       return FaRegUser;
+    } else if (entityCategory == "weapon") {
+      return GiBatteredAxe;
     } else if (entityCategory == "item") {
-      return GiCrystalWand;
+      return GiBorderedShield;
     } else {
       return VscWorkspaceUnknown;
     }
@@ -202,7 +204,7 @@ const SceneCard = ({
                   <HStack>
                     <ListIcon
                       as={getEntityIcon(entity.category!)}
-                      color="blue.500"
+                      color="gray.500"
                     />
                     <Text>{entity.name}</Text>
                   </HStack>

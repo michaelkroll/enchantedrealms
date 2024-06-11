@@ -27,7 +27,14 @@ import * as mutations from "../../graphql/mutations";
 
 // React Icon imports
 import { IoRemoveCircle } from "react-icons/io5";
-import { MdOutlineDataObject } from "react-icons/md";
+import { FaRegUser, FaUser } from "react-icons/fa6";
+import {
+  GiMonsterGrasp,
+  GiBorderedShield,
+  GiBatteredAxe,
+} from "react-icons/gi";
+import { VscWorkspaceUnknown } from "react-icons/vsc";
+import { IconType } from "react-icons";
 
 // Custom imports
 import { v4 as uuid } from "uuid";
@@ -70,9 +77,11 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
   const handleCreateScene = async () => {
     const { name, description, adventureId, mapId } = sceneData;
 
-    const entityIdArray:string[] = [];
-    
-    selectedEntities.map((entity) => {entityIdArray.push(entity.id)});
+    const entityIdArray: string[] = [];
+
+    selectedEntities.map((entity) => {
+      entityIdArray.push(entity.id);
+    });
 
     const sceneDetails = {
       id: uuid(),
@@ -143,6 +152,22 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
     setSelectedEntities(
       selectedEntities.filter((entity) => entity.id !== entityToRemove.id)
     );
+  };
+
+  const getEntityIcon = (entityCategory: string): IconType => {
+    if (entityCategory == "monster") {
+      return GiMonsterGrasp;
+    } else if (entityCategory == "player") {
+      return FaUser;
+    } else if (entityCategory == "npc") {
+      return FaRegUser;
+    } else if (entityCategory == "weapon") {
+      return GiBatteredAxe;
+    } else if (entityCategory == "item") {
+      return GiBorderedShield;
+    } else {
+      return VscWorkspaceUnknown;
+    }
   };
 
   return (
@@ -251,7 +276,10 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
                   <ListItem key={entity.id}>
                     <HStack justifyContent="space-between">
                       <HStack>
-                        <ListIcon as={MdOutlineDataObject} color="green.500" />
+                        <ListIcon
+                          as={getEntityIcon(entity.category!)}
+                          color="gray.500"
+                        />
                         <Text>{entity.name}</Text>
                       </HStack>
                       <Button
