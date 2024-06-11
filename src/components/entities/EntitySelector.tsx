@@ -101,20 +101,23 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
       });
   };
 
-  const handleEntitySelection = (selectedEntity: Entity) => {
-    if (selectedEntity.selected != null) {
-      selectedEntity.selected = !selectedEntity.selected;
-    } else {
-      selectedEntity.selected = true;
-    }
+  const onEntitySelection = (selectedEntity: Entity) => {
 
-    setEntities(
-      entities.map((entity) =>
-        entity.id != selectedEntity.id
-          ? { ...entity, selected: entity.selected }
-          : entity
-      )
-    );
+    console.log("Entity selected: ", selectedEntity);
+
+    // if (selectedEntity.selected != null) {
+    //   selectedEntity.selected = !selectedEntity.selected;
+    // } else {
+    //   selectedEntity.selected = true;
+    // }
+
+    // setEntities(
+    //   entities.map((entity) =>
+    //     entity.id != selectedEntity.id
+    //       ? { ...entity, selected: entity.selected }
+    //       : entity
+    //   )
+    // );
     handleSelectedEntity(selectedEntity);
   };
 
@@ -165,7 +168,7 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
               entity.selected ? tokenCardSelectedColor : tokenCardColor
             }
             onClick={() => {
-              handleEntitySelection(entity);
+              onEntitySelection(entity);
             }}
           >
             <CardBody padding={1}>

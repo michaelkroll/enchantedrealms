@@ -42,7 +42,6 @@ function App() {
   const [email, setEmail] = useState("");
   const [sub, setSub] = useState("");
 
-
   const handleFetchUserProperties = () => {
     readUserAttributes();
   };
@@ -58,9 +57,8 @@ function App() {
   };
 
   const onAdventuresUpdated = (adventures: Adventure[]) => {
-    console.log("The Adventures are updated: ", adventures);
     setAdventures(adventures);
-  }
+  };
 
   return (
     <Authenticator>
@@ -139,7 +137,11 @@ function App() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AdventureGrid email={email} sub={sub} onAdventuresUpdated={onAdventuresUpdated}/>
+                <AdventureGrid
+                  email={email}
+                  sub={sub}
+                  onAdventuresUpdated={onAdventuresUpdated}
+                />
               </TabPanel>
               <TabPanel>
                 <MapGrid email={email} sub={sub} />
@@ -151,7 +153,7 @@ function App() {
                 <EntityGrid email={email} sub={sub} />
               </TabPanel>
               <TabPanel>
-                <SceneGrid email={email} sub={sub} adventures={adventures}/>
+                <SceneGrid email={email} sub={sub} adventures={adventures} />
               </TabPanel>
             </TabPanels>
           </Tabs>

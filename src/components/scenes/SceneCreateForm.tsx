@@ -19,6 +19,7 @@ import {
   HStack,
   ListIcon,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -63,6 +64,8 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
+
+  const toast = useToast();
 
   // States used to create a new Scene
   const [sceneData, setSceneData] = useState({
@@ -129,12 +132,16 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
   };
 
   const onEntitySelected = (selectedEntity: Entity) => {
-    if (selectedEntity.selected) {
-      setSelectedEntities([...selectedEntities, selectedEntity]);
+    if (selectedEntities.includes(selectedEntity)) {
+      console.log("This entity is already selected.");
+      toast({
+        title: "The entity '" + selectedEntity.name + "'is already selected.",
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      });
     } else {
-      setSelectedEntities(
-        selectedEntities.filter((entity) => entity.id !== selectedEntity.id)
-      );
+      setSelectedEntities([...selectedEntities, selectedEntity]);
     }
   };
 
