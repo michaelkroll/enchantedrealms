@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
-import { getAdventure, getMap, getEntity } from "../../graphql/queries";
+import { getMap, getEntity } from "../../graphql/queries";
 
 // Storage S3
 import { getUrl } from "aws-amplify/storage";
@@ -58,7 +58,7 @@ const SceneCard = ({
   refreshGrid,
 }: Props) => {
   useEffect(() => {
-    loadAdventureDetails();
+    //loadAdventureDetails();
     loadMapDetails();
     loadEntityDetails();
   }, []);
@@ -69,7 +69,6 @@ const SceneCard = ({
   const [isDeleteSceneConfirmModalOpen, setDeleteSceneConfirmModalOpen] =
     useState(false);
 
-  const [adventureName, setAdventureName] = useState("");
   const [mapName, setMapName] = useState("");
   const [entities, setEntities] = useState<Entity[]>([]);
   const [mapImageUrl, setMapImageUrl] = useState("");
@@ -83,21 +82,21 @@ const SceneCard = ({
     refreshGrid();
   };
 
-  const loadAdventureDetails = () => {
-    const graphqlClient = generateClient();
-    graphqlClient
-      .graphql({
-        query: getAdventure,
-        variables: { id: scene.adventureId! },
-      })
-      .then((response) => {
-        const adventure = response.data.getAdventure;
-        setAdventureName(adventure?.name!);
-      })
-      .catch((error) => {
-        console.log("Error loading Adventure details: ", error);
-      });
-  };
+  // const loadAdventureDetails = () => {
+  //   const graphqlClient = generateClient();
+  //   graphqlClient
+  //     .graphql({
+  //       query: getAdventure,
+  //       variables: { id: scene.adventureId! },
+  //     })
+  //     .then((response) => {
+  //       const adventure = response.data.getAdventure;
+  //       setAdventureName(adventure?.name!);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error loading Adventure details: ", error);
+  //     });
+  // };
 
   const loadMapDetails = () => {
     const graphqlClient = generateClient();
@@ -197,7 +196,13 @@ const SceneCard = ({
             >
               {mapName}
             </Text>
-            <Image mb={1} src={mapImageUrl} borderTopRadius={4} minH="200" minW="300"/>
+            <Image
+              mb={1}
+              src={mapImageUrl}
+              borderTopRadius={4}
+              minH="200"
+              minW="300"
+            />
           </Stack>
           <Stack
             paddingLeft={3}
