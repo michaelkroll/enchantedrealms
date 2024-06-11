@@ -55,6 +55,7 @@ const tokenCategories:Category[] = [
   {value: "tieflings", label: "Tieflings"},
   // {value: "tortles", label: "Tortles"},
   // {value: "tritons_merfolk", label: "Tritons and Merfolk"},
+  {value: "trolls", label: "Trolls"},
   {value: "undead_misc", label: "Undead misc"},
   {value: "vampires", label: "Vampires"},
   // {value: "vedalken", label: "Vedalken"},

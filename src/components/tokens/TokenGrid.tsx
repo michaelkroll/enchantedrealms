@@ -269,7 +269,7 @@ const TokenGrid = ({ email, sub }: Props) => {
 
       {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
-        columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 8 }}
+        columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 6, "2xl": 6 }}
         spacing={3}
         margin="10px"
       >
