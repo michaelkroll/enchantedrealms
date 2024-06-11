@@ -9,3 +9,4 @@ const entityCategories: Category[] =[
 ]
 
 export default entityCategories;
+    

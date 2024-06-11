@@ -31,7 +31,11 @@ import {
 // React Icon imports
 import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
 import { FaRegUser, FaUser } from "react-icons/fa6";
-import { GiMonsterGrasp, GiBatteredAxe, GiBorderedShield } from "react-icons/gi";
+import {
+  GiMonsterGrasp,
+  GiBatteredAxe,
+  GiBorderedShield,
+} from "react-icons/gi";
 import { VscWorkspaceUnknown } from "react-icons/vsc";
 
 // Custom imports
@@ -206,6 +210,7 @@ const SceneCard = ({
                       as={getEntityIcon(entity.category!)}
                       color="gray.500"
                     />
+
                     <Text>{entity.name}</Text>
                   </HStack>
                 </ListItem>
