@@ -63,10 +63,11 @@ const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => 
           <Heading size="sm" paddingTop={2}>
             {entity.name}
           </Heading>
-          <Text fontSize="sm">{entity.description}</Text>
-          <Text fontSize="xs" textColor="gray.500">
+          <Text fontSize="xs" textColor="gray.500" mb={2}>
             Category: {categoryLabel(entity.category!)}
           </Text>
+          <Divider mb={2}/>
+          <Text fontSize="sm">{entity.description}</Text>
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
