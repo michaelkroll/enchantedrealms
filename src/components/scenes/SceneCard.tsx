@@ -58,7 +58,6 @@ const SceneCard = ({
   refreshGrid,
 }: Props) => {
   useEffect(() => {
-    //loadAdventureDetails();
     loadMapDetails();
     loadEntityDetails();
   }, []);
@@ -81,22 +80,6 @@ const SceneCard = ({
     setDeleteSceneConfirmModalOpen(false);
     refreshGrid();
   };
-
-  // const loadAdventureDetails = () => {
-  //   const graphqlClient = generateClient();
-  //   graphqlClient
-  //     .graphql({
-  //       query: getAdventure,
-  //       variables: { id: scene.adventureId! },
-  //     })
-  //     .then((response) => {
-  //       const adventure = response.data.getAdventure;
-  //       setAdventureName(adventure?.name!);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error loading Adventure details: ", error);
-  //     });
-  // };
 
   const loadMapDetails = () => {
     const graphqlClient = generateClient();
