@@ -224,7 +224,6 @@ const SceneCreateForm = ({ handleFormClose, email, sub }: Props) => {
             </FormLabel>
             <Input
               display="none"
-              readOnly={true}
               mb={2}
               {...register("adventure", {
                 required: "Please select an adventure",

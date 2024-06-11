@@ -198,6 +198,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
               Token
             </FormLabel>
             <Input
+              display="none"
               readOnly={true}
               mb={2}
               {...register("tokenName", {
@@ -210,6 +211,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
             <TokenSelector
               email={email}
               handleSelectedToken={onTokenSelected}
+              isInvalid={errors.tokenName ? true : undefined}
             />
             <FormErrorMessage>{`${errors.tokenName?.message}`}</FormErrorMessage>
           </FormControl>

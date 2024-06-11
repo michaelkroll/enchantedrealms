@@ -29,9 +29,10 @@ import tokenCategories from "../../data/TokenCategories";
 interface Props {
   email: string;
   handleSelectedToken: (selectedToken: Token | null) => void;
+  isInvalid: boolean | undefined;
 }
 
-const TokenSelector = ({ email, handleSelectedToken }: Props) => {
+const TokenSelector = ({ email, handleSelectedToken, isInvalid }: Props) => {
   const tokenCardColor = useColorModeValue("gray.200", "gray.600");
   const tokenCardSelectedColor = useColorModeValue("blue.200", "blue.600");
 
@@ -134,8 +135,21 @@ const TokenSelector = ({ email, handleSelectedToken }: Props) => {
     }
   };
 
+  const getBorderColor = (): string => {
+    if (isInvalid) {
+      return "red.300";
+    }
+    return "gray.600";
+  };
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" padding={3}>
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      padding={3}
+      border={isInvalid ? "2px" : "1px"}
+      borderColor={getBorderColor()}
+    >
       <HStack>
         <Select
           onChange={(event) => {
@@ -163,7 +177,11 @@ const TokenSelector = ({ email, handleSelectedToken }: Props) => {
         Please select a Token from the list
       </Text>
 
-      <SimpleGrid columns={3} spacing={1} paddingTop={2}>
+      <SimpleGrid
+        columns={3}
+        spacing={1}
+        paddingTop={tokens.length == 0 ? 0 : 2}
+      >
         {tokens.map((token) => (
           <Card
             variant="outline"
