@@ -11,6 +11,7 @@ import {
 // Custom imports
 import Scene from "../../data/Scene";
 import SceneEditForm from "./SceneEditForm";
+import Entity from "../../data/Entity";
 
 interface Props {
   handleDrawerClose: () => void;
@@ -18,6 +19,7 @@ interface Props {
   email: string;
   isDrawerOpen: boolean;
   editScene: Scene;
+  editSceneEntities: Entity[]
 }
 
 const SceneEditDrawer = ({
@@ -25,6 +27,8 @@ const SceneEditDrawer = ({
   onCloseDrawer,
   isDrawerOpen,
   editScene,
+  editSceneEntities,
+  email,
 }: Props) => {
   return (
     <Drawer
@@ -42,6 +46,8 @@ const SceneEditDrawer = ({
           <SceneEditForm
             handleFormClose={handleDrawerClose}
             editScene={editScene!}
+            editSceneEntities={editSceneEntities!}
+            email={email}
           />
         </DrawerBody>
       </DrawerContent>

@@ -47,7 +47,7 @@ import { IconType } from "react-icons";
 interface Props {
   scene: Scene;
   loggedInEmail: string;
-  handleEditScene: (adventure: Scene) => void;
+  handleEditScene: (adventure: Scene, entities: Entity[]) => void;
   refreshGrid: () => void;
 }
 
@@ -231,7 +231,7 @@ const SceneCard = ({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  handleEditScene(scene);
+                  handleEditScene(scene, entities);
                 }}
               >
                 <MdOutlineEditNote />

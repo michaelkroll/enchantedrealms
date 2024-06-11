@@ -13,53 +13,84 @@ import {
   FormErrorMessage,
   Container,
   Center,
+  Divider,
+  Text,
+  Box,
+  List,
+  ListItem,
+  HStack,
+  ListIcon,
+  useToast,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
 import * as mutations from "../../graphql/mutations";
 
+// React Icon imports
+import { IoRemoveCircle } from "react-icons/io5";
+import { FaRegUser, FaUser } from "react-icons/fa6";
+import {
+  GiMonsterGrasp,
+  GiBorderedShield,
+  GiBatteredAxe,
+} from "react-icons/gi";
+import { VscWorkspaceUnknown } from "react-icons/vsc";
+import { IconType } from "react-icons";
+
 // Custom imports
 import Scene from "../../data/Scene";
-// import Map from "../../data/Map";
-// import MapSelector from "../maps/MapSelector";
-// import AdventureSelector from "../adventures/AdventureSelector";
-// import Adventure from "../../data/Adventure";
+import Entity from "../../data/Entity";
+
+import EntitySelector from "../entities/EntitySelector";
 
 interface Props {
   handleFormClose: () => void;
   editScene: Scene;
+  editSceneEntities: Entity[];
+  email: string;
 }
 
-const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
+const SceneEditForm = ({
+  handleFormClose,
+  editScene,
+  editSceneEntities,
+  email,
+}: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: editScene
       ? {
           name: editScene.name,
           description: editScene.description,
+          entities: "",
         }
       : undefined,
   });
 
+  const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const toast = useToast();
 
   const [updatedSceneData, setUpdatedSceneData] = useState({
     id: editScene.id,
     name: editScene.name,
     description: editScene.description,
+    entityIds: editScene.entityIds,
   });
 
   const handleUpdateScene = async () => {
-    const { id, name, description } = updatedSceneData;
+    const { id, name, description, entityIds } = updatedSceneData;
 
     const sceneDetails = {
       id,
       name,
       description,
+      entityIds,
     };
 
     console.log(sceneDetails);
@@ -78,9 +109,51 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
       });
   };
 
-  // const onAdventureSelected = (adventure: Adventure | null) => {
-  //   console.log("Adventure Selected for the scene: ", adventure);
-  // };
+  const onEntitySelected = (selectedEntity: Entity) => {
+    if (selectedEntities.includes(selectedEntity)) {
+      console.log("This entity is already selected.");
+      toast({
+        title: "The entity '" + selectedEntity.name + "'is already selected.",
+        status: "error",
+        position: "top-right",
+        isClosable: true,
+      });
+    } else {
+      setSelectedEntities([...selectedEntities, selectedEntity]);
+    }
+  };
+
+  const getTextForNoOfSelectedEntities = (): string => {
+    const result = selectedEntities.length.toString();
+    if (selectedEntities.length == 0) {
+      setValue("entities", "");
+    } else {
+      setValue("entities", result);
+    }
+    return result;
+  };
+
+  const removeSelectedEntity = (entityToRemove: Entity) => {
+    setSelectedEntities(
+      selectedEntities.filter((entity) => entity.id !== entityToRemove.id)
+    );
+  };
+
+  const getEntityIcon = (entityCategory: string): IconType => {
+    if (entityCategory == "monster") {
+      return GiMonsterGrasp;
+    } else if (entityCategory == "player") {
+      return FaUser;
+    } else if (entityCategory == "npc") {
+      return FaRegUser;
+    } else if (entityCategory == "weapon") {
+      return GiBatteredAxe;
+    } else if (entityCategory == "item") {
+      return GiBorderedShield;
+    } else {
+      return VscWorkspaceUnknown;
+    }
+  };
 
   return (
     <VStack>
@@ -91,16 +164,6 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
             handleUpdateScene();
           })}
         >
-          {/* <FormControl>
-            <FormLabel paddingTop="10px" htmlFor="adventure">
-              Adventure
-            </FormLabel>
-            <AdventureSelector
-              email={email}
-              handleSelectedAdventure={onAdventureSelected}
-            />
-          </FormControl> */}
-
           <FormControl isInvalid={errors.name ? true : undefined}>
             <FormLabel paddingTop="10px" htmlFor="name">
               Name
@@ -143,6 +206,64 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
           </FormControl>
 
+          <FormControl isInvalid={errors.entities ? true : undefined}>
+            <FormLabel paddingTop="10px" htmlFor="entities">
+              Entities
+            </FormLabel>
+            <Text fontSize="xs" mb={2}>
+              Number Selected Entities: {getTextForNoOfSelectedEntities()}
+            </Text>
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              hidden={selectedEntities.length == 0}
+              mb={2}
+            >
+              <List spacing={3} padding={3}>
+                {selectedEntities.map((entity) => (
+                  <ListItem key={entity.id}>
+                    <HStack justifyContent="space-between">
+                      <HStack>
+                        <ListIcon
+                          as={getEntityIcon(entity.category!)}
+                          color="gray.500"
+                        />
+                        <Text>{entity.name}</Text>
+                      </HStack>
+                      <Button
+                        rightIcon={<IoRemoveCircle />}
+                        colorScheme="red"
+                        size="xs"
+                        onClick={() => removeSelectedEntity(entity)}
+                        isDisabled={isFormSubmitting}
+                      >
+                        Remove
+                      </Button>
+                    </HStack>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            <Input
+              display="none"
+              mb={2}
+              {...register("entities", {
+                required: "Please select one or more entities",
+              })}
+              id="entities"
+              readOnly={true}
+              disabled={isFormSubmitting}
+              placeholder="Please select one or more entities"
+            />
+
+            <EntitySelector
+              email={email}
+              handleSelectedEntity={onEntitySelected}
+              isInvalid={errors.entities ? true : undefined}
+            />
+            <FormErrorMessage>{`${errors.entities?.message}`}</FormErrorMessage>
+          </FormControl>
+
           <Center>
             <Button
               mt={4}
@@ -153,6 +274,13 @@ const SceneEditForm = ({ handleFormClose, editScene }: Props) => {
             >
               Update Scene
             </Button>
+          </Center>
+          <Divider mt={5} />
+          <Center>
+            <Text mt={1} fontSize="xs">
+              Updating the map and the assignemnt to the adventure is currently
+              unsupported.
+            </Text>
           </Center>
         </form>
       </Container>

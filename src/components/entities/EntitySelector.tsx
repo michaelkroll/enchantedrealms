@@ -102,22 +102,7 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
   };
 
   const onEntitySelection = (selectedEntity: Entity) => {
-
     console.log("Entity selected: ", selectedEntity);
-
-    // if (selectedEntity.selected != null) {
-    //   selectedEntity.selected = !selectedEntity.selected;
-    // } else {
-    //   selectedEntity.selected = true;
-    // }
-
-    // setEntities(
-    //   entities.map((entity) =>
-    //     entity.id != selectedEntity.id
-    //       ? { ...entity, selected: entity.selected }
-    //       : entity
-    //   )
-    // );
     handleSelectedEntity(selectedEntity);
   };
 
@@ -159,7 +144,11 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
       ) : (
         ""
       )}
-      <SimpleGrid columns={3} spacing={1} paddingTop={2}>
+      <SimpleGrid
+        columns={3}
+        spacing={1}
+        paddingTop={entities.length == 0 ? 0 : 2}
+      >
         {entities.map((entity) => (
           <Card
             variant="outline"

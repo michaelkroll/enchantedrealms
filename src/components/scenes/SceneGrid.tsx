@@ -28,6 +28,7 @@ import SceneCreateDrawer from "./SceneCreateDrawer";
 import SceneEditDrawer from "./SceneEditDrawer";
 import AdventureSelectorDropdown from "../adventures/AdventureSelectorDropdown";
 import Adventure from "../../data/Adventure";
+import Entity from "../../data/Entity";
 
 interface Props {
   email: string;
@@ -49,6 +50,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
   } = useDisclosure();
 
   const [editScene, setEditScene] = useState<Scene>();
+  const [editSceneEntities, setEditSceneEntities] = useState<Entity[]>();
   const [scenes, setScenes] = useState<Scene[]>([]);
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   const [error, setError] = useState("");
@@ -56,9 +58,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  useEffect(() => {
-
-  }, [adventures])
+  useEffect(() => {}, [adventures]);
 
   useEffect(() => {
     if (selectedAdventure) {
@@ -127,7 +127,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     }
   };
 
-  const handleEditScene = (editScene: Scene) => {
+  const handleEditScene = (editScene: Scene, entities: Entity[]) => {
     setEditScene(editScene);
     onEditDrawerOpen();
   };
@@ -200,6 +200,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         onCloseDrawer={onEditDrawerClose}
         email={email}
         editScene={editScene!}
+        editSceneEntities={editSceneEntities!}
       />
 
       {error && <Text color="tomato">{error}</Text>}
