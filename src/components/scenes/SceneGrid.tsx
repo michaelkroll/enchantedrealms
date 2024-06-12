@@ -6,8 +6,8 @@ import { generateClient } from "aws-amplify/api";
 import {
   listScenes,
   getMap,
-  getAdventure,
   getEntity,
+  getAdventure,
 } from "../../graphql/queries";
 
 // Storage S3
@@ -58,18 +58,30 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   const [editScene, setEditScene] = useState<SceneMapEntities>();
   const [scenes, setScenes] = useState<SceneMapEntities[]>([]);
-
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
-  const [error, setError] = useState("");
+  //const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
-
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const [fetchedScenes, setFetchedScenes] = useState<SceneMapEntities[]>([]);
+  const [fetchedScenesAndMaps, setFetchedScenesAndMaps] = useState<
+    SceneMapEntities[]
+  >([]);
 
   useEffect(() => {
     if (selectedAdventure) {
       handleListScenes(selectedAdventure);
     }
   }, [selectedAdventure]);
+
+  useEffect(() => {
+    handleListMapsForScenes();
+  }, [fetchedScenes]);
+
+  useEffect(() => {
+    handleListEntitiesForScenesAndMaps();
+    setLoading(false);
+  }, [fetchedScenesAndMaps]);
 
   const handleListScenes = async (adventure: Adventure) => {
     setLoading(true);
@@ -94,112 +106,87 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
     let sceneMapEntitiesArray: SceneMapEntities[] = [];
 
-    graphqlClient
-      .graphql({
-        query: listScenes,
-        variables: filters,
-      })
-      .then((response) => {
-        const sceneList = response.data.listScenes.items;
-        sceneList.sort((a, b) => a.name.localeCompare(b.name));
+    const response = await graphqlClient.graphql({
+      query: listScenes,
+      variables: filters,
+    });
 
-        sceneList.forEach((scene) => {
-          sceneMapEntitiesArray.push(scene);
-          
-          sceneMapEntitiesArray.forEach((sceneMapEntity) => {
-            graphqlClient
-              .graphql({
-                query: getMap,
-                variables: { id: sceneMapEntity.mapId! },
-              })
-              .then((response) => {
-                const map = response.data.getMap;
-                const mapPicPath = map?.mapPicPath!;
-                const mapName = map?.name;
-                sceneMapEntity.mapName = mapName!;
-                sceneMapEntity.mapPicPath = mapPicPath;
+    const sceneList = response.data.listScenes.items;
+    sceneList.sort((a, b) => a.name.localeCompare(b.name));
 
-                getUrl({
-                  path: mapPicPath,
-                  options: {
-                    expiresIn: 900,
-                  },
-                })
-                  .then((getUrlResponse) => {
-                    sceneMapEntity.mapPicS3Url = getUrlResponse.url.toString();
+    for (const scene of sceneList) {
+      sceneMapEntitiesArray.push(scene);
+    }
 
-                    graphqlClient
-                      .graphql({
-                        query: getAdventure,
-                        variables: { id: sceneMapEntity.adventureId! },
-                      })
-                      .then((response) => {
-                        const adventure = response.data.getAdventure;
-                        const adventureName = adventure?.name;
-                        sceneMapEntity.adventureName = adventureName;
-                      })
-                      .catch((error) => {
-                        console.log("Error loading Adventure details: ", error);
-                      });
-
-                    let entityArray: Entity[] = [];
-
-                    sceneMapEntity.entityIds?.forEach((entityId) => {
-                      graphqlClient
-                        .graphql({
-                          query: getEntity,
-                          variables: { id: entityId! },
-                        })
-                        .then((response) => {
-                          const entity = response.data.getEntity;
-
-                          getUrl({
-                            path: entity?.tokenPicPath!,
-                            options: {
-                              expiresIn: 900,
-                            },
-                          })
-                            .then((getUrlResponse) => {
-                              entity!.tokenPicS3Url =
-                                getUrlResponse.url.toString();
-                            })
-                            .catch((error) => {
-                              console.log(
-                                "Error reading the TokenImageUrl: ",
-                                error
-                              );
-                            });
-                          entityArray.push(entity!);
-                        })
-                        .catch((error) => {
-                          console.log(
-                            "Error loading Adventure details: ",
-                            error
-                          );
-                        });
-                      sceneMapEntity.entities = entityArray;
-                    });
-                  })
-                  .catch((error) => {
-                    console.log("Error reading the MapImageUrl: ", error);
-                  });
-              })
-              .catch((error) => {
-                console.log("Error loading Map details: ", error);
-              });
-          });
-        });
-        console.log("Scenes: ", sceneMapEntitiesArray);
-        setScenes(sceneMapEntitiesArray);
-        setError("");
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Error loading scenes: ", error);
-        setScenes([]);
-        setError(error);
-        setLoading(false);
+    for (const scene of sceneMapEntitiesArray) {
+      const response = await graphqlClient.graphql({
+        query: getAdventure,
+        variables: { id: scene.adventureId! },
       });
+
+      const adventure = response.data.getAdventure!;
+      scene.adventureName = adventure.name;
+    }
+    setFetchedScenes(sceneMapEntitiesArray);
+  };
+
+  const handleListMapsForScenes = async () => {
+    let sceneMapEntitiesArray: SceneMapEntities[] = [];
+    const graphqlClient = generateClient();
+    for (const scene of fetchedScenes) {
+      const response = await graphqlClient.graphql({
+        query: getMap,
+        variables: { id: scene.mapId! },
+      });
+
+      const map = response.data.getMap;
+      const mapPicPath = map?.mapPicPath!;
+      const mapName = map?.name;
+      scene.mapName = mapName!;
+      scene.mapPicPath = mapPicPath;
+
+      const getUrlResult = await getUrl({
+        path: mapPicPath!,
+        options: {
+          expiresIn: 900,
+        },
+      });
+
+      const mapPicS3Url = getUrlResult.url.toString();
+      scene.mapPicS3Url = mapPicS3Url!;
+      sceneMapEntitiesArray.push(scene);
+    }
+    setFetchedScenesAndMaps(sceneMapEntitiesArray);
+  };
+
+  const handleListEntitiesForScenesAndMaps = async () => {
+    let sceneMapEntitiesArray: SceneMapEntities[] = [];
+    const graphqlClient = generateClient();
+
+    for (const scene of fetchedScenesAndMaps) {
+      let entityArray: Entity[] = [];
+      for (const entityId of scene.entityIds!) {
+        const response = await graphqlClient.graphql({
+          query: getEntity,
+          variables: { id: entityId! },
+        });
+
+        const entity = response.data.getEntity!;
+        const getUrlResult = await getUrl({
+          path: entity?.tokenPicPath!,
+          options: {
+            expiresIn: 900,
+          },
+        });
+
+        const tokenPicS3Url = getUrlResult.url.toString();
+        entity.tokenPicS3Url = tokenPicS3Url!;
+        entityArray.push(entity);
+      }
+      scene.entities = entityArray;
+      sceneMapEntitiesArray.push(scene);
+    }
+    setScenes(sceneMapEntitiesArray);
   };
 
   const handleCreateDrawerClose = () => {
@@ -298,7 +285,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         editScene={editScene!}
       />
 
-      {error && <Text color="tomato">{error}</Text>}
+      {/* {error && <Text color="tomato">{error}</Text>} */}
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}

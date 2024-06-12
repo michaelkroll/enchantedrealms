@@ -87,6 +87,7 @@ const SceneCard = ({
         variant="outline"
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
+        onClick={() => console.log(scene)}
       >
         <CardBody padding={0}>
           <Stack>
