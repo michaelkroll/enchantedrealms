@@ -3,7 +3,15 @@ import { useEffect, useState } from "react";
 
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
-import { listScenes } from "../../graphql/queries";
+import {
+  listScenes,
+  getMap,
+  getAdventure,
+  getEntity,
+} from "../../graphql/queries";
+
+// Storage S3
+import { getUrl } from "aws-amplify/storage";
 
 // CHakra UI imports
 import {
@@ -22,13 +30,12 @@ import { IoReload } from "react-icons/io5";
 // Custom imports
 import SceneCard from "./SceneCard";
 import SceneCardSkeleton from "./SceneCardSkeleton";
-import Scene from "../../data/Scene";
-
 import SceneCreateDrawer from "./SceneCreateDrawer";
 import SceneEditDrawer from "./SceneEditDrawer";
 import AdventureSelectorDropdown from "../adventures/AdventureSelectorDropdown";
 import Adventure from "../../data/Adventure";
 import Entity from "../../data/Entity";
+import SceneMapEntities from "../../data/SceneMapEntities";
 
 interface Props {
   email: string;
@@ -49,9 +56,9 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     onClose: onEditDrawerClose,
   } = useDisclosure();
 
-  const [editScene, setEditScene] = useState<Scene>();
-  const [editSceneEntities, setEditSceneEntities] = useState<Entity[]>();
-  const [scenes, setScenes] = useState<Scene[]>([]);
+  const [editScene, setEditScene] = useState<SceneMapEntities>();
+  const [scenes, setScenes] = useState<SceneMapEntities[]>([]);
+
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -85,6 +92,8 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
       },
     };
 
+    let sceneMapEntitiesArray: SceneMapEntities[] = [];
+
     graphqlClient
       .graphql({
         query: listScenes,
@@ -93,7 +102,96 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
       .then((response) => {
         const sceneList = response.data.listScenes.items;
         sceneList.sort((a, b) => a.name.localeCompare(b.name));
-        setScenes(sceneList);
+
+        sceneList.forEach((scene) => {
+          sceneMapEntitiesArray.push(scene);
+          
+          sceneMapEntitiesArray.forEach((sceneMapEntity) => {
+            graphqlClient
+              .graphql({
+                query: getMap,
+                variables: { id: sceneMapEntity.mapId! },
+              })
+              .then((response) => {
+                const map = response.data.getMap;
+                const mapPicPath = map?.mapPicPath!;
+                const mapName = map?.name;
+                sceneMapEntity.mapName = mapName!;
+                sceneMapEntity.mapPicPath = mapPicPath;
+
+                getUrl({
+                  path: mapPicPath,
+                  options: {
+                    expiresIn: 900,
+                  },
+                })
+                  .then((getUrlResponse) => {
+                    sceneMapEntity.mapPicS3Url = getUrlResponse.url.toString();
+
+                    graphqlClient
+                      .graphql({
+                        query: getAdventure,
+                        variables: { id: sceneMapEntity.adventureId! },
+                      })
+                      .then((response) => {
+                        const adventure = response.data.getAdventure;
+                        const adventureName = adventure?.name;
+                        sceneMapEntity.adventureName = adventureName;
+                      })
+                      .catch((error) => {
+                        console.log("Error loading Adventure details: ", error);
+                      });
+
+                    let entityArray: Entity[] = [];
+
+                    sceneMapEntity.entityIds?.forEach((entityId) => {
+                      graphqlClient
+                        .graphql({
+                          query: getEntity,
+                          variables: { id: entityId! },
+                        })
+                        .then((response) => {
+                          const entity = response.data.getEntity;
+
+                          getUrl({
+                            path: entity?.tokenPicPath!,
+                            options: {
+                              expiresIn: 900,
+                            },
+                          })
+                            .then((getUrlResponse) => {
+                              entity!.tokenPicS3Url =
+                                getUrlResponse.url.toString();
+                            })
+                            .catch((error) => {
+                              console.log(
+                                "Error reading the TokenImageUrl: ",
+                                error
+                              );
+                            });
+                          entityArray.push(entity!);
+                        })
+                        .catch((error) => {
+                          console.log(
+                            "Error loading Adventure details: ",
+                            error
+                          );
+                        });
+                      sceneMapEntity.entities = entityArray;
+                    });
+                  })
+                  .catch((error) => {
+                    console.log("Error reading the MapImageUrl: ", error);
+                  });
+              })
+              .catch((error) => {
+                console.log("Error loading Map details: ", error);
+              });
+          });
+        });
+        console.log("Scenes: ", sceneMapEntitiesArray);
+        setScenes(sceneMapEntitiesArray);
+        setError("");
         setLoading(false);
       })
       .catch((error) => {
@@ -125,9 +223,8 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     }
   };
 
-  const handleEditScene = (editScene: Scene, entities: Entity[]) => {
+  const handleEditScene = (editScene: SceneMapEntities) => {
     setEditScene(editScene);
-    setEditSceneEntities(entities);
     onEditDrawerOpen();
   };
 
@@ -199,7 +296,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         onCloseDrawer={onEditDrawerClose}
         email={email}
         editScene={editScene!}
-        editSceneEntities={editSceneEntities!}
       />
 
       {error && <Text color="tomato">{error}</Text>}

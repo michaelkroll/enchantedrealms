@@ -17,10 +17,10 @@ import {
 } from "@chakra-ui/react";
 
 // Custom imports
-import Scene from "../../data/Scene";
+import SceneMapEntities from "../../data/SceneMapEntities";
 
 interface Props {
-  scene: Scene;
+  scene: SceneMapEntities;
   isOpen: boolean;
   onClose: () => void;
   onCloseAfterDelete: () => void;
@@ -34,7 +34,7 @@ const SceneDeleteConfirmationAlert = ({
 }: Props) => {
   const cancelRef = useRef(null);
 
-  const handleDeleteScene = async (sceneToDelete: Scene) => {
+  const handleDeleteScene = async (sceneToDelete: SceneMapEntities) => {
     const client = generateClient();
 
     const sceneDetails = {

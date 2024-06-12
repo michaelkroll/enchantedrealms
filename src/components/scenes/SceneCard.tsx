@@ -1,12 +1,5 @@
 // React imports
-import { useEffect, useState } from "react";
-
-// GraphQL / DynamoDB
-import { generateClient } from "aws-amplify/api";
-import { getMap, getEntity } from "../../graphql/queries";
-
-// Storage S3
-import { getUrl } from "aws-amplify/storage";
+import { useState } from "react";
 
 // Chakra UI imports
 import {
@@ -29,25 +22,25 @@ import {
 } from "@chakra-ui/react";
 
 // React Icon imports
-import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
-import { FaRegUser, FaUser } from "react-icons/fa6";
+
 import {
   GiMonsterGrasp,
   GiBatteredAxe,
   GiBorderedShield,
 } from "react-icons/gi";
+import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
+import { FaRegUser, FaUser } from "react-icons/fa6";
 import { VscWorkspaceUnknown } from "react-icons/vsc";
-
-// Custom imports
-import Scene from "../../data/Scene";
-import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
-import Entity from "../../data/Entity";
 import { IconType } from "react-icons";
 
+// Custom imports
+import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
+import SceneMapEntities from "../../data/SceneMapEntities";
+
 interface Props {
-  scene: Scene;
+  scene: SceneMapEntities;
   loggedInEmail: string;
-  handleEditScene: (adventure: Scene, entities: Entity[]) => void;
+  handleEditScene: (scene: SceneMapEntities) => void;
   refreshGrid: () => void;
 }
 
@@ -57,20 +50,11 @@ const SceneCard = ({
   handleEditScene,
   refreshGrid,
 }: Props) => {
-  useEffect(() => {
-    loadMapDetails();
-    loadEntityDetails();
-  }, []);
-
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
   const [isDeleteSceneConfirmModalOpen, setDeleteSceneConfirmModalOpen] =
     useState(false);
-
-  const [mapName, setMapName] = useState("");
-  const [entities, setEntities] = useState<Entity[]>([]);
-  const [mapImageUrl, setMapImageUrl] = useState("");
 
   const onDeleteSceneAlertConfirmClose = () => {
     setDeleteSceneConfirmModalOpen(false);
@@ -79,62 +63,6 @@ const SceneCard = ({
   const onDeleteSceneAlertConfirmCloseAfterDelete = () => {
     setDeleteSceneConfirmModalOpen(false);
     refreshGrid();
-  };
-
-  const loadMapDetails = () => {
-    const graphqlClient = generateClient();
-    graphqlClient
-      .graphql({
-        query: getMap,
-        variables: { id: scene.mapId! },
-      })
-      .then((response) => {
-        const map = response.data.getMap;
-        setMapName(map?.name!);
-        const mapPicPath = map?.mapPicPath!;
-
-        getUrl({
-          path: mapPicPath,
-          options: {
-            expiresIn: 900,
-          },
-        })
-          .then((getUrlResponse) => {
-            setMapImageUrl(getUrlResponse.url.toString());
-          })
-          .catch((error) => {
-            console.log("Error reading the MapImageUrl: ", error);
-          });
-      })
-      .catch((error) => {
-        console.log("Error loading Map details: ", error);
-      });
-  };
-
-  const loadEntityDetails = () => {
-    let entityArray: Entity[] = [];
-
-    scene.entityIds!.forEach((entityId) => {
-      const graphqlClient = generateClient();
-      graphqlClient
-        .graphql({
-          query: getEntity,
-          variables: { id: entityId! },
-        })
-        .then((response) => {
-          const entity = response.data.getEntity;
-          entityArray.push(entity!);
-        })
-        .catch((error) => {
-          console.log("Error loading Entity details: ", error);
-        });
-    });
-
-    const sortedArray = entityArray.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-
-    setEntities(sortedArray);
   };
 
   const getEntityIcon = (entityCategory: string): IconType => {
@@ -159,9 +87,6 @@ const SceneCard = ({
         variant="outline"
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
-        onClick={() => {
-          console.log(scene);
-        }}
       >
         <CardBody padding={0}>
           <Stack>
@@ -177,11 +102,11 @@ const SceneCard = ({
               paddingBottom="2px"
               borderRadius={10}
             >
-              {mapName}
+              {scene.mapName}
             </Text>
             <Image
               mb={1}
-              src={mapImageUrl}
+              src={scene.mapPicS3Url!}
               borderTopRadius={4}
               minH="200"
               minW="300"
@@ -201,15 +126,15 @@ const SceneCard = ({
             <Text as="b">Entities</Text>
 
             <List spacing={3} padding={1}>
-              {entities.map((entity) => (
-                <ListItem key={entity.id}>
+              {scene.entities?.map((entity) => (
+                <ListItem key={entity!.id}>
                   <HStack>
                     <ListIcon
-                      as={getEntityIcon(entity.category!)}
+                      as={getEntityIcon(entity!.category!)}
                       color="gray.500"
                     />
 
-                    <Text>{entity.name}</Text>
+                    <Text>{entity!.name}</Text>
                   </HStack>
                 </ListItem>
               ))}
@@ -231,7 +156,7 @@ const SceneCard = ({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  handleEditScene(scene, entities);
+                  handleEditScene(scene);
                 }}
               >
                 <MdOutlineEditNote />

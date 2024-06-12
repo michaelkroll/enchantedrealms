@@ -9,17 +9,15 @@ import {
 } from "@chakra-ui/react";
 
 // Custom imports
-import Scene from "../../data/Scene";
 import SceneEditForm from "./SceneEditForm";
-import Entity from "../../data/Entity";
+import SceneMapEntities from "../../data/SceneMapEntities";
 
 interface Props {
   handleDrawerClose: () => void;
   onCloseDrawer: () => void;
   email: string;
   isDrawerOpen: boolean;
-  editScene: Scene;
-  editSceneEntities: Entity[]
+  editScene: SceneMapEntities;
 }
 
 const SceneEditDrawer = ({
@@ -27,7 +25,6 @@ const SceneEditDrawer = ({
   onCloseDrawer,
   isDrawerOpen,
   editScene,
-  editSceneEntities,
   email,
 }: Props) => {
   return (
@@ -46,7 +43,6 @@ const SceneEditDrawer = ({
           <SceneEditForm
             handleFormClose={handleDrawerClose}
             editScene={editScene!}
-            editSceneEntities={editSceneEntities!}
             email={email}
           />
         </DrawerBody>

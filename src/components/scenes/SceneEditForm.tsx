@@ -39,24 +39,17 @@ import { VscWorkspaceUnknown } from "react-icons/vsc";
 import { IconType } from "react-icons";
 
 // Custom imports
-import Scene from "../../data/Scene";
 import Entity from "../../data/Entity";
-
 import EntitySelector from "../entities/EntitySelector";
+import SceneMapEntities from "../../data/SceneMapEntities";
 
 interface Props {
   handleFormClose: () => void;
-  editScene: Scene;
-  editSceneEntities: Entity[];
+  editScene: SceneMapEntities;
   email: string;
 }
 
-const SceneEditForm = ({
-  handleFormClose,
-  editScene,
-  editSceneEntities,
-  email,
-}: Props) => {
+const SceneEditForm = ({ handleFormClose, editScene, email }: Props) => {
   const {
     register,
     handleSubmit,
@@ -73,8 +66,11 @@ const SceneEditForm = ({
   });
 
   useEffect(() => {
-    console.log("Edit Screne Entities: ", editSceneEntities);
-    setSelectedEntities(editSceneEntities);
+    var entities: Entity[] = [];
+    editScene.entities?.forEach((entity) => {
+      entities.push(entity!);
+    });
+    setSelectedEntities(entities);
   }, []);
 
   const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
