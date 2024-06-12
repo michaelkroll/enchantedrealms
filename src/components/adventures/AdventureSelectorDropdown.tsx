@@ -20,7 +20,7 @@ const AdventureSelectorDropdown = ({
       </Text>
       <Select
         onChange={(event) => {
-          if (event.target.value != "Please select an Adventure") {
+          if (event.target.value != "Select an Adventure") {
             let adv = adventures.find((adventure) =>
               adventure.name === event.target.value ? adventure : null
             );
@@ -28,8 +28,8 @@ const AdventureSelectorDropdown = ({
           }
         }}
       >
-        <option key={0} value="Please select an Adventure">
-          Please select an Adventure
+        <option key={0} value="Select an Adventure">
+          Select an Adventure
         </option>
         {adventures.map((adventure) => (
           <option key={adventure.id} value={adventure.name}>

@@ -230,7 +230,11 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
           openDelay={1000}
         >
           <Button
-            isDisabled={isLoading || adventures.length == 0}
+            isDisabled={
+              isLoading ||
+              adventures.filter((adventure) => adventure.creatorEmail == email)
+                .length == 0
+            }
             colorScheme="blue"
             onClick={onCreateDrawerOpen}
             marginLeft="10px"
@@ -239,14 +243,29 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
           </Button>
         </Tooltip>
 
-        <Text as="b" display={adventures.length == 0 ? "flex" : "none"}>
+        <Text
+          as="b"
+          display={
+            adventures.filter((adventure) => adventure.creatorEmail == email)
+              .length == 0
+              ? "flex"
+              : "none"
+          }
+        >
           Please create at least one Adventure before you can add Scenes.
         </Text>
 
         <AdventureSelectorDropdown
-          display={adventures.length == 0 ? "none" : "flex"}
+          display={
+            adventures.filter((adventure) => adventure.creatorEmail == email)
+              .length == 0
+              ? "none"
+              : "flex"
+          }
           onSelectAdventure={handleAdventureSelected}
-          adventures={adventures}
+          adventures={adventures.filter(
+            (adventure) => adventure.creatorEmail == email
+          )}
         />
 
         <Tooltip
