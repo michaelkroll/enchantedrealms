@@ -89,6 +89,7 @@ type Entity
   creatorId: String!
   name: String!
   description: String
+  notes: String
   category: String!
   tokenId: String
   tokenPicPath: String

@@ -4,7 +4,8 @@ interface Entity {
   creatorEmail: string;
   creatorId: string;
   category?: string;
-  description?: string | null | undefined
+  description?: string | null | undefined;
+  notes?: string | null | undefined;
   tokenId?: string | null | undefined;
   tokenPicPath?: string | null | undefined;
   tokenPicS3Url?: string | null | undefined;

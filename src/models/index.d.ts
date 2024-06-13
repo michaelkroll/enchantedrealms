@@ -208,6 +208,7 @@ type EagerEntity = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly notes?: string | null;
   readonly category: string;
   readonly tokenId?: string | null;
   readonly tokenPicPath?: string | null;
@@ -227,6 +228,7 @@ type LazyEntity = {
   readonly creatorId: string;
   readonly name: string;
   readonly description?: string | null;
+  readonly notes?: string | null;
   readonly category: string;
   readonly tokenId?: string | null;
   readonly tokenPicPath?: string | null;

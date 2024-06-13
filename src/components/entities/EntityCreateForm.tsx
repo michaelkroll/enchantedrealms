@@ -54,6 +54,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
     creatorId: "",
     category: "",
     description: "",
+    notes: "",
     tokenId: "",
     tokenPicPath: "",
     tokenPicS3Url: "",
@@ -63,6 +64,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
     const {
       name,
       description,
+      notes,
       category,
       tokenId,
       tokenPicPath,
@@ -75,6 +77,7 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
       creatorId: sub,
       name,
       description,
+      notes,
       category,
       tokenId,
       tokenPicPath,
@@ -162,6 +165,24 @@ const EntityCreateForm = ({ handleFormClose, email, sub }: Props) => {
               }
             />
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel paddingTop="10px" htmlFor="notes">
+              Notes
+            </FormLabel>
+            <Textarea
+              {...register("notes", {})}
+              id="notes"
+              placeholder="Entity Notes"
+              disabled={isFormSubmitting}
+              onChange={(event) =>
+                setEntityData({
+                  ...entityData,
+                  notes: event.target.value,
+                })
+              }
+            />
           </FormControl>
 
           <FormControl isInvalid={errors.category ? true : undefined}>

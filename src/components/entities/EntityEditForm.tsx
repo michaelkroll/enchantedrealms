@@ -44,6 +44,7 @@ const EntityEditForm = ({ handleFormClose, entity }: Props) => {
       ? {
           name: entity.name,
           description: entity.description,
+          notes: entity.notes,
           category: entity.category,
           tokenId: entity.tokenId,
         }
@@ -56,16 +57,18 @@ const EntityEditForm = ({ handleFormClose, entity }: Props) => {
     id: entity.id,
     name: entity.name,
     description: entity.description,
+    notes: entity.notes,
     category: entity.category,
   });
 
   const handleUpdateEntity = async () => {
-    const { id, name, description, category } = updatedEntityData;
-    
+    const { id, name, description, notes, category } = updatedEntityData;
+
     const entityUpdateDetails = {
       id,
       name,
       description,
+      notes,
       category,
     };
 
@@ -133,6 +136,24 @@ const EntityEditForm = ({ handleFormClose, entity }: Props) => {
               }
             />
             <FormErrorMessage>{`${errors.description?.message}`}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel paddingTop="10px" htmlFor="notes">
+              Notes
+            </FormLabel>
+            <Textarea
+              {...register("notes", {})}
+              id="notes"
+              placeholder="Entity notes"
+              disabled={isFormSubmitting}
+              onChange={(event) =>
+                setUpdatedEntityData({
+                  ...updatedEntityData,
+                  notes: event.target.value,
+                })
+              }
+            />
           </FormControl>
 
           <FormControl isInvalid={errors.category ? true : undefined}>

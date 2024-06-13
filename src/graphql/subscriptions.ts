@@ -309,6 +309,7 @@ export const onCreateEntity = /* GraphQL */ `subscription OnCreateEntity($filter
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath
@@ -330,6 +331,7 @@ export const onUpdateEntity = /* GraphQL */ `subscription OnUpdateEntity($filter
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath
@@ -351,6 +353,7 @@ export const onDeleteEntity = /* GraphQL */ `subscription OnDeleteEntity($filter
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath

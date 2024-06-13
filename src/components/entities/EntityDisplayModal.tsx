@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Grid,
   GridItem,
   Image,
@@ -34,7 +35,12 @@ const EntityDisplayModal = ({ isOpen, onClose, entity }: Props) => {
               <Image src={entity.tokenPicS3Url!} />
             </GridItem>
             <GridItem colSpan={3}>
+              <Divider mt={2} mb={2} />
+              <Text as="b">Description</Text>
               <Text>{entity.description}</Text>
+              <Divider mt={2} mb={2} />
+              <Text as="b">Notes</Text>
+              <Text>{entity.notes}</Text>
             </GridItem>
           </Grid>
         </ModalBody>

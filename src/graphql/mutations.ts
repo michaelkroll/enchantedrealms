@@ -348,6 +348,7 @@ export const createEntity = /* GraphQL */ `mutation CreateEntity(
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath
@@ -372,6 +373,7 @@ export const updateEntity = /* GraphQL */ `mutation UpdateEntity(
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath
@@ -396,6 +398,7 @@ export const deleteEntity = /* GraphQL */ `mutation DeleteEntity(
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath

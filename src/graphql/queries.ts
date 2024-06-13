@@ -222,6 +222,7 @@ export const getEntity = /* GraphQL */ `query GetEntity($id: ID!) {
     creatorId
     name
     description
+    notes
     category
     tokenId
     tokenPicPath
@@ -245,6 +246,7 @@ export const listEntities = /* GraphQL */ `query ListEntities(
       creatorId
       name
       description
+      notes
       category
       tokenId
       tokenPicPath
