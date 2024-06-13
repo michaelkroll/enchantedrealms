@@ -106,7 +106,7 @@ const EntityCard = ({
             </Tooltip>
             <Tooltip
               hasArrow
-              label="Show the Map in original Size"
+              label="Show the Entity details on a dedicated screen"
               bg="gray.300"
               color="black"
               openDelay={1000}
