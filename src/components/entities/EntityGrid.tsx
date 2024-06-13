@@ -8,6 +8,7 @@ import { listEntities } from "../../graphql/queries";
 import { getUrl } from "aws-amplify/storage";
 
 import {
+  Box,
   Button,
   Center,
   HStack,
@@ -183,7 +184,7 @@ const EntityGrid = ({ email, sub }: Props) => {
   };
 
   return (
-    <>
+    <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
         <Tooltip
           hasArrow
@@ -257,7 +258,7 @@ const EntityGrid = ({ email, sub }: Props) => {
           />
         ))}
       </SimpleGrid>
-    </>
+    </Box>
   );
 };
 

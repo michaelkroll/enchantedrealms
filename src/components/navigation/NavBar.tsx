@@ -1,6 +1,15 @@
 // React Imports
 import { useEffect } from "react";
 
+import { Link as ReactRouterLink } from "react-router-dom";
+import {
+  Link as ChakraLink,
+  Tab,
+  TabIndicator,
+  TabList,
+  Tabs,
+} from "@chakra-ui/react";
+
 // Chakra UI Imports
 import {
   HStack,
@@ -88,6 +97,7 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
             Enchanted Realms
           </Text>
         </HStack>
+
         <HStack>
           <Menu>
             <MenuButton
@@ -138,6 +148,63 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Menu>
         </HStack>
       </HStack>
+
+      <Tabs>
+        <TabList>
+          <Tab>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/adventures"
+              style={{ textDecoration: "none" }}
+            >
+              Adventures
+            </ChakraLink>
+          </Tab>
+          <Tab>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/maps"
+              style={{ textDecoration: "none" }}
+            >
+              Maps
+            </ChakraLink>
+          </Tab>
+          <Tab>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/tokens"
+              style={{ textDecoration: "none" }}
+            >
+              Tokens
+            </ChakraLink>
+          </Tab>
+          <Tab>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/entities"
+              style={{ textDecoration: "none" }}
+            >
+              Entities
+            </ChakraLink>
+          </Tab>
+          <Tab>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/scenes"
+              style={{ textDecoration: "none" }}
+            >
+              Scenes
+            </ChakraLink>
+          </Tab>
+        </TabList>
+        <TabIndicator
+          mt="-1.5px"
+          height="2px"
+          bg="blue.500"
+          borderRadius="1px"
+        />
+      </Tabs>
+
       <LogoutConfirmationAlert
         isOpen={isLogoutConfirmAlertOpen}
         onClose={onLogoutConfirmAlertClose}

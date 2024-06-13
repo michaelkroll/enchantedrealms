@@ -8,6 +8,7 @@ import { generateClient } from "aws-amplify/api";
 import { listAdventures } from "../../graphql/queries";
 
 import {
+  Box,
   Button,
   HStack,
   SimpleGrid,
@@ -140,7 +141,7 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
   };
 
   return (
-    <>
+    <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
         <Tooltip
           hasArrow
@@ -211,7 +212,7 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
           />
         ))}
       </SimpleGrid>
-    </>
+    </Box>
   );
 };
 

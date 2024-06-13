@@ -16,13 +16,13 @@ import {
   Avatar,
   Tooltip,
   ButtonGroup,
-  useToast,
   useColorModeValue,
   Stack,
 } from "@chakra-ui/react";
 import AdventureManagePlayersForm from "./AdventureManagePlayersForm";
 import { useState } from "react";
 import AdventureDeleteConfirmationAlert from "./AdventureDeleteConfirmationAlert";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   adventure: Adventure;
@@ -49,7 +49,8 @@ const AdventureCard = ({
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
-  const toast = useToast();
+  const navigate = useNavigate();
+
   const [isPlayerManageDialogOpen, setPlayerManageDialogOpen] = useState(false);
   const [
     isDeleteAdventureConfirmModalOpen,
@@ -74,23 +75,27 @@ const AdventureCard = ({
     setPlayerManageDialogOpen(false);
   };
 
-  // const checkIfUserCanJoinAdventure = (
-  //   adventure: Adventure,
-  //   loggedInEmail: string
-  // ): boolean => {
-  //   let result: boolean = false;
+  const checkIfUserCanJoinAdventure = (
+    adventure: Adventure,
+    loggedInEmail: string
+  ): boolean => {
+    let result: boolean = false;
 
-  //   if (loggedInEmail == adventure.creatorEmail) {
-  //     result = true;
-  //   } else if (adventure.players != null) {
-  //     if (adventure.players.includes(loggedInEmail)) {
-  //       result = true;
-  //     } else {
-  //       result = false;
-  //     }
-  //   }
-  //   return result;
-  // };
+    if (loggedInEmail == adventure.creatorEmail) {
+      result = true;
+    } else if (adventure.players != null) {
+      if (adventure.players.includes(loggedInEmail)) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+    return result;
+  };
+
+  const navigateToAdventureRoom = () => {
+    navigate("/room/" + adventure.id);
+  };
 
   return (
     <>
@@ -164,23 +169,11 @@ const AdventureCard = ({
         <Divider />
         <CardFooter padding={2}>
           <Button
-            // isDisabled={
-            //   !checkIfUserCanJoinAdventure(adventure, loggedInEmail)
-            // }
-            isDisabled={true}
+            isDisabled={!checkIfUserCanJoinAdventure(adventure, loggedInEmail)}
             variant="solid"
             leftIcon={<MdOutlineMeetingRoom />}
             size="sm"
-            onClick={() =>
-              toast({
-                title: "Join the Adventure.",
-                description: "Stay tuned. This is the next challenge to take!",
-                status: "warning",
-                position: "top",
-                duration: 3000,
-                isClosable: true,
-              })
-            }
+            onClick={() => navigateToAdventureRoom()}
           >
             Join
           </Button>

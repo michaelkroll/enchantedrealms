@@ -7,6 +7,7 @@ import { getUrl } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/api";
 import { listMaps } from "../../graphql/queries";
 import {
+  Box,
   Button,
   Center,
   HStack,
@@ -197,7 +198,7 @@ const MapGrid = ({ email, sub }: Props) => {
   };
 
   return (
-    <>
+    <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
         <Tooltip
           hasArrow
@@ -269,7 +270,7 @@ const MapGrid = ({ email, sub }: Props) => {
           />
         ))}
       </SimpleGrid>
-    </>
+    </Box>
   );
 };
 

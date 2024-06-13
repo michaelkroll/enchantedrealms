@@ -15,6 +15,7 @@ import { getUrl } from "aws-amplify/storage";
 
 // CHakra UI imports
 import {
+  Box,
   Button,
   HStack,
   SimpleGrid,
@@ -220,7 +221,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
   };
 
   return (
-    <>
+    <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
         <Tooltip
           hasArrow
@@ -326,7 +327,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
           />
         ))}
       </SimpleGrid>
-    </>
+    </Box>
   );
 };
 
