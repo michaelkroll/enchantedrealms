@@ -34,7 +34,7 @@ const AdventureCreateDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton margin="5px" />
-        <DrawerHeader borderBottomWidth="1px">Create a Map</DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px">Create an Adventure</DrawerHeader>
         <DrawerBody>
           <AdventureCreateForm
             handleFormClose={handleDrawerClose}
