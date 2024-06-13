@@ -3,6 +3,7 @@ import { useState } from "react";
 
 // React Icon imports
 import { MdOutlineEditNote, MdOutlineDelete } from "react-icons/md";
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 // Chakra UI imports
 import {
@@ -23,6 +24,7 @@ import {
 import EntityDeleteConfirmationAlert from "./EntityDeleteConfirmationAlert";
 import Entity from "../../data/Entity";
 import entityCategories from "../../data/EntityCategories";
+import EntityDisplayModal from "./EntityDisplayModal";
 
 interface Props {
   entity: Entity;
@@ -30,9 +32,16 @@ interface Props {
   handleDeleteEntity: (entity: Entity) => void;
 }
 
-const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => {
+const EntityCard = ({
+  entity,
+  handleEditEntity,
+  handleDeleteEntity,
+}: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
+
+  const [isShowFullsizeEntityModalOpen, setShowFullsizeEntityModalOpen] =
+    useState(false);
 
   const [isDeleteEntityConfirmModalOpen, setDeleteEntityConfirmModalOpen] =
     useState(false);
@@ -51,6 +60,10 @@ const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => 
       ?.label;
   };
 
+  const onFullSizeEntityClose = () => {
+    setShowFullsizeEntityModalOpen(false);
+  };
+
   return (
     <>
       <Card
@@ -66,8 +79,10 @@ const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => 
           <Text fontSize="xs" textColor="gray.500" mb={2}>
             Category: {categoryLabel(entity.category!)}
           </Text>
-          <Divider mb={2}/>
-          <Text fontSize="sm">{entity.description}</Text>
+          <Divider mb={2} />
+          <Text noOfLines={4} fontSize="sm">
+            {entity.description}
+          </Text>
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
@@ -87,6 +102,23 @@ const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => 
                 }}
               >
                 <MdOutlineEditNote />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              hasArrow
+              label="Show the Map in original Size"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setShowFullsizeEntityModalOpen(true);
+                }}
+              >
+                <HiOutlineMagnifyingGlass />
               </Button>
             </Tooltip>
             <Tooltip
@@ -114,6 +146,13 @@ const EntityCard = ({ entity, handleEditEntity, handleDeleteEntity }: Props) => 
         isOpen={isDeleteEntityConfirmModalOpen}
         onClose={onDeleteEntityAlertConfirmClose}
         onCloseAfterDelete={onDeleteEntityAlertConfirmCloseAfterDelete}
+      />
+      <EntityDisplayModal
+        entity={entity}
+        isOpen={isShowFullsizeEntityModalOpen}
+        onClose={() => {
+          onFullSizeEntityClose();
+        }}
       />
     </>
   );
