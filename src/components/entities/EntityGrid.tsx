@@ -20,13 +20,13 @@ import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 
 import EntityCard from "./EntityCard";
-import EntityCardSkeleton from "./EntityCardSkeleton";
 import Entity from "../../data/Entity";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import entityCategories from "../../data/EntityCategories";
 import EntityCreateDrawer from "./EntityCreateDrawer";
 import EntityEditDrawer from "./EntityEditDrawer";
+import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {
   email: string;
@@ -54,11 +54,6 @@ const EntityGrid = ({ email, sub }: Props) => {
     value: "all",
     label: "All",
   });
-
-  const skeletons = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28,
-  ];
 
   useEffect(() => {
     if (email != "") {
@@ -224,10 +219,12 @@ const EntityGrid = ({ email, sub }: Props) => {
       </HStack>
       {error && <Text color="tomato">{error}</Text>}
       <Center>
-        <Text mt={2}>
+        <Text mt={2} mb={2}>
           {entities.length} {entitiesCountText()}
         </Text>
       </Center>
+
+      {isLoading && <IsLoadingIndicator loadingLabel={"Loading entities..."} />}
 
       <EntityCreateDrawer
         handleDrawerClose={handleCreateDrawerClose}
@@ -251,8 +248,6 @@ const EntityGrid = ({ email, sub }: Props) => {
         spacing={3}
         margin="10px"
       >
-        {isLoading &&
-          skeletons.map((skeleton) => <EntityCardSkeleton key={skeleton} />)}
         {entities.map((entity) => (
           <EntityCard
             key={entity.id}

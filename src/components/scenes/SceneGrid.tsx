@@ -18,6 +18,7 @@ import {
   Button,
   HStack,
   SimpleGrid,
+  Stack,
   Text,
   Tooltip,
   useDisclosure,
@@ -29,13 +30,13 @@ import { IoReload } from "react-icons/io5";
 
 // Custom imports
 import SceneCard from "./SceneCard";
-import SceneCardSkeleton from "./SceneCardSkeleton";
 import SceneCreateDrawer from "./SceneCreateDrawer";
 import SceneEditDrawer from "./SceneEditDrawer";
 import AdventureSelectorDropdown from "../adventures/AdventureSelectorDropdown";
 import Adventure from "../../data/Adventure";
 import Entity from "../../data/Entity";
 import SceneMapEntities from "../../data/SceneMapEntities";
+import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {
   email: string;
@@ -61,7 +62,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
   //const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [fetchedScenes, setFetchedScenes] = useState<SceneMapEntities[]>([]);
   const [fetchedScenesAndMaps, setFetchedScenesAndMaps] = useState<
@@ -288,6 +288,12 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         </Tooltip>
       </HStack>
 
+      {isLoading && (
+        <Stack mt={2}>
+          <IsLoadingIndicator loadingLabel={"Loading scenes..."} />
+        </Stack>
+      )}
+
       <SceneCreateDrawer
         handleDrawerClose={handleCreateDrawerClose}
         isDrawerOpen={isCreateDrawerOpen}
@@ -310,8 +316,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         spacing={3}
         margin="10px"
       >
-        {isLoading &&
-          skeletons.map((skeleton) => <SceneCardSkeleton key={skeleton} />)}
         {scenes.map((scene) => (
           <SceneCard
             key={scene.id}

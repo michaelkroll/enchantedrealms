@@ -18,13 +18,13 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 import MapCard from "./MapCard";
-import MapCardSkeleton from "./MapCardSkeleton";
 import Map from "../../data/Map";
 import mapCategories from "../../data/MapCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import MapCreateDrawer from "./MapCreateDrawer";
 import MapEditDrawer from "./MapEditDrawer";
+import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {
   email: string;
@@ -52,10 +52,6 @@ const MapGrid = ({ email, sub }: Props) => {
     value: "all",
     label: "All",
   });
-
-  const skeletons = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
 
   useEffect(() => {
     if (email != "") {
@@ -235,11 +231,14 @@ const MapGrid = ({ email, sub }: Props) => {
           </Button>
         </Tooltip>
       </HStack>
-      <Center>
+      <Center mb={2}>
         <Text mt={2}>
           {maps.length} {mapCountText()}
         </Text>
       </Center>
+
+      {isLoading && <IsLoadingIndicator loadingLabel={"Loading maps..."} />}
+
       <MapCreateDrawer
         handleDrawerClose={handleCreateDrawerClose}
         isDrawerOpen={isCreateDrawerOpen}
@@ -259,8 +258,6 @@ const MapGrid = ({ email, sub }: Props) => {
         spacing={3}
         margin="10px"
       >
-        {isLoading &&
-          skeletons.map((skeleton) => <MapCardSkeleton key={skeleton} />)}
         {maps.map((map) => (
           <MapCard
             key={map.id}

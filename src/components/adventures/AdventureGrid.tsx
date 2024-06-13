@@ -18,10 +18,10 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 import AdventureCard from "./AdventureCard";
-import AdventureCardSkeleton from "./AdventureCardSkeleton";
 import Adventure from "../../data/Adventure";
 import AdventureCreateDrawer from "./AdventureCreateDrawer";
 import AdventureEditDrawer from "./AdventureEditDrawer";
+import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {
   email: string;
@@ -46,8 +46,6 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
   const [adventures, setAdventures] = useState<Adventure[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
-
-  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
     if (email != "") {
@@ -126,7 +124,6 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
   };
 
   const handleUpdateAdventure = (updatedAdventure: Adventure) => {
-
     const updatedAdventures = adventures.map((adventure) =>
       adventure.id === updatedAdventure.id
         ? { ...adventure, players: updatedAdventure.players }
@@ -174,6 +171,10 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
         </Tooltip>
       </HStack>
 
+      {isLoading && (
+        <IsLoadingIndicator loadingLabel={"Loading adventures..."} />
+      )}
+
       <AdventureCreateDrawer
         handleDrawerClose={handleCreateDrawerClose}
         isDrawerOpen={isCreateDrawerOpen}
@@ -190,13 +191,15 @@ const AdventureGrid = ({ email, sub, onAdventuresUpdated }: Props) => {
       />
 
       {error && <Text color="tomato">{error}</Text>}
+
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}
         margin="10px"
       >
-        {isLoading &&
-          skeletons.map((skeleton) => <AdventureCardSkeleton key={skeleton} />)}
+        {/* {isLoading &&
+          skeletons.map((skeleton) => <AdventureCardSkeleton key={skeleton} />)} */}
+
         {adventures.map((adventure) => (
           <AdventureCard
             key={adventure.id}
