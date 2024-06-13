@@ -219,7 +219,7 @@ const EntityGrid = ({ email, sub }: Props) => {
       </HStack>
       {error && <Text color="tomato">{error}</Text>}
       <Center>
-        <Text mt={2} mb={2}>
+        <Text mt={2}>
           {entities.length} {entitiesCountText()}
         </Text>
       </Center>

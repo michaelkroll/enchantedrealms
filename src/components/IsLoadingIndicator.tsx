@@ -7,6 +7,7 @@ interface Props {
 const IsLoadingIndicator = ({ loadingLabel }: Props) => {
   return (
     <Flex
+      mt={10}
       width={"100%"}
       height={"100%"}
       alignContent={"center"}
