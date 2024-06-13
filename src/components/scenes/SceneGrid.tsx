@@ -80,7 +80,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   useEffect(() => {
     handleListEntitiesForScenesAndMaps();
-    setLoading(false);
   }, [fetchedScenesAndMaps]);
 
   const handleListScenes = async (adventure: Adventure) => {
@@ -186,6 +185,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
       scene.entities = entityArray;
       sceneMapEntitiesArray.push(scene);
     }
+    setLoading(false);
     setScenes(sceneMapEntitiesArray);
   };
 
