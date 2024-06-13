@@ -479,18 +479,20 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
                         Select Image File
                       </FileUploadTrigger>
                     ) : (
-                      <HStack>
-                        <FileUploadPreview file={files[0]} width="100px" />
+                      <Stack>
+                        <HStack justifyContent={"space-evenly"}>
+                          <FileUploadPreview file={files[0]} width="100px" />
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteFile(files[0]);
+                            }}
+                          >
+                            Clear
+                          </Button>
+                        </HStack>
                         <Text fontSize="sm">{files[0].name}</Text>
-                        <Button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteFile(files[0]);
-                          }}
-                        >
-                          Clear
-                        </Button>
-                      </HStack>
+                      </Stack>
                     )}
                   </Center>
                 </Container>
