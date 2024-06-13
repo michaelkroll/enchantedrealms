@@ -20,7 +20,7 @@ const IsLoadingIndicator = ({ loadingLabel }: Props) => {
           color="blue.500"
           size="xl"
         />
-        <Text>{loadingLabel}</Text>
+        <Text as="b">{loadingLabel}</Text>
       </VStack>
     </Flex>
   );
