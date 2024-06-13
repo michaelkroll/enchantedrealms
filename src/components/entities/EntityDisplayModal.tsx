@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 
@@ -38,9 +39,11 @@ const EntityDisplayModal = ({ isOpen, onClose, entity }: Props) => {
               <Divider mt={2} mb={2} />
               <Text as="b">Description</Text>
               <Text>{entity.description}</Text>
-              <Divider mt={2} mb={2} />
-              <Text as="b">Notes</Text>
-              <Text>{entity.notes}</Text>
+              <Stack display={entity.notes == null ? "none" : "flex"}>
+                <Divider mt={2} mb={2} />
+                <Text as="b">Notes</Text>
+                <Text>{entity.notes}</Text>
+              </Stack>
             </GridItem>
           </Grid>
         </ModalBody>
