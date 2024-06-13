@@ -1,6 +1,7 @@
 import Category from "./Category";
 
 const mapCategories:Category[] =[
+  {value: "camp", label: "Camp"},
   {value: "city", label: "City"},
   {value: "coast", label: "Coast"},
   {value: "dungeon", label: "Dungeon"},
@@ -12,6 +13,7 @@ const mapCategories:Category[] =[
   {value: "mountains", label: "Mountain"},
   {value: "misc", label: "Miscellaneous"},
   {value: "river", label: "River"},
+  {value: "ruins", label: "Ruins"},
   {value: "ship", label: "Ship"},
   {value: "tomb", label: "Tomb"},
   {value: "uncategorized", label: "Uncategorized"},
