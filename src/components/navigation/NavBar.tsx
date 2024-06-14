@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import {
   Link as ChakraLink,
+  Divider,
   Tab,
   TabIndicator,
   TabList,
@@ -57,13 +58,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
   const navBarColor = useColorModeValue("gray.200", "gray.600");
 
   const fontSize = useBreakpointValue({
-    xs: "8px",
-    sm: "8px",
-    md: "10px",
-    lg: "14px",
+    xs: "10px",
+    sm: "10px",
+    md: "15px",
+    lg: "15px",
     xl: "20px",
     "2xl": "20px",
   });
+
 
   const getLogo = (): string => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
@@ -159,7 +161,7 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Menu>
         </HStack>
       </HStack>
-      <Tabs>
+      <Tabs position="relative" variant="unstyled">
         <TabList>
           <Tab>
             <ChakraLink
@@ -210,12 +212,8 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
             </ChakraLink>
           </Tab>
         </TabList>
-        <TabIndicator
-          mt="-1.5px"
-          height="2px"
-          bg="blue.500"
-          borderRadius="1px"
-        />
+        <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
+        <Divider/>
       </Tabs>
 
       <LogoutConfirmationAlert
