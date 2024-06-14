@@ -13,6 +13,8 @@ import {
   Image,
   useColorMode,
   HStack,
+  useBreakpointValue,
+  Stack,
 } from "@chakra-ui/react";
 
 import blackLogo from "../../assets/EnchantedRealmsLogoBlack.svg";
@@ -26,6 +28,15 @@ interface Props {
 const AboutAlert = ({ isOpen, onClose }: Props) => {
   const cancelRef = useRef(null);
   const { colorMode } = useColorMode();
+
+  const breakPointName = useBreakpointValue({
+    xs: "xs",
+    sm: "sm",
+    md: "md",
+    lg: "lg",
+    xl: "xl",
+    "2xl": "2xl",
+  });
 
   const getLogo = (): string => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
@@ -52,6 +63,11 @@ const AboutAlert = ({ isOpen, onClose }: Props) => {
               Enchanted Realms is a Virtual Table Top implementation with a
               featureset down to the bare minimum. Whatever this means.
             </Text>
+            <Divider mt={1} />
+            <Stack mt={2}>
+              <Text as="b">Debug Info</Text>
+              <Text fontSize="sm">Breakpoint: {breakPointName}</Text>
+            </Stack>
           </AlertDialogBody>
           <Divider />
           <AlertDialogFooter>

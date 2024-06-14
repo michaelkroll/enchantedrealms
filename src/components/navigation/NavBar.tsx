@@ -66,7 +66,6 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
     "2xl": "20px",
   });
 
-
   const getLogo = (): string => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
   };
