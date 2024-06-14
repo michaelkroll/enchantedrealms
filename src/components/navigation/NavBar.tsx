@@ -90,10 +90,11 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
         justifyContent="space-between"
         padding="10px"
         background={navBarColor}
+        width="100%"
       >
         <HStack>
           <Image boxSize="30px" src={getLogo()} />
-          <Text as="b" fontSize="xl" paddingLeft="">
+          <Text as="b" fontSize="xl">
             Enchanted Realms
           </Text>
         </HStack>
@@ -153,6 +154,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
         <TabList>
           <Tab>
             <ChakraLink
+              fontSize={{
+                xs: "xs",
+                sm: "xs",
+                md: "md",
+                lg: "md",
+                xl: "md",
+                "2xl": "md",
+              }}
               as={ReactRouterLink}
               to="/adventures"
               style={{ textDecoration: "none" }}
@@ -162,6 +171,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Tab>
           <Tab>
             <ChakraLink
+              fontSize={{
+                xs: "xs",
+                sm: "xs",
+                md: "md",
+                lg: "md",
+                xl: "md",
+                "2xl": "md",
+              }}
               as={ReactRouterLink}
               to="/maps"
               style={{ textDecoration: "none" }}
@@ -171,6 +188,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Tab>
           <Tab>
             <ChakraLink
+              fontSize={{
+                xs: "xs",
+                sm: "xs",
+                md: "md",
+                lg: "md",
+                xl: "md",
+                "2xl": "md",
+              }}
               as={ReactRouterLink}
               to="/tokens"
               style={{ textDecoration: "none" }}
@@ -180,6 +205,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Tab>
           <Tab>
             <ChakraLink
+              fontSize={{
+                xs: "xs",
+                sm: "xs",
+                md: "md",
+                lg: "md",
+                xl: "md",
+                "2xl": "md",
+              }}
               as={ReactRouterLink}
               to="/entities"
               style={{ textDecoration: "none" }}
@@ -189,6 +222,14 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Tab>
           <Tab>
             <ChakraLink
+              fontSize={{
+                xs: "xs",
+                sm: "xs",
+                md: "md",
+                lg: "md",
+                xl: "md",
+                "2xl": "md",
+              }}
               as={ReactRouterLink}
               to="/scenes"
               style={{ textDecoration: "none" }}
