@@ -36,6 +36,7 @@ function App() {
   const [sub, setSub] = useState("");
 
   const location = useLocation();
+  const excludedRoute = "/room";
 
   const handleFetchUserProperties = () => {
     readUserAttributes();
@@ -54,10 +55,6 @@ function App() {
   const onAdventuresUpdated = (adventures: Adventure[]) => {
     setAdventures(adventures);
   };
-
-  const excludedRoute = "/room";
-
-  console.log(location);
 
   return (
     <Authenticator>
