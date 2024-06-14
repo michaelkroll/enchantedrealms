@@ -8,6 +8,7 @@ import {
   TabIndicator,
   TabList,
   Tabs,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 // Chakra UI Imports
@@ -54,6 +55,15 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
   // Used for the Color mode toggle and color mode dependent colors
   const { toggleColorMode, colorMode } = useColorMode();
   const navBarColor = useColorModeValue("gray.200", "gray.600");
+
+  const fontSize = useBreakpointValue({
+    xs: "10px",
+    sm: "10px",
+    md: "15px",
+    lg: "15px",
+    xl: "20px",
+    "2xl": "20px",
+  });
 
   const getLogo = (): string => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
@@ -149,90 +159,52 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Menu>
         </HStack>
       </HStack>
-
       <Tabs>
         <TabList>
           <Tab>
             <ChakraLink
-              fontSize={{
-                xs: "xs",
-                sm: "xs",
-                md: "md",
-                lg: "md",
-                xl: "md",
-                "2xl": "md",
-              }}
               as={ReactRouterLink}
               to="/adventures"
-              style={{ textDecoration: "none" }}
+              style={{
+                textDecoration: "none",
+                fontSize: fontSize,
+              }}
             >
               Adventures
             </ChakraLink>
           </Tab>
           <Tab>
             <ChakraLink
-              fontSize={{
-                xs: "xs",
-                sm: "xs",
-                md: "md",
-                lg: "md",
-                xl: "md",
-                "2xl": "md",
-              }}
               as={ReactRouterLink}
               to="/maps"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontSize: fontSize }}
             >
               Maps
             </ChakraLink>
           </Tab>
           <Tab>
             <ChakraLink
-              fontSize={{
-                xs: "xs",
-                sm: "xs",
-                md: "md",
-                lg: "md",
-                xl: "md",
-                "2xl": "md",
-              }}
               as={ReactRouterLink}
               to="/tokens"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontSize: fontSize }}
             >
               Tokens
             </ChakraLink>
           </Tab>
           <Tab>
             <ChakraLink
-              fontSize={{
-                xs: "xs",
-                sm: "xs",
-                md: "md",
-                lg: "md",
-                xl: "md",
-                "2xl": "md",
-              }}
               as={ReactRouterLink}
               to="/entities"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontSize: fontSize }}
             >
               Entities
             </ChakraLink>
           </Tab>
           <Tab>
             <ChakraLink
-              fontSize={{
-                xs: "xs",
-                sm: "xs",
-                md: "md",
-                lg: "md",
-                xl: "md",
-                "2xl": "md",
-              }}
               as={ReactRouterLink}
               to="/scenes"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontSize: fontSize }}
             >
               Scenes
             </ChakraLink>
