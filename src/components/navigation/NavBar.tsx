@@ -58,7 +58,7 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
   const navBarColor = useColorModeValue("gray.200", "gray.600");
 
   const fontSize = useBreakpointValue({
-    base: "12px",
+    base: "14px",
     xs: "12px",
     sm: "12px",
     md: "15px",
