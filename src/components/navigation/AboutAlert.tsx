@@ -29,14 +29,22 @@ const AboutAlert = ({ isOpen, onClose }: Props) => {
   const cancelRef = useRef(null);
   const { colorMode } = useColorMode();
 
-  const breakPointName = useBreakpointValue({
-    xs: "xs",
-    sm: "sm",
-    md: "md",
-    lg: "lg",
-    xl: "xl",
-    "2xl": "2xl",
-  });
+  const breakPointName = useBreakpointValue(
+    {
+      base: "base",
+      xs: "xs",
+      sm: "sm",
+      md: "md",
+      lg: "lg",
+      xl: "xl",
+      "2xl": "2xl",
+    },
+    {
+      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
+      // (Defaults to 'base')
+      fallback: "fallback",
+    }
+  );
 
   const getLogo = (): string => {
     return colorMode == "dark" ? whiteLogo : blackLogo;
