@@ -39,7 +39,7 @@ const AboutAlert = ({ isOpen, onClose }: Props) => {
       xl: "xl",
       "2xl": "2xl",
     },
-    {
+    { 
       // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
       // (Defaults to 'base')
       fallback: "fallback",

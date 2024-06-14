@@ -58,9 +58,9 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
   const navBarColor = useColorModeValue("gray.200", "gray.600");
 
   const fontSize = useBreakpointValue({
-    base: "10px",
-    xs: "10px",
-    sm: "10px",
+    base: "12px",
+    xs: "12px",
+    sm: "12px",
     md: "15px",
     lg: "15px",
     xl: "20px",
@@ -212,8 +212,13 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
             </ChakraLink>
           </Tab>
         </TabList>
-        <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
-        <Divider/>
+        <TabIndicator
+          mt="-1.5px"
+          height="2px"
+          bg="blue.500"
+          borderRadius="1px"
+        />
+        <Divider />
       </Tabs>
 
       <LogoutConfirmationAlert
