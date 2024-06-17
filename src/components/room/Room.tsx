@@ -1,7 +1,4 @@
 import { Box, Button, Container, Divider, Stack, Text } from "@chakra-ui/react";
-import { Message } from "ably";
-import { useChannel } from "ably/react";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Props {
@@ -10,28 +7,14 @@ interface Props {
 }
 
 const Room = ({ email, sub }: Props) => {
-
   const navigate = useNavigate();
   const params = useParams();
-
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  // Create a channel called 'get-started' and subscribe to all messages with the name 'first' using the useChannel hook
-  const { channel } = useChannel("enchanted-realms", "first", (message) => {
-    setMessages((prev) => [...prev, message]);
-  });
-
-  const messagePreviews = messages.map((msg, index) => (
-    <li key={index}>{msg.data}</li>
-  ));
 
   console.log("Params: ", params);
   console.log("Email: ", email);
   console.log("Sub: ", sub);
 
-  const publishMessage = () => {
-    channel.publish("first", "sender: " + email);
-  };
+  const publishMessage = () => {};
 
   return (
     <Box>
@@ -64,7 +47,6 @@ const Room = ({ email, sub }: Props) => {
               Publish Message
             </Button>
           </Stack>
-          {messagePreviews}
         </Stack>
       </Container>
     </Box>

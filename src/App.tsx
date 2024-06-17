@@ -29,15 +29,7 @@ import Room from "./components/room/Room";
 // Configures the Amplify library with the settings from aws-exports.js, which includes all the AWS service configurations for this project.
 Amplify.configure(awsExports);
 
-import * as Ably from "ably";
-import { AblyProvider, ChannelProvider } from "ably/react";
-
 function App() {
-  // Connect to Ably using the AblyProvider component and your API key
-  const client = new Ably.Realtime({
-    key: "Q3V1Vg.4o2YHw:8OJHrLrbp89xNLvfDA84bZxzzNKrB-0VTukQCMxUwEw",
-  });
-
   const { signOut } = useAuthenticator((context) => [context.user]);
   const [adventures, setAdventures] = useState<Adventure[]>([]);
   const [email, setEmail] = useState("");
@@ -66,60 +58,53 @@ function App() {
 
   return (
     <Authenticator>
-      <AblyProvider client={client}>
-        <ChannelProvider channelName={"enchanted-realms"}>
-          {!location.pathname.startsWith(excludedRoute) && (
-            <NavBar
-              onLogout={signOut}
-              onFetchUserProperties={handleFetchUserProperties}
+      {!location.pathname.startsWith(excludedRoute) && (
+        <NavBar
+          onLogout={signOut}
+          onFetchUserProperties={handleFetchUserProperties}
+          email={email}
+          sub={sub}
+        />
+      )}
+
+      <Routes>
+        <Route
+          path="*"
+          element={
+            <AdventureGrid
               email={email}
               sub={sub}
+              onAdventuresUpdated={onAdventuresUpdated}
             />
-          )}
-
-          <Routes>
-            <Route
-              path="*"
-              element={
-                <AdventureGrid
-                  email={email}
-                  sub={sub}
-                  onAdventuresUpdated={onAdventuresUpdated}
-                />
-              }
+          }
+        />
+        <Route
+          path="/adventures"
+          element={
+            <AdventureGrid
+              email={email}
+              sub={sub}
+              onAdventuresUpdated={onAdventuresUpdated}
             />
-            <Route
-              path="/adventures"
-              element={
-                <AdventureGrid
-                  email={email}
-                  sub={sub}
-                  onAdventuresUpdated={onAdventuresUpdated}
-                />
-              }
-            />
-            <Route path="/maps" element={<MapGrid email={email} sub={sub} />} />
-            <Route
-              path="/tokens"
-              element={<TokenGrid email={email} sub={sub} />}
-            />
-            <Route
-              path="/entities"
-              element={<EntityGrid email={email} sub={sub} />}
-            />
-            <Route
-              path="/scenes"
-              element={
-                <SceneGrid email={email} sub={sub} adventures={adventures} />
-              }
-            />
-            <Route
-              path="/room/:adventureId"
-              element={<Room email={email} sub={sub} />}
-            />
-          </Routes>
-        </ChannelProvider>
-      </AblyProvider>
+          }
+        />
+        <Route path="/maps" element={<MapGrid email={email} sub={sub} />} />
+        <Route path="/tokens" element={<TokenGrid email={email} sub={sub} />} />
+        <Route
+          path="/entities"
+          element={<EntityGrid email={email} sub={sub} />}
+        />
+        <Route
+          path="/scenes"
+          element={
+            <SceneGrid email={email} sub={sub} adventures={adventures} />
+          }
+        />
+        <Route
+          path="/room/:adventureId"
+          element={<Room email={email} sub={sub} />}
+        />
+      </Routes>
     </Authenticator>
   );
 }
