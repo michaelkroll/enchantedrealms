@@ -1,10 +1,14 @@
+// React imports
+import { useEffect, useState } from "react";
+
 // GraphQL / DynamoDB
 import { generateClient } from "aws-amplify/api";
+
 import * as mutations from "../graphql/mutations";
 import * as subscriptions from '../graphql/subscriptions';
 import { listChatMessages } from "../graphql/queries";
 
-import { useEffect, useState } from "react";
+// Custom imports
 import ChatMessage from "../data/ChatMessage";
 import { Subscription } from "rxjs";
 
@@ -16,8 +20,6 @@ const useChatMessages = (roomId: string) => {
   let updateSubscription:Subscription;
 
   const storeChatMessage = (chatMessage: ChatMessage) => {
-    console.log("Create a new Chat Message: ", chatMessage);
-
     const graphqlClient = generateClient();
     graphqlClient
       .graphql({
@@ -37,7 +39,6 @@ const useChatMessages = (roomId: string) => {
       updateSubscription.unsubscribe();
     }
     const graphqlClient = generateClient();
-    console.log("subscribe to chatmessages for room/adventure id: ", roomId);
     updateSubscription = graphqlClient.graphql({query: subscriptions.onCreateChatMessage})
     .subscribe({
       next: ({ data }) => handleNewChatMessageFromSubscription(data.onCreateChatMessage), 
@@ -52,14 +53,11 @@ const useChatMessages = (roomId: string) => {
   }
 
   const handleNewChatMessageFromSubscription = (subscriptionChatMessage: ChatMessage) => {
-    console.log("chatMessage from Subscription: ", subscriptionChatMessage);
-    setChatMessages(chatMessages => [...chatMessages, subscriptionChatMessage]);
+    setChatMessages(chatMessages => [subscriptionChatMessage, ...chatMessages]);
   }
 
   useEffect(() => {
     const graphqlClient = generateClient();
-
-    console.log("read chatmessages for room/adventure id: ", roomId );
     const filters = {
       filter: {
         or: [
@@ -79,7 +77,7 @@ const useChatMessages = (roomId: string) => {
       })
       .then((response) => {
         const chatMessageList = response.data.listChatMessages.items;
-        chatMessageList.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+        chatMessageList.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
         setChatMessages(chatMessageList);
       })
       .catch((error) => {
@@ -91,4 +89,3 @@ const useChatMessages = (roomId: string) => {
 };
 
 export default useChatMessages
-

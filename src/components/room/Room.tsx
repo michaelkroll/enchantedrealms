@@ -4,8 +4,16 @@ import {
   Container,
   Divider,
   Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +23,7 @@ import Messages from "../chat/Messages";
 
 // Custom imports
 import { v4 as uuid } from "uuid";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface Props {
   email: string;
@@ -30,12 +38,12 @@ const Room = ({ email, sub }: Props) => {
   console.log("Email: ", email);
   console.log("Sub: ", sub);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const roomId: string = params.adventureId!;
 
   const {
     storeChatMessage,
     chatMessages,
-    error,
     subscribeToChatMessageUpdates,
     unsubscribeFromChatMessageUpdates,
   } = useChatMessages(roomId);
@@ -86,21 +94,37 @@ const Room = ({ email, sub }: Props) => {
               >
                 Back to Adventures
               </Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  onOpen();
+                }}
+              >
+                Open Chat
+              </Button>
             </Stack>
           </Stack>
         </Container>
       </Box>
-      <Flex mt={3} w="100%" h="100vh" justify="center" align="center">
-        <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
-          <Messages chatMessages={chatMessages} />
-          {error && (
-            <Text fontSize="sm" color="tomato">
-              {error}
-            </Text>
-          )}
+
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        scrollBehavior="inside"
+        size="full"
+      >
+        <ModalOverlay />
+        <ModalContent height="100%">
+          <ModalHeader>Chat</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Messages chatMessages={chatMessages} />
+          </ModalBody>
           <MessageComposer handleSendMessage={handleSendMessage} />
-        </Flex>
-      </Flex>
+          <ModalFooter>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

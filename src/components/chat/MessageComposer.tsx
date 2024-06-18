@@ -15,7 +15,7 @@ const MessageComposer = ({ handleSendMessage }: Props) => {
 
   return (
     <Flex w="100%" mt="5">
-      <FormControl me={2}>
+      <FormControl me={2} ms={6}>
         <Input
           variant="outline"
           placeholder="Message"
@@ -31,6 +31,7 @@ const MessageComposer = ({ handleSendMessage }: Props) => {
         />
       </FormControl>
       <Button
+        me={10}
         colorScheme="blue"
         isDisabled={inputMessage.trim().length <= 0}
         onClick={() => sendMessage()}
