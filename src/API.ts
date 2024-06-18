@@ -485,6 +485,45 @@ export type DeleteSceneInput = {
   id: string,
 };
 
+export type CreateChatMessageInput = {
+  id?: string | null,
+  owner: string,
+  roomId: string,
+  message: string,
+};
+
+export type ModelChatMessageConditionInput = {
+  owner?: ModelStringInput | null,
+  roomId?: ModelStringInput | null,
+  message?: ModelStringInput | null,
+  and?: Array< ModelChatMessageConditionInput | null > | null,
+  or?: Array< ModelChatMessageConditionInput | null > | null,
+  not?: ModelChatMessageConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ChatMessage = {
+  __typename: "ChatMessage",
+  id: string,
+  owner: string,
+  roomId: string,
+  message: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateChatMessageInput = {
+  id: string,
+  owner?: string | null,
+  roomId?: string | null,
+  message?: string | null,
+};
+
+export type DeleteChatMessageInput = {
+  id: string,
+};
+
 export type ModelAdventureFilterInput = {
   id?: ModelIDInput | null,
   creatorEmail?: ModelStringInput | null,
@@ -626,6 +665,24 @@ export type ModelSceneFilterInput = {
   and?: Array< ModelSceneFilterInput | null > | null,
   or?: Array< ModelSceneFilterInput | null > | null,
   not?: ModelSceneFilterInput | null,
+};
+
+export type ModelChatMessageFilterInput = {
+  id?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
+  roomId?: ModelStringInput | null,
+  message?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChatMessageFilterInput | null > | null,
+  or?: Array< ModelChatMessageFilterInput | null > | null,
+  not?: ModelChatMessageFilterInput | null,
+};
+
+export type ModelChatMessageConnection = {
+  __typename: "ModelChatMessageConnection",
+  items:  Array<ChatMessage | null >,
+  nextToken?: string | null,
 };
 
 export type ModelStringKeyConditionInput = {
@@ -796,6 +853,17 @@ export type ModelSubscriptionSceneFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionSceneFilterInput | null > | null,
   or?: Array< ModelSubscriptionSceneFilterInput | null > | null,
+};
+
+export type ModelSubscriptionChatMessageFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  owner?: ModelSubscriptionStringInput | null,
+  roomId?: ModelSubscriptionStringInput | null,
+  message?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatMessageFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatMessageFilterInput | null > | null,
 };
 
 export type CreateAdventureMutationVariables = {
@@ -1368,6 +1436,57 @@ export type DeleteSceneMutation = {
   } | null,
 };
 
+export type CreateChatMessageMutationVariables = {
+  input: CreateChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type CreateChatMessageMutation = {
+  createChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChatMessageMutationVariables = {
+  input: UpdateChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type UpdateChatMessageMutation = {
+  updateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChatMessageMutationVariables = {
+  input: DeleteChatMessageInput,
+  condition?: ModelChatMessageConditionInput | null,
+};
+
+export type DeleteChatMessageMutation = {
+  deleteChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetAdventureQueryVariables = {
   id: string,
 };
@@ -1718,6 +1837,44 @@ export type ListScenesQuery = {
       creatorId: string,
       name: string,
       description?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetChatMessageQueryVariables = {
+  id: string,
+};
+
+export type GetChatMessageQuery = {
+  getChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListChatMessagesQueryVariables = {
+  filter?: ModelChatMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatMessagesQuery = {
+  listChatMessages?:  {
+    __typename: "ModelChatMessageConnection",
+    items:  Array< {
+      __typename: "ChatMessage",
+      id: string,
+      owner: string,
+      roomId: string,
+      message: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -2330,6 +2487,54 @@ export type OnDeleteSceneSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnCreateChatMessageSubscription = {
+  onCreateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnUpdateChatMessageSubscription = {
+  onUpdateChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChatMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionChatMessageFilterInput | null,
+};
+
+export type OnDeleteChatMessageSubscription = {
+  onDeleteChatMessage?:  {
+    __typename: "ChatMessage",
+    id: string,
+    owner: string,
+    roomId: string,
+    message: string,
     createdAt: string,
     updatedAt: string,
   } | null,

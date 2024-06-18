@@ -596,3 +596,57 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
   APITypes.DeleteSceneMutationVariables,
   APITypes.DeleteSceneMutation
 >;
+export const createChatMessage = /* GraphQL */ `mutation CreateChatMessage(
+  $input: CreateChatMessageInput!
+  $condition: ModelChatMessageConditionInput
+) {
+  createChatMessage(input: $input, condition: $condition) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChatMessageMutationVariables,
+  APITypes.CreateChatMessageMutation
+>;
+export const updateChatMessage = /* GraphQL */ `mutation UpdateChatMessage(
+  $input: UpdateChatMessageInput!
+  $condition: ModelChatMessageConditionInput
+) {
+  updateChatMessage(input: $input, condition: $condition) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChatMessageMutationVariables,
+  APITypes.UpdateChatMessageMutation
+>;
+export const deleteChatMessage = /* GraphQL */ `mutation DeleteChatMessage(
+  $input: DeleteChatMessageInput!
+  $condition: ModelChatMessageConditionInput
+) {
+  deleteChatMessage(input: $input, condition: $condition) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChatMessageMutationVariables,
+  APITypes.DeleteChatMessageMutation
+>;

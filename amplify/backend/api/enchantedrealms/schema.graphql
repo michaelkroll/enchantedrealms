@@ -113,3 +113,17 @@ type Scene
   adventure: Adventure @belongsTo(fields: ["adventureId"])
   map: Map @belongsTo(fields: ["mapId"])
 }
+
+type ChatMessage
+  @model
+  @auth(
+    rules: [
+      # Allow signed in users to perform all actions
+      { allow: private }
+    ]
+  ) {
+  id: ID!
+  owner: String!
+  roomId: String!
+  message: String!
+}

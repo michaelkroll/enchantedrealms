@@ -542,3 +542,54 @@ export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: 
   APITypes.OnDeleteSceneSubscriptionVariables,
   APITypes.OnDeleteSceneSubscription
 >;
+export const onCreateChatMessage = /* GraphQL */ `subscription OnCreateChatMessage(
+  $filter: ModelSubscriptionChatMessageFilterInput
+) {
+  onCreateChatMessage(filter: $filter) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateChatMessageSubscriptionVariables,
+  APITypes.OnCreateChatMessageSubscription
+>;
+export const onUpdateChatMessage = /* GraphQL */ `subscription OnUpdateChatMessage(
+  $filter: ModelSubscriptionChatMessageFilterInput
+) {
+  onUpdateChatMessage(filter: $filter) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateChatMessageSubscriptionVariables,
+  APITypes.OnUpdateChatMessageSubscription
+>;
+export const onDeleteChatMessage = /* GraphQL */ `subscription OnDeleteChatMessage(
+  $filter: ModelSubscriptionChatMessageFilterInput
+) {
+  onDeleteChatMessage(filter: $filter) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteChatMessageSubscriptionVariables,
+  APITypes.OnDeleteChatMessageSubscription
+>;

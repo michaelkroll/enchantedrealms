@@ -287,3 +287,35 @@ export declare type Scene = LazyLoading extends LazyLoadingDisabled ? EagerScene
 export declare const Scene: (new (init: ModelInit<Scene>) => Scene) & {
   copyOf(source: Scene, mutator: (draft: MutableModel<Scene>) => MutableModel<Scene> | void): Scene;
 }
+
+type EagerChatMessage = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ChatMessage, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly owner: string;
+  readonly roomId: string;
+  readonly message: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyChatMessage = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ChatMessage, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly owner: string;
+  readonly roomId: string;
+  readonly message: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ChatMessage = LazyLoading extends LazyLoadingDisabled ? EagerChatMessage : LazyChatMessage
+
+export declare const ChatMessage: (new (init: ModelInit<ChatMessage>) => ChatMessage) & {
+  copyOf(source: ChatMessage, mutator: (draft: MutableModel<ChatMessage>) => MutableModel<ChatMessage> | void): ChatMessage;
+}

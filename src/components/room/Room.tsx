@@ -1,5 +1,21 @@
-import { Box, Button, Container, Divider, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+
 import { useNavigate, useParams } from "react-router-dom";
+import useChatMessages from "../../hooks/useChatMessages";
+import MessageComposer from "../chat/MessageComposer";
+import Messages from "../chat/Messages";
+
+// Custom imports
+import { v4 as uuid } from "uuid";
+import { useEffect } from "react";
 
 interface Props {
   email: string;
@@ -14,42 +30,78 @@ const Room = ({ email, sub }: Props) => {
   console.log("Email: ", email);
   console.log("Sub: ", sub);
 
-  const publishMessage = () => {};
+  const roomId: string = params.adventureId!;
+
+  const {
+    storeChatMessage,
+    chatMessages,
+    error,
+    subscribeToChatMessageUpdates,
+    unsubscribeFromChatMessageUpdates,
+  } = useChatMessages(roomId);
+
+  const handleSendMessage = (message: string) => {
+    const newChatMessage = {
+      id: uuid(),
+      owner: email!,
+      roomId: params.adventureId!,
+      message: message!,
+    };
+    storeChatMessage(newChatMessage);
+  };
+
+  const enterRoom = () => {
+    subscribeToChatMessageUpdates();
+  };
+
+  const leaveRoom = () => {
+    unsubscribeFromChatMessageUpdates();
+    navigate("/adventures");
+    console.log("leave Room");
+  };
+
+  useEffect(() => {
+    enterRoom();
+  }, []);
 
   return (
-    <Box>
-      <Container>
-        <Stack>
-          <Stack mt={2} align="center">
-            <Divider />
-            <Text as="b">This is the Room for Adventure</Text>
-            <Text>"{params.adventureId}"</Text>
-            <Divider />
-            <Text as="b">You have joined as user</Text>
-            <Text>"{email}"</Text>
-            <Divider />
+    <>
+      <Box>
+        <Container>
+          <Stack>
+            <Stack mt={2} align="center">
+              <Text as="b">This is the Room for Adventure</Text>
+              <Text>"{params.adventureId}"</Text>
+              <Divider />
+              <Text as="b">You have joined as user</Text>
+              <Text>"{email}"</Text>
+              <Divider />
+            </Stack>
+            <Stack direction={{ base: "column", sm: "row" }} justify="center">
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  leaveRoom();
+                }}
+              >
+                Back to Adventures
+              </Button>
+            </Stack>
           </Stack>
-          <Stack direction={{ base: "column", sm: "row" }} justify="center">
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                navigate("/adventures");
-              }}
-            >
-              Back to Adventures
-            </Button>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                publishMessage();
-              }}
-            >
-              Publish Message
-            </Button>
-          </Stack>
-        </Stack>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+      <Flex mt={3} w="100%" h="100vh" justify="center" align="center">
+        <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
+          <Messages chatMessages={chatMessages} />
+          {error && (
+            <Text fontSize="sm" color="tomato">
+              {error}
+            </Text>
+          )}
+          <MessageComposer handleSendMessage={handleSendMessage} />
+        </Flex>
+      </Flex>
+    </>
   );
 };
 

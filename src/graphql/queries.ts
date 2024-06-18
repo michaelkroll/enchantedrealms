@@ -346,6 +346,44 @@ export const listScenes = /* GraphQL */ `query ListScenes(
   APITypes.ListScenesQueryVariables,
   APITypes.ListScenesQuery
 >;
+export const getChatMessage = /* GraphQL */ `query GetChatMessage($id: ID!) {
+  getChatMessage(id: $id) {
+    id
+    owner
+    roomId
+    message
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetChatMessageQueryVariables,
+  APITypes.GetChatMessageQuery
+>;
+export const listChatMessages = /* GraphQL */ `query ListChatMessages(
+  $filter: ModelChatMessageFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChatMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      owner
+      roomId
+      message
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListChatMessagesQueryVariables,
+  APITypes.ListChatMessagesQuery
+>;
 export const scenesByAdventureIdAndName = /* GraphQL */ `query ScenesByAdventureIdAndName(
   $adventureId: ID!
   $name: ModelStringKeyConditionInput
