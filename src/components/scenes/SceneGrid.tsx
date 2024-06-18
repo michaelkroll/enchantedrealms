@@ -61,7 +61,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
   const [editScene, setEditScene] = useState<SceneMapEntities>();
   const [scenes, setScenes] = useState<SceneMapEntities[]>([]);
   const [selectedAdventure, setSelectedAdventure] = useState<Adventure>();
-  //const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const [fetchedScenes, setFetchedScenes] = useState<SceneMapEntities[]>([]);
