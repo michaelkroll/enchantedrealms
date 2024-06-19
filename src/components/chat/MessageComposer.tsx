@@ -30,7 +30,6 @@ const MessageComposer = ({ handleSendMessage }: Props) => {
             setInputMessage(e.target.value);
           }}
           onKeyDown={(keyEvent) => {
-            console.log(keyEvent);
             if (
               keyEvent.code === "Enter" ||
               keyEvent.code === "NumpadEnter" ||
