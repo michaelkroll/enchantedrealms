@@ -1,11 +1,13 @@
 import { Flex, Input, Button, FormControl } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   handleSendMessage: (message: string) => void;
 }
 
 const MessageComposer = ({ handleSendMessage }: Props) => {
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [inputMessage, setInputMessage] = useState("");
 
   const sendMessage = () => {
@@ -13,10 +15,15 @@ const MessageComposer = ({ handleSendMessage }: Props) => {
     setInputMessage("");
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
+
   return (
     <Flex w="100%" mt="5">
       <FormControl me={2} ms={6}>
         <Input
+          ref={inputRef}
           variant="outline"
           placeholder="Message"
           value={inputMessage}
