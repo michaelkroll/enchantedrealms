@@ -100,10 +100,7 @@ function App() {
             <SceneGrid email={email} sub={sub} adventures={adventures} />
           }
         />
-        <Route
-          path="/room/:adventureId"
-          element={<Room email={email} sub={sub} />}
-        />
+        <Route path="/room/:adventureId" element={<Room email={email} />} />
       </Routes>
     </Authenticator>
   );

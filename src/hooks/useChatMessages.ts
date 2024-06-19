@@ -29,7 +29,6 @@ const useChatMessages = (roomId: string) => {
       .then(() => {
       })
       .catch((error) => {
-        console.log("Error: ", error);
         setError(error);
       });
   }

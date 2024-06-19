@@ -26,25 +26,20 @@ import { useEffect } from "react";
 
 interface Props {
   email: string;
-  sub: string;
 }
 
-const Room = ({ email, sub }: Props) => {
+const Room = ({ email }: Props) => {
   const navigate = useNavigate();
   const params = useParams();
-
-  console.log("Params: ", params);
-  console.log("Email: ", email);
-  console.log("Sub: ", sub);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const roomId: string = params.adventureId!;
 
   const {
     storeChatMessage,
-    chatMessages,
     subscribeToChatMessageUpdates,
     unsubscribeFromChatMessageUpdates,
+    chatMessages,
+    error,
   } = useChatMessages(roomId);
 
   const handleSendMessage = (message: string) => {
@@ -119,9 +114,9 @@ const Room = ({ email, sub }: Props) => {
           <ModalBody>
             <Messages chatMessages={chatMessages} />
           </ModalBody>
+          {error && <Text color="tomato">{error}</Text>}
           <MessageComposer handleSendMessage={handleSendMessage} />
-          <ModalFooter>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>
