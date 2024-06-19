@@ -6,8 +6,7 @@ interface Props {
 }
 
 const MessageComposer = ({ handleSendMessage }: Props) => {
-
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [inputMessage, setInputMessage] = useState("");
 
   const sendMessage = () => {
@@ -31,7 +30,12 @@ const MessageComposer = ({ handleSendMessage }: Props) => {
             setInputMessage(e.target.value);
           }}
           onKeyDown={(keyEvent) => {
-            if (keyEvent.code === "Enter" || keyEvent.defaultPrevented) {
+            console.log(keyEvent);
+            if (
+              keyEvent.code === "Enter" ||
+              keyEvent.code === "NumpadEnter" ||
+              keyEvent.defaultPrevented
+            ) {
               sendMessage();
             }
           }}
