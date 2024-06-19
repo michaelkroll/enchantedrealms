@@ -23,6 +23,7 @@ import Messages from "../chat/Messages";
 // Custom imports
 import { v4 as uuid } from "uuid";
 import { useEffect } from "react";
+import useAdventure from "../../hooks/useAdventure";
 
 interface Props {
   email: string;
@@ -32,7 +33,7 @@ const Room = ({ email }: Props) => {
   const navigate = useNavigate();
   const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const roomId: string = params.adventureId!;
+  const adventureId: string = params.adventureId!;
 
   const {
     storeChatMessage,
@@ -40,7 +41,9 @@ const Room = ({ email }: Props) => {
     unsubscribeFromChatMessageUpdates,
     chatMessages,
     error,
-  } = useChatMessages(roomId);
+  } = useChatMessages(adventureId);
+
+  const { adventure, adventureError } = useAdventure(adventureId);
 
   const handleSendMessage = (message: string) => {
     const newChatMessage = {
@@ -59,7 +62,6 @@ const Room = ({ email }: Props) => {
   const leaveRoom = () => {
     unsubscribeFromChatMessageUpdates();
     navigate("/adventures");
-    console.log("leave Room");
   };
 
   useEffect(() => {
@@ -72,8 +74,9 @@ const Room = ({ email }: Props) => {
         <Container>
           <Stack>
             <Stack mt={2} align="center">
+              {adventureError && <Text color="tomato">{error}</Text>}
               <Text as="b">This is the Room for Adventure</Text>
-              <Text>"{params.adventureId}"</Text>
+              <Text>{adventure?.name}</Text>
               <Divider />
               <Text as="b">You have joined as user</Text>
               <Text>"{email}"</Text>
