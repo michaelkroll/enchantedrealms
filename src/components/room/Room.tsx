@@ -3,7 +3,6 @@ import {
   Button,
   Container,
   Divider,
-  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -23,7 +22,7 @@ import Messages from "../chat/Messages";
 
 // Custom imports
 import { v4 as uuid } from "uuid";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 interface Props {
   email: string;
