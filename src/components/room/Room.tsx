@@ -61,7 +61,7 @@ const Room = ({ email }: Props) => {
     onClose: onLeaveConfirmAlertClose,
   } = useDisclosure();
 
-  // Leave Adventure Alert related
+  // Inofrmation Alert related
   const {
     isOpen: isInformationPopoverOpen,
     onOpen: onInformationPopoverOpen,

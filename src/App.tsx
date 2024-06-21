@@ -25,6 +25,7 @@ import SceneGrid from "./components/scenes/SceneGrid";
 import Adventure from "./data/Adventure";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Room from "./components/room/Room";
+import SceneEditor from "./components/sceneeditor/SceneEditor";
 
 // Configures the Amplify library with the settings from aws-exports.js, which includes all the AWS service configurations for this project.
 Amplify.configure(awsExports);
@@ -36,7 +37,6 @@ function App() {
   const [sub, setSub] = useState("");
 
   const location = useLocation();
-  const excludedRoute = "/room";
 
   const handleFetchUserProperties = () => {
     readUserAttributes();
@@ -58,7 +58,10 @@ function App() {
 
   return (
     <Authenticator>
-      {!location.pathname.startsWith(excludedRoute) && (
+      {!(
+        location.pathname.startsWith("/room/") ||
+        location.pathname.startsWith("/scene/")
+      ) && (
         <NavBar
           onLogout={signOut}
           onFetchUserProperties={handleFetchUserProperties}
@@ -101,6 +104,7 @@ function App() {
           }
         />
         <Route path="/room/:adventureId" element={<Room email={email} />} />
+        <Route path="/scene/:sceneId" element={<SceneEditor email={email} />} />
       </Routes>
     </Authenticator>
   );

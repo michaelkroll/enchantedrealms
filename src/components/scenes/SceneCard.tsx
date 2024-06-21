@@ -28,14 +28,17 @@ import {
   GiBatteredAxe,
   GiBorderedShield,
 } from "react-icons/gi";
+
 import { MdOutlineDelete, MdOutlineEditNote } from "react-icons/md";
 import { FaRegUser, FaUser } from "react-icons/fa6";
 import { VscWorkspaceUnknown } from "react-icons/vsc";
 import { IconType } from "react-icons";
+import { PiPathBold } from "react-icons/pi";
 
 // Custom imports
 import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
 import SceneMapEntities from "../../data/SceneMapEntities";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   scene: SceneMapEntities;
@@ -53,6 +56,8 @@ const SceneCard = ({
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
+  const navigate = useNavigate();
+
   const [isDeleteSceneConfirmModalOpen, setDeleteSceneConfirmModalOpen] =
     useState(false);
 
@@ -63,6 +68,10 @@ const SceneCard = ({
   const onDeleteSceneAlertConfirmCloseAfterDelete = () => {
     setDeleteSceneConfirmModalOpen(false);
     refreshGrid();
+  };
+
+  const navigateToVisualSceneEditor = () => {
+    navigate("/scene/" + scene.id);
   };
 
   const getEntityIcon = (entityCategory: string): IconType => {
@@ -163,6 +172,25 @@ const SceneCard = ({
                 <MdOutlineEditNote />
               </Button>
             </Tooltip>
+            <Tooltip
+              hasArrow
+              label="Visually plan the Scene"
+              bg="gray.300"
+              color="black"
+              openDelay={1000}
+            >
+              <Button
+                display={loggedInEmail == scene.creatorEmail ? "" : "none"}
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  navigateToVisualSceneEditor()
+                }}
+              >
+                <PiPathBold />
+              </Button>
+            </Tooltip>
+
             <Tooltip
               hasArrow
               label="Delete the Scene"
