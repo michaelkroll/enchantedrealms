@@ -1,5 +1,5 @@
 // React Imports
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Link as ReactRouterLink } from "react-router-dom";
 import {
@@ -48,10 +48,22 @@ interface Props {
 }
 
 const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
+  const INITIAL_TAB_INDEX = 0;
+  const [tabIndex, setTabIndex] = useState(INITIAL_TAB_INDEX);
+
   // Hook to load the user properties from Amplify
   useEffect(() => {
     onFetchUserProperties();
   }, []);
+
+  useEffect(() => {
+    const adventureId = localStorage.getItem(
+      "comingBackFromSceneEditorAdventureId"
+    );
+    if (adventureId) {
+      setTabIndex(4);
+    }
+  }, [tabIndex]);
 
   // Used for the Color mode toggle and color mode dependent colors
   const { toggleColorMode, colorMode } = useColorMode();
@@ -161,7 +173,12 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
           </Menu>
         </HStack>
       </HStack>
-      <Tabs position="relative" variant="unstyled">
+      <Tabs
+        onChange={(index) => setTabIndex(index)}
+        index={tabIndex}
+        position="relative"
+        variant="unstyled"
+      >
         <TabList>
           <Tab>
             <ChakraLink

@@ -1,6 +1,7 @@
 // Chakra UI imports
 import { Text, Select, HStack } from "@chakra-ui/react";
 import Adventure from "../../data/Adventure";
+import { useEffect, useRef } from "react";
 
 interface Props {
   onSelectAdventure: (adventure: Adventure) => void;
@@ -13,12 +14,29 @@ const AdventureSelectorDropdown = ({
   display,
   adventures,
 }: Props) => {
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    const adventureId = localStorage.getItem(
+      "comingBackFromSceneEditorAdventureId"
+    );
+    if (adventureId) {
+      const adventure = adventures.filter((adv) => adv.id === adventureId)[0];
+      onSelectAdventure(adventure);
+      if (selectRef.current) {
+        selectRef.current.value = adventure?.name;
+      }
+      localStorage.removeItem("comingBackFromSceneEditorAdventureId");
+    }
+  }, []);
+
   return (
     <HStack display={display}>
       <Text as="b" mr={2}>
         Adventure
       </Text>
       <Select
+        ref={selectRef}
         onChange={(event) => {
           if (event.target.value != "Select Adventure") {
             let adv = adventures.find((adventure) =>

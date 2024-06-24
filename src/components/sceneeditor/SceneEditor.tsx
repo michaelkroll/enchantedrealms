@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 // Chakra UI imports
 import {
   IconButton,
+  Text,
   Tooltip,
   useColorModeValue,
   useDisclosure,
@@ -21,6 +22,7 @@ import Konva from "konva";
 
 // Cuustom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
+import useScene from "../../hooks/useScene";
 
 interface Props {
   email: string;
@@ -39,7 +41,7 @@ const SceneEditor = ({ email }: Props) => {
 
   const navigate = useNavigate();
 
-  //const {} = useScenes(creatorEmail: email, adventureId)
+  const { scene, sceneError } = useScene(sceneId);
 
   // Leave Adventure Alert related
   const {
@@ -49,6 +51,10 @@ const SceneEditor = ({ email }: Props) => {
   } = useDisclosure();
 
   const leaveSceneEditor = () => {
+    localStorage.setItem(
+      "comingBackFromSceneEditorAdventureId",
+      scene?.adventureId!
+    );
     navigate("/scenes");
   };
 
@@ -76,7 +82,7 @@ const SceneEditor = ({ email }: Props) => {
           <Transformer ref={transformerRef} />
         </Layer>
       </Stage>
-
+      {sceneError && <Text> </Text>}
       <Tooltip
         hasArrow
         placement="right"
