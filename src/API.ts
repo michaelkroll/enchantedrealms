@@ -95,12 +95,23 @@ export type Scene = {
   adventureId: string,
   mapId: string,
   entityIds?: Array< string | null > | null,
+  entityPositions?:  Array<EntityPosition | null > | null,
   creatorEmail: string,
   creatorId: string,
   name: string,
   description?: string | null,
   adventure?: Adventure | null,
   map?: Map | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type EntityPosition = {
+  __typename: "EntityPosition",
+  id: string,
+  entityId: string,
+  xPosition?: number | null,
+  yPosition?: number | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -428,6 +439,51 @@ export type DeleteEntityInput = {
   id: string,
 };
 
+export type CreateEntityPositionInput = {
+  id?: string | null,
+  entityId: string,
+  xPosition?: number | null,
+  yPosition?: number | null,
+};
+
+export type ModelEntityPositionConditionInput = {
+  entityId?: ModelIDInput | null,
+  xPosition?: ModelFloatInput | null,
+  yPosition?: ModelFloatInput | null,
+  and?: Array< ModelEntityPositionConditionInput | null > | null,
+  or?: Array< ModelEntityPositionConditionInput | null > | null,
+  not?: ModelEntityPositionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type UpdateEntityPositionInput = {
+  id: string,
+  entityId?: string | null,
+  xPosition?: number | null,
+  yPosition?: number | null,
+};
+
+export type DeleteEntityPositionInput = {
+  id: string,
+};
+
 export type CreateSceneInput = {
   id?: string | null,
   adventureId: string,
@@ -452,22 +508,6 @@ export type ModelSceneConditionInput = {
   not?: ModelSceneConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateSceneInput = {
@@ -648,6 +688,24 @@ export type ModelEntityFilterInput = {
 export type ModelEntityConnection = {
   __typename: "ModelEntityConnection",
   items:  Array<Entity | null >,
+  nextToken?: string | null,
+};
+
+export type ModelEntityPositionFilterInput = {
+  id?: ModelIDInput | null,
+  entityId?: ModelIDInput | null,
+  xPosition?: ModelFloatInput | null,
+  yPosition?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelEntityPositionFilterInput | null > | null,
+  or?: Array< ModelEntityPositionFilterInput | null > | null,
+  not?: ModelEntityPositionFilterInput | null,
+};
+
+export type ModelEntityPositionConnection = {
+  __typename: "ModelEntityPositionConnection",
+  items:  Array<EntityPosition | null >,
   nextToken?: string | null,
 };
 
@@ -838,6 +896,17 @@ export type ModelSubscriptionEntityFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEntityFilterInput | null > | null,
   or?: Array< ModelSubscriptionEntityFilterInput | null > | null,
+};
+
+export type ModelSubscriptionEntityPositionFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  entityId?: ModelSubscriptionIDInput | null,
+  xPosition?: ModelSubscriptionFloatInput | null,
+  yPosition?: ModelSubscriptionFloatInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionEntityPositionFilterInput | null > | null,
+  or?: Array< ModelSubscriptionEntityPositionFilterInput | null > | null,
 };
 
 export type ModelSubscriptionSceneFilterInput = {
@@ -1256,6 +1325,57 @@ export type DeleteEntityMutation = {
   } | null,
 };
 
+export type CreateEntityPositionMutationVariables = {
+  input: CreateEntityPositionInput,
+  condition?: ModelEntityPositionConditionInput | null,
+};
+
+export type CreateEntityPositionMutation = {
+  createEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateEntityPositionMutationVariables = {
+  input: UpdateEntityPositionInput,
+  condition?: ModelEntityPositionConditionInput | null,
+};
+
+export type UpdateEntityPositionMutation = {
+  updateEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteEntityPositionMutationVariables = {
+  input: DeleteEntityPositionInput,
+  condition?: ModelEntityPositionConditionInput | null,
+};
+
+export type DeleteEntityPositionMutation = {
+  deleteEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateSceneMutationVariables = {
   input: CreateSceneInput,
   condition?: ModelSceneConditionInput | null,
@@ -1268,6 +1388,15 @@ export type CreateSceneMutation = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -1328,6 +1457,15 @@ export type UpdateSceneMutation = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -1388,6 +1526,15 @@ export type DeleteSceneMutation = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -1759,6 +1906,44 @@ export type ListEntitiesQuery = {
   } | null,
 };
 
+export type GetEntityPositionQueryVariables = {
+  id: string,
+};
+
+export type GetEntityPositionQuery = {
+  getEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListEntityPositionsQueryVariables = {
+  filter?: ModelEntityPositionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEntityPositionsQuery = {
+  listEntityPositions?:  {
+    __typename: "ModelEntityPositionConnection",
+    items:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetSceneQueryVariables = {
   id: string,
 };
@@ -1770,6 +1955,15 @@ export type GetSceneQuery = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -2315,6 +2509,54 @@ export type OnDeleteEntitySubscription = {
   } | null,
 };
 
+export type OnCreateEntityPositionSubscriptionVariables = {
+  filter?: ModelSubscriptionEntityPositionFilterInput | null,
+};
+
+export type OnCreateEntityPositionSubscription = {
+  onCreateEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateEntityPositionSubscriptionVariables = {
+  filter?: ModelSubscriptionEntityPositionFilterInput | null,
+};
+
+export type OnUpdateEntityPositionSubscription = {
+  onUpdateEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteEntityPositionSubscriptionVariables = {
+  filter?: ModelSubscriptionEntityPositionFilterInput | null,
+};
+
+export type OnDeleteEntityPositionSubscription = {
+  onDeleteEntityPosition?:  {
+    __typename: "EntityPosition",
+    id: string,
+    entityId: string,
+    xPosition?: number | null,
+    yPosition?: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateSceneSubscriptionVariables = {
   filter?: ModelSubscriptionSceneFilterInput | null,
 };
@@ -2326,6 +2568,15 @@ export type OnCreateSceneSubscription = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -2385,6 +2636,15 @@ export type OnUpdateSceneSubscription = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,
@@ -2444,6 +2704,15 @@ export type OnDeleteSceneSubscription = {
     adventureId: string,
     mapId: string,
     entityIds?: Array< string | null > | null,
+    entityPositions?:  Array< {
+      __typename: "EntityPosition",
+      id: string,
+      entityId: string,
+      xPosition?: number | null,
+      yPosition?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
     creatorEmail: string,
     creatorId: string,
     name: string,

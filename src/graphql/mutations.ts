@@ -413,6 +413,60 @@ export const deleteEntity = /* GraphQL */ `mutation DeleteEntity(
   APITypes.DeleteEntityMutationVariables,
   APITypes.DeleteEntityMutation
 >;
+export const createEntityPosition = /* GraphQL */ `mutation CreateEntityPosition(
+  $input: CreateEntityPositionInput!
+  $condition: ModelEntityPositionConditionInput
+) {
+  createEntityPosition(input: $input, condition: $condition) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateEntityPositionMutationVariables,
+  APITypes.CreateEntityPositionMutation
+>;
+export const updateEntityPosition = /* GraphQL */ `mutation UpdateEntityPosition(
+  $input: UpdateEntityPositionInput!
+  $condition: ModelEntityPositionConditionInput
+) {
+  updateEntityPosition(input: $input, condition: $condition) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateEntityPositionMutationVariables,
+  APITypes.UpdateEntityPositionMutation
+>;
+export const deleteEntityPosition = /* GraphQL */ `mutation DeleteEntityPosition(
+  $input: DeleteEntityPositionInput!
+  $condition: ModelEntityPositionConditionInput
+) {
+  deleteEntityPosition(input: $input, condition: $condition) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteEntityPositionMutationVariables,
+  APITypes.DeleteEntityPositionMutation
+>;
 export const createScene = /* GraphQL */ `mutation CreateScene(
   $input: CreateSceneInput!
   $condition: ModelSceneConditionInput
@@ -422,6 +476,15 @@ export const createScene = /* GraphQL */ `mutation CreateScene(
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name
@@ -483,6 +546,15 @@ export const updateScene = /* GraphQL */ `mutation UpdateScene(
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name
@@ -544,6 +616,15 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name

@@ -264,12 +264,59 @@ export const listEntities = /* GraphQL */ `query ListEntities(
   APITypes.ListEntitiesQueryVariables,
   APITypes.ListEntitiesQuery
 >;
+export const getEntityPosition = /* GraphQL */ `query GetEntityPosition($id: ID!) {
+  getEntityPosition(id: $id) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetEntityPositionQueryVariables,
+  APITypes.GetEntityPositionQuery
+>;
+export const listEntityPositions = /* GraphQL */ `query ListEntityPositions(
+  $filter: ModelEntityPositionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEntityPositions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEntityPositionsQueryVariables,
+  APITypes.ListEntityPositionsQuery
+>;
 export const getScene = /* GraphQL */ `query GetScene($id: ID!) {
   getScene(id: $id) {
     id
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name

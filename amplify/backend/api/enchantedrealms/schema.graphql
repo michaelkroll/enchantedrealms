@@ -97,6 +97,17 @@ type Entity
   tags: [String]
 }
 
+type EntityPosition
+@model
+  @auth(
+    rules: [{ allow: private, operations: [create, read, update, delete] }]
+  ) {
+  id: ID!
+  entityId: ID!
+  xPosition: Float
+  yPosition: Float
+}
+
 type Scene
   @model
   @auth(
@@ -106,6 +117,7 @@ type Scene
   adventureId: ID! @index(name: "byAdventure", sortKeyFields: ["name"])
   mapId: ID! @index(name: "byMap", sortKeyFields: ["name"])
   entityIds: [String]
+  entityPositions: [EntityPosition]
   creatorEmail: String!
   creatorId: String!
   name: String!

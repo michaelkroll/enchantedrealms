@@ -4,7 +4,7 @@ import { schema } from './schema';
 
 
 
-const { Adventure, UserData, Map, Token, Entity, Scene, ChatMessage } = initSchema(schema);
+const { Adventure, UserData, Map, Token, Entity, EntityPosition, Scene, ChatMessage } = initSchema(schema);
 
 export {
   Adventure,
@@ -12,6 +12,7 @@ export {
   Map,
   Token,
   Entity,
+  EntityPosition,
   Scene,
   ChatMessage
 };

@@ -244,6 +244,38 @@ export declare const Entity: (new (init: ModelInit<Entity>) => Entity) & {
   copyOf(source: Entity, mutator: (draft: MutableModel<Entity>) => MutableModel<Entity> | void): Entity;
 }
 
+type EagerEntityPosition = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<EntityPosition, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly entityId: string;
+  readonly xPosition?: number | null;
+  readonly yPosition?: number | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyEntityPosition = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<EntityPosition, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly entityId: string;
+  readonly xPosition?: number | null;
+  readonly yPosition?: number | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type EntityPosition = LazyLoading extends LazyLoadingDisabled ? EagerEntityPosition : LazyEntityPosition
+
+export declare const EntityPosition: (new (init: ModelInit<EntityPosition>) => EntityPosition) & {
+  copyOf(source: EntityPosition, mutator: (draft: MutableModel<EntityPosition>) => MutableModel<EntityPosition> | void): EntityPosition;
+}
+
 type EagerScene = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Scene, 'id'>;

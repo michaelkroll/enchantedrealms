@@ -368,12 +368,72 @@ export const onDeleteEntity = /* GraphQL */ `subscription OnDeleteEntity($filter
   APITypes.OnDeleteEntitySubscriptionVariables,
   APITypes.OnDeleteEntitySubscription
 >;
+export const onCreateEntityPosition = /* GraphQL */ `subscription OnCreateEntityPosition(
+  $filter: ModelSubscriptionEntityPositionFilterInput
+) {
+  onCreateEntityPosition(filter: $filter) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateEntityPositionSubscriptionVariables,
+  APITypes.OnCreateEntityPositionSubscription
+>;
+export const onUpdateEntityPosition = /* GraphQL */ `subscription OnUpdateEntityPosition(
+  $filter: ModelSubscriptionEntityPositionFilterInput
+) {
+  onUpdateEntityPosition(filter: $filter) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateEntityPositionSubscriptionVariables,
+  APITypes.OnUpdateEntityPositionSubscription
+>;
+export const onDeleteEntityPosition = /* GraphQL */ `subscription OnDeleteEntityPosition(
+  $filter: ModelSubscriptionEntityPositionFilterInput
+) {
+  onDeleteEntityPosition(filter: $filter) {
+    id
+    entityId
+    xPosition
+    yPosition
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteEntityPositionSubscriptionVariables,
+  APITypes.OnDeleteEntityPositionSubscription
+>;
 export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: ModelSubscriptionSceneFilterInput) {
   onCreateScene(filter: $filter) {
     id
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name
@@ -432,6 +492,15 @@ export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: 
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name
@@ -490,6 +559,15 @@ export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: 
     adventureId
     mapId
     entityIds
+    entityPositions {
+      id
+      entityId
+      xPosition
+      yPosition
+      createdAt
+      updatedAt
+      __typename
+    }
     creatorEmail
     creatorId
     name
