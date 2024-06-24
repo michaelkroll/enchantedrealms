@@ -1,5 +1,5 @@
 // React imports
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // React Router imports
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,6 +23,7 @@ import Konva from "konva";
 // Cuustom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
 import useScene from "../../hooks/useScene";
+//import Map from "../../data/Map";
 
 interface Props {
   email: string;
@@ -32,7 +33,7 @@ const SceneEditor = ({ email }: Props) => {
   const params = useParams();
   const sceneId: string = params.sceneId!;
 
-  console.log("Params: ", email, sceneId);
+  console.log("Scene Editor Params email: ", email, " sceneId: ", sceneId);
 
   const buttonBackground = useColorModeValue("gray.200", "gray.700");
 
@@ -41,7 +42,7 @@ const SceneEditor = ({ email }: Props) => {
 
   const navigate = useNavigate();
 
-  const { scene, sceneError } = useScene(sceneId);
+  const { scene, map, error } = useScene(sceneId);
 
   // Leave Adventure Alert related
   const {
@@ -68,6 +69,13 @@ const SceneEditor = ({ email }: Props) => {
 
   window.addEventListener("resize", fitStageIntoWindow);
 
+  useEffect(() => {
+    if (scene != null && map != null) {
+      console.log("Scene: ", scene);
+      console.log("Map: ", map);
+    }
+  }, [scene, map]);
+
   return (
     <>
       <Stage
@@ -82,7 +90,7 @@ const SceneEditor = ({ email }: Props) => {
           <Transformer ref={transformerRef} />
         </Layer>
       </Stage>
-      {sceneError && <Text> </Text>}
+      {error && <Text> </Text>}
       <Tooltip
         hasArrow
         placement="right"
