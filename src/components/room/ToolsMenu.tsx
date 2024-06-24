@@ -110,36 +110,6 @@ const ToolsMenu = ({
               }}
             />
           ))}
-
-          {/* <Tooltip
-            placement="left"
-            hasArrow
-            label="Move"
-            bg="gray.300"
-            color="black"
-            openDelay={1000}
-          >
-            <IconButton
-              colorScheme="gray"
-              mb={1}
-              aria-label="Move"
-              icon={<IoMdMove />}
-            />
-          </Tooltip>
-          <Tooltip
-            placement="left"
-            hasArrow
-            label="Select"
-            bg="gray.300"
-            color="black"
-            openDelay={1000}
-          >
-            <IconButton
-              colorScheme="gray"
-              aria-label="Select"
-              icon={<LuLassoSelect />}
-            />
-          </Tooltip> */}
         </Box>
       </Collapse>
     </>
