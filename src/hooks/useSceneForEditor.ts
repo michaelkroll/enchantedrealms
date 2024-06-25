@@ -20,16 +20,19 @@ import Map from "../data/Map";
 import Entity from "../data/Entity";
 import EntityComposition from "../data/EntityComposition";
 import SceneComposition from "../data/SceneComposition";
+import EntityPosition from "../data/EntityPosition";
 
 const useSceneForEditor = (sceneId: string | undefined | null) => {
   const [sceneIdInternal, setSceneIdInternal] = useState("");
   const [sceneComposition, setSceneComposition] = useState<SceneComposition>();
+  const [isLoadingScene, setIsLoadingScene] = useState(false);
 
   let scene: Scene;
   let map: Map;
   let entityCompositionArray: EntityComposition[] = [];
 
   const loadScene = async () => {
+    setIsLoadingScene(true);
     console.log("sceneIdInternal: ", sceneIdInternal);
 
     const graphqlClient = generateClient();
@@ -165,9 +168,10 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     };
 
     setSceneComposition(sceneComposition);
+    setIsLoadingScene(false);
   };
 
-  const setEntityPosition = (position: string) => {
+  const setEntityPosition = (position: EntityPosition) => {
     console.log("Set Position: ", position);
   };
 
@@ -187,7 +191,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     }
   }, [sceneIdInternal]);
 
-  return { setEntityPosition, sceneComposition };
+  return { setEntityPosition, sceneComposition, isLoadingScene };
 };
 
 export default useSceneForEditor;

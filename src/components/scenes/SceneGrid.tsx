@@ -38,7 +38,6 @@ import Adventure from "../../data/Adventure";
 import Entity from "../../data/Entity";
 import SceneMapEntities from "../../data/SceneMapEntities";
 import IsLoadingIndicator from "../IsLoadingIndicator";
-import useSceneForEditor from "../../hooks/useSceneForEditor";
 
 interface Props {
   email: string;
@@ -68,16 +67,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
   const [fetchedScenesAndMaps, setFetchedScenesAndMaps] = useState<
     SceneMapEntities[]
   >([]);
-
-  const [selectedScene, setSelectedScene] = useState<string>();
-
-  const { setEntityPosition, sceneComposition } = useSceneForEditor(selectedScene);
-
-  useEffect(() => {
-    if (sceneComposition != null) {
-      console.log("SceneComposition: ", sceneComposition);
-    }
-  }, [sceneComposition])
 
   useEffect(() => {
     if (selectedAdventure) {
@@ -231,13 +220,13 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     setSelectedAdventure(adventure);
   };
 
-  const handleTest = () => {
-    setSelectedScene(fetchedScenes[2].id);
-  };
+  // const handleTest = () => {
+  //   setSelectedScene(fetchedScenes[2].id);
+  // };
 
-  const handleUpload = () => {
-    setEntityPosition("12345");
-  };
+  // const handleUpload = () => {
+  //   setEntityPosition("12345");
+  // };
 
   return (
     <Box me={2} mt={2} mb={2}>
@@ -289,7 +278,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         />
 
         <HStack>
-          <Button
+          {/* <Button
             onClick={() => {
               handleTest();
             }}
@@ -302,7 +291,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
             }}
           >
             Test call upload function
-          </Button>
+          </Button> */}
           <Tooltip
             hasArrow
             label="Reload the Scenes"

@@ -17,12 +17,12 @@ import useImage from "use-image";
 
 // Cuustom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
-import useScene from "../../hooks/useScene";
 import Map from "../../data/Map";
 import Scene from "../../data/Scene";
 import { KonvaEventObject } from "konva/lib/Node";
 import FunctionMenu from "./FunctionMenu";
 import IsLoadingIndicator from "../IsLoadingIndicator";
+import useSceneForEditor from "../../hooks/useSceneForEditor";
 
 interface Props {
   email: string;
@@ -42,15 +42,16 @@ const SceneEditor = ({ email }: Props) => {
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
-  
-  const navigate = useNavigate();
+  const [isLoadingScene, setIsLoadingScene] = useState(false);
 
-  const { sceneObject, mapObject } = useScene(sceneId);
+  const navigate = useNavigate();
+  const [selectedSceneId, setSelectedSceneId] = useState<string>("");
+
+  const { setEntityPosition, sceneComposition } =
+    useSceneForEditor(selectedSceneId);
   const [mapImage] = useImage(map?.mapPicS3Url!);
 
-  const [isLoading, setLoading] = useState(false);
-
-  // The Scalefactor of the Map 
+  // The Scalefactor of the Map
   let scaleFactor = { x: 1.0, y: 1.0 };
 
   // Leave Adventure Alert related
@@ -84,20 +85,17 @@ const SceneEditor = ({ email }: Props) => {
   window.addEventListener("resize", fitStageIntoWindow);
 
   useEffect(() => {
-    console.log("Loading...");
-    setLoading(true);
+    setIsLoadingScene(true);
+    setSelectedSceneId(sceneId);
   }, []);
 
-
   useEffect(() => {
-    if (sceneObject != null && mapObject != null) {
-      console.log("Scene: ", sceneObject);
-      console.log("Map: ", mapObject);
-      setLoading(false);
-      setScene(sceneObject);
-      setMap(mapObject);
+    if (sceneComposition != null) {
+      setScene(sceneComposition.scene);
+      setMap(sceneComposition.map);
+      setIsLoadingScene(false);
     }
-  }, [sceneObject, mapObject]);
+  }, [sceneComposition]);
 
   const onPointerDown = (event: KonvaEventObject<PointerEvent>) => {
     event;
@@ -247,9 +245,9 @@ const SceneEditor = ({ email }: Props) => {
         </Layer>
       </Stage>
 
-      {isLoading && (
+      {isLoadingScene && (
         <Stack mt={2}>
-          <IsLoadingIndicator loadingLabel={"Loading scene assets..."} />
+          <IsLoadingIndicator loadingLabel={"Loading Scene ..."} />
         </Stack>
       )}
 
