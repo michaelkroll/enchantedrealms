@@ -70,9 +70,11 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
 
   useEffect(() => {
     if (selectedAdventure) {
+      setLoading(true);
       setScenes([]);
       handleListScenes(selectedAdventure);
     }
+    handleRefreshGrid();
   }, [selectedAdventure]);
 
   useEffect(() => {
@@ -220,14 +222,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     setSelectedAdventure(adventure);
   };
 
-  // const handleTest = () => {
-  //   setSelectedScene(fetchedScenes[2].id);
-  // };
-
-  // const handleUpload = () => {
-  //   setEntityPosition("12345");
-  // };
-
   return (
     <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
@@ -278,20 +272,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         />
 
         <HStack>
-          {/* <Button
-            onClick={() => {
-              handleTest();
-            }}
-          >
-            Test fetch Scene Info
-          </Button>
-          <Button
-            onClick={() => {
-              handleUpload();
-            }}
-          >
-            Test call upload function
-          </Button> */}
           <Tooltip
             hasArrow
             label="Reload the Scenes"
