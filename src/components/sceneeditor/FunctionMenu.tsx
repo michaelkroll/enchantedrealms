@@ -56,7 +56,6 @@ const FunctionMenu = ({
       name: "Original Size 100%",
       icon: <BiSolidCircle/>
     }
-
   ];
 
   return (
@@ -100,6 +99,7 @@ const FunctionMenu = ({
           {menuItems.map((menuItem) => (
             <Tooltip
               hasArrow
+              key={menuItem.name}
               placement="left"
               label={menuItem.name}
               bg="gray.300"

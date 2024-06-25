@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Chakra UI imports
-import { IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { IconButton, Stack, Tooltip, useDisclosure } from "@chakra-ui/react";
 
 // React Icon imports
 import { TbDoorExit } from "react-icons/tb";
@@ -22,6 +22,7 @@ import Map from "../../data/Map";
 import Scene from "../../data/Scene";
 import { KonvaEventObject } from "konva/lib/Node";
 import FunctionMenu from "./FunctionMenu";
+import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {
   email: string;
@@ -33,17 +34,23 @@ const SceneEditor = ({ email }: Props) => {
 
   console.log("Scene Editor Params email: ", email, " sceneId: ", sceneId);
 
+  // Konva JS references
   const stageRef = useRef<Konva.Stage>(null);
   const backgroundRef = useRef<Konva.Rect>(null);
   const mapRef = useRef<Konva.Image>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
-  const [map, setMap] = useState<Map>();
+
   const [scene, setScene] = useState<Scene>();
+  const [map, setMap] = useState<Map>();
+  
   const navigate = useNavigate();
 
   const { sceneObject, mapObject } = useScene(sceneId);
   const [mapImage] = useImage(map?.mapPicS3Url!);
 
+  const [isLoading, setLoading] = useState(false);
+
+  // The Scalefactor of the Map 
   let scaleFactor = { x: 1.0, y: 1.0 };
 
   // Leave Adventure Alert related
@@ -77,9 +84,16 @@ const SceneEditor = ({ email }: Props) => {
   window.addEventListener("resize", fitStageIntoWindow);
 
   useEffect(() => {
+    console.log("Loading...");
+    setLoading(true);
+  }, []);
+
+
+  useEffect(() => {
     if (sceneObject != null && mapObject != null) {
       console.log("Scene: ", sceneObject);
       console.log("Map: ", mapObject);
+      setLoading(false);
       setScene(sceneObject);
       setMap(mapObject);
     }
@@ -232,6 +246,12 @@ const SceneEditor = ({ email }: Props) => {
           <Transformer ref={transformerRef} />
         </Layer>
       </Stage>
+
+      {isLoading && (
+        <Stack mt={2}>
+          <IsLoadingIndicator loadingLabel={"Loading scene assets..."} />
+        </Stack>
+      )}
 
       <FunctionMenu
         positionTop={"5px"}

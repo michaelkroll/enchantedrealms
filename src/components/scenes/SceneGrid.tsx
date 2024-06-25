@@ -38,6 +38,7 @@ import Adventure from "../../data/Adventure";
 import Entity from "../../data/Entity";
 import SceneMapEntities from "../../data/SceneMapEntities";
 import IsLoadingIndicator from "../IsLoadingIndicator";
+import useSceneForEditor from "../../hooks/useSceneForEditor";
 
 interface Props {
   email: string;
@@ -68,8 +69,19 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     SceneMapEntities[]
   >([]);
 
+  const [selectedScene, setSelectedScene] = useState<string>();
+
+  const { setEntityPosition, sceneComposition } = useSceneForEditor(selectedScene);
+
+  useEffect(() => {
+    if (sceneComposition != null) {
+      console.log("SceneComposition: ", sceneComposition);
+    }
+  }, [sceneComposition])
+
   useEffect(() => {
     if (selectedAdventure) {
+      setScenes([]);
       handleListScenes(selectedAdventure);
     }
   }, [selectedAdventure]);
@@ -219,6 +231,14 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     setSelectedAdventure(adventure);
   };
 
+  const handleTest = () => {
+    setSelectedScene(fetchedScenes[2].id);
+  };
+
+  const handleUpload = () => {
+    setEntityPosition("12345");
+  };
+
   return (
     <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
@@ -268,24 +288,40 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
           )}
         />
 
-        <Tooltip
-          hasArrow
-          label="Reload the Scenes"
-          bg="gray.300"
-          color="black"
-          openDelay={1000}
-        >
+        <HStack>
           <Button
-            isDisabled={isLoading || selectedAdventure == null}
             onClick={() => {
-              if (selectedAdventure) {
-                handleRefreshGrid();
-              }
+              handleTest();
             }}
           >
-            <IoReload />
+            Test fetch Scene Info
           </Button>
-        </Tooltip>
+          <Button
+            onClick={() => {
+              handleUpload();
+            }}
+          >
+            Test call upload function
+          </Button>
+          <Tooltip
+            hasArrow
+            label="Reload the Scenes"
+            bg="gray.300"
+            color="black"
+            openDelay={1000}
+          >
+            <Button
+              isDisabled={isLoading || selectedAdventure == null}
+              onClick={() => {
+                if (selectedAdventure) {
+                  handleRefreshGrid();
+                }
+              }}
+            >
+              <IoReload />
+            </Button>
+          </Tooltip>
+        </HStack>
       </HStack>
 
       {isLoading && (
@@ -310,7 +346,6 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         editScene={editScene!}
       />
 
-      {/* {error && <Text color="tomato">{error}</Text>} */}
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}

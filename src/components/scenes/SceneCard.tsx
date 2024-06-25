@@ -96,7 +96,6 @@ const SceneCard = ({
         variant="outline"
         borderColor={cardBorderColor}
         backgroundColor={cardBackgroundColor}
-        onClick={() => console.log(scene)}
       >
         <CardBody padding={0}>
           <Stack>
@@ -174,7 +173,7 @@ const SceneCard = ({
             </Tooltip>
             <Tooltip
               hasArrow
-              label="Visually plan the Scene"
+              label="Plan the Scene in the Scene Editor"
               bg="gray.300"
               color="black"
               openDelay={1000}
@@ -184,7 +183,7 @@ const SceneCard = ({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  navigateToVisualSceneEditor()
+                  navigateToVisualSceneEditor();
                 }}
               >
                 <PiPathBold />
