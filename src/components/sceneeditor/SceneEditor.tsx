@@ -47,8 +47,7 @@ const SceneEditor = ({ email }: Props) => {
   const navigate = useNavigate();
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
 
-  const { setEntityPosition, sceneComposition } =
-    useSceneForEditor(selectedSceneId);
+  const { sceneComposition } = useSceneForEditor(selectedSceneId);
   const [mapImage] = useImage(map?.mapPicS3Url!);
 
   // The Scalefactor of the Map
