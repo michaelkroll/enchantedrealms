@@ -1,5 +1,5 @@
 // Chakra UI imports
-import { Text, Select, HStack } from "@chakra-ui/react";
+import { Select, HStack } from "@chakra-ui/react";
 import Adventure from "../../data/Adventure";
 import { useEffect, useRef } from "react";
 
@@ -32,9 +32,9 @@ const AdventureSelectorDropdown = ({
 
   return (
     <HStack display={display}>
-      <Text as="b" mr={2}>
+      {/* <Text as="b" mr={2}>
         Adventure
-      </Text>
+      </Text> */}
       <Select
         ref={selectRef}
         onChange={(event) => {
