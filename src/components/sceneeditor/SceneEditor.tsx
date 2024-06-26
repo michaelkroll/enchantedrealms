@@ -57,6 +57,7 @@ const SceneEditor = ({ email }: Props) => {
   const backgroundRef = useRef<Konva.Rect>(null);
   const mapRef = useRef<Konva.Image>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
+  const dragUrl = useRef<string | undefined>();
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
@@ -242,30 +243,50 @@ const SceneEditor = ({ email }: Props) => {
 
   return (
     <>
-      <Stage
-        ref={stageRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onWheel={onWheel}
+      <div
+        onDrop={(e) => {
+          e.preventDefault();
+          // register event position
+          stageRef.current!.setPointersPositions(e);
+          console.log("Dropped at x/y: ", stageRef.current!.getPointerPosition());
+          console.log("", dragUrl.current)
+          // add image
+          // setImages(
+          //   images.concat([
+          //     {
+          //       ...stageRef.current.getPointerPosition(),
+          //       src: dragUrl.current,
+          //     },
+          //   ])
+          // );
+          
+        }}
+        onDragOver={(e) => e.preventDefault()}
       >
-        <Layer>
-          <Rect
-            ref={backgroundRef}
-            x={0}
-            y={0}
-            height={window.innerHeight}
-            width={window.innerWidth}
-            fill={colorMode == "dark" ? "#000000" : "#ffffff"}
-            id="bg"
-          />
-          <Image ref={mapRef} image={mapImage} draggable={true} />
-          <Transformer ref={transformerRef} />
-        </Layer>
-      </Stage>
-
+        <Stage
+          ref={stageRef}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onWheel={onWheel}
+        >
+          <Layer>
+            <Rect
+              ref={backgroundRef}
+              x={0}
+              y={0}
+              height={window.innerHeight}
+              width={window.innerWidth}
+              fill={colorMode == "dark" ? "#000000" : "#ffffff"}
+              id="bg"
+            />
+            <Image ref={mapRef} image={mapImage} draggable={true} />
+            <Transformer ref={transformerRef} />
+          </Layer>
+        </Stage>
+      </div>
       <FunctionMenu
         positionTop={"5px"}
         positionRight={"5px"}
@@ -301,7 +322,7 @@ const SceneEditor = ({ email }: Props) => {
             paddingLeft={1}
             paddingRight={1}
             width="500px"
-            height="220px"
+            height="225px"
             display="flex"
             position="absolute"
             bottom="5px"
@@ -311,14 +332,14 @@ const SceneEditor = ({ email }: Props) => {
             gap={1}
           >
             <Provider>
-              <Stack width="100%" height="215px">
+              <Stack width="100%" height="220px">
                 <Carousel gap={5}>
                   {sceneComposition!.entityCompositions!.map((composition) => (
-                    <SceneEditorEntityCard entity={composition!.entity} />
+                    <SceneEditorEntityCard entity={composition!.entity} dragUrlRef={dragUrl} />
                   ))}
                 </Carousel>
                 <HStack justify="space-between">
-                  <LeftButton height="24px " customIcon={<FaArrowLeftLong />} />
+                  <LeftButton height="24px" mb={1} customIcon={<FaArrowLeftLong />} />
 
                   <Context.Consumer>
                     {(value) => (
@@ -332,6 +353,7 @@ const SceneEditor = ({ email }: Props) => {
 
                   <RightButton
                     height="24px"
+                    mb={1}
                     customIcon={<FaArrowRightLong />}
                   />
                 </HStack>
