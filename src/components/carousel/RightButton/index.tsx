@@ -10,6 +10,7 @@ import React, { useContext } from "react";
 import { Context, ContextType } from "../Provider";
 
 interface CustomButtonProps extends ButtonProps {
+  // @ts-expect-error
   customIcon?: ComponentWithAs<"svg", IconProps> | React.Element;
 }
 
