@@ -1,10 +1,18 @@
-import { Flex, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  Spinner,
+  Text,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 interface Props {
   loadingLabel: string;
 }
 
 const IsLoadingIndicator = ({ loadingLabel }: Props) => {
+  const textColor = useColorModeValue("gray.600", "gray.300");
+
   return (
     <Flex
       mt={10}
@@ -21,7 +29,9 @@ const IsLoadingIndicator = ({ loadingLabel }: Props) => {
           color="blue.500"
           size="xl"
         />
-        <Text as="b">{loadingLabel}</Text>
+        <Text textColor={textColor} as="b">
+          {loadingLabel}
+        </Text>
       </VStack>
     </Flex>
   );

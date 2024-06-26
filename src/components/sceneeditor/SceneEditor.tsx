@@ -5,10 +5,23 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Chakra UI imports
-import { IconButton, Stack, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  IconButton,
+  Stack,
+  Tooltip,
+  Text,
+  useColorMode,
+  useDisclosure,
+  HStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 // React Icon imports
 import { TbDoorExit } from "react-icons/tb";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 // Konva JS imports
 import { Layer, Stage, Transformer, Image, Rect } from "react-konva";
@@ -21,8 +34,13 @@ import Map from "../../data/Map";
 import Scene from "../../data/Scene";
 import { KonvaEventObject } from "konva/lib/Node";
 import FunctionMenu from "./FunctionMenu";
-import IsLoadingIndicator from "../IsLoadingIndicator";
 import useSceneForEditor from "../../hooks/useSceneForEditor";
+import SceneEditorEntityCard from "./SceneEditorEntityCard";
+import IsLoadingIndicator from "../IsLoadingIndicator";
+import { Carousel } from "../carousel/Carousel";
+import { Context, Provider } from "../carousel/Provider";
+import { LeftButton } from "../carousel/LeftButton";
+import { RightButton } from "../carousel/RightButton";
 
 interface Props {
   email: string;
@@ -42,12 +60,15 @@ const SceneEditor = ({ email }: Props) => {
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
+  const { colorMode } = useColorMode();
+  const carouselBackgroundColor = useColorModeValue("gray.300", "gray.600");
+
   const [isLoadingScene, setIsLoadingScene] = useState(false);
 
   const navigate = useNavigate();
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
-
-  const { sceneComposition } = useSceneForEditor(selectedSceneId);
+  const { sceneComposition, isCompositionValid } =
+    useSceneForEditor(selectedSceneId);
   const [mapImage] = useImage(map?.mapPicS3Url!);
 
   // The Scalefactor of the Map
@@ -84,6 +105,7 @@ const SceneEditor = ({ email }: Props) => {
   window.addEventListener("resize", fitStageIntoWindow);
 
   useEffect(() => {
+    console.log("Loading scene...");
     setIsLoadingScene(true);
     setSelectedSceneId(sceneId);
   }, []);
@@ -236,19 +258,13 @@ const SceneEditor = ({ email }: Props) => {
             y={0}
             height={window.innerHeight}
             width={window.innerWidth}
-            fill="#000000"
+            fill={colorMode == "dark" ? "#000000" : "#ffffff"}
             id="bg"
           />
           <Image ref={mapRef} image={mapImage} draggable={true} />
           <Transformer ref={transformerRef} />
         </Layer>
       </Stage>
-
-      {isLoadingScene && (
-        <Stack mt={2}>
-          <IsLoadingIndicator loadingLabel={"Loading Scene ..."} />
-        </Stack>
-      )}
 
       <FunctionMenu
         positionTop={"5px"}
@@ -278,6 +294,60 @@ const SceneEditor = ({ email }: Props) => {
           }}
         />
       </Tooltip>
+
+      {isCompositionValid && (
+        <Center>
+          <Box
+            paddingLeft={1}
+            paddingRight={1}
+            width="500px"
+            height="220px"
+            display="flex"
+            position="absolute"
+            bottom="5px"
+            bg={carouselBackgroundColor}
+            mt={4}
+            rounded="md"
+            gap={1}
+          >
+            <Provider>
+              <Stack width="100%" height="215px">
+                <Carousel gap={5}>
+                  {sceneComposition!.entityCompositions!.map((composition) => (
+                    <SceneEditorEntityCard entity={composition!.entity} />
+                  ))}
+                </Carousel>
+                <HStack justify="space-between">
+                  <LeftButton height="24px " customIcon={<FaArrowLeftLong />} />
+
+                  <Context.Consumer>
+                    {(value) => (
+                      <Text>
+                        Showing {value?.activeItem! + 1} -{" "}
+                        {value?.activeItem! + value?.constraint!} out of{" "}
+                        {sceneComposition!.entityCompositions!.length} entities
+                      </Text>
+                    )}
+                  </Context.Consumer>
+
+                  <RightButton
+                    height="24px"
+                    customIcon={<FaArrowRightLong />}
+                  />
+                </HStack>
+              </Stack>
+            </Provider>
+          </Box>
+        </Center>
+      )}
+
+      {isLoadingScene && (
+        <Center>
+          <Stack mt={2} position="absolute" top="100px">
+            <IsLoadingIndicator loadingLabel={"Loading Scene Assets ..."} />
+          </Stack>
+        </Center>
+      )}
 
       <CloseSceneEditorConfirmationAlert
         isOpen={isExitEditorConfirmAlertOpen}

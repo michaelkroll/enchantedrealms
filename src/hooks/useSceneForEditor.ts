@@ -26,6 +26,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
   const [sceneIdInternal, setSceneIdInternal] = useState("");
   const [sceneComposition, setSceneComposition] = useState<SceneComposition>();
   const [isLoadingScene, setIsLoadingScene] = useState(false);
+  const [isCompositionValid, setIsCompositionValid] = useState(false);
 
   let scene: Scene;
   let map: Map;
@@ -58,7 +59,8 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
 
     // iterate over the entity ids and collect the information.
     if (scene.entityIds) {
-      scene.entityIds.forEach(async (entityId) => {
+
+      for (const entityId of scene.entityIds) {
         if (entityId) {
           let entity: Entity;
 
@@ -124,10 +126,11 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
               entity: entity!,
               entityPosition: null,
             };
+            console.log("Add to array: ", entityComposition);
             entityCompositionArray.push(entityComposition);
           }
         }
-      });
+      }
     }
 
     // read the Map
@@ -139,6 +142,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
 
       if (oneMap.data.getMap) {
         map = oneMap.data.getMap;
+        console.log("Map: ", map)
       }
     } catch (error) {
       if (isAppSyncError(error)) {
@@ -161,13 +165,18 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     const mapPicS3Url = getUrlResult.url.toString();
     map.mapPicS3Url = mapPicS3Url;
 
+    console.log("Map with S3Url: ", map);
+
     const sceneComposition: SceneComposition = {
       scene: scene,
       map: map,
       entityCompositions: entityCompositionArray,
     };
 
+    console.log("Composition: ", sceneComposition);
+
     setSceneComposition(sceneComposition);
+    setIsCompositionValid(true);
     setIsLoadingScene(false);
   };
 
@@ -191,7 +200,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     }
   }, [sceneIdInternal]);
 
-  return { setEntityPosition, sceneComposition, isLoadingScene };
+  return { setEntityPosition, sceneComposition, isCompositionValid, isLoadingScene };
 };
 
 export default useSceneForEditor;
