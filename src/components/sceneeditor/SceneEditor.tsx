@@ -1,5 +1,5 @@
 // React imports
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // React Router imports
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,10 +12,10 @@ import {
   Stack,
   Tooltip,
   Text,
-  useColorMode,
   useDisclosure,
   HStack,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 
 // React Icon imports
@@ -24,7 +24,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 // Konva JS imports
-import { Layer, Stage, Transformer, Image, Rect } from "react-konva";
+import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva";
 import Konva from "konva";
 import useImage from "use-image";
 
@@ -41,6 +41,8 @@ import { Carousel } from "../carousel/Carousel";
 import { Context, Provider } from "../carousel/Provider";
 import { LeftButton } from "../carousel/LeftButton";
 import { RightButton } from "../carousel/RightButton";
+import Entity from "../../data/Entity";
+import EntityKonvaImageComposition from "../../data/EntityKonvaImageComposition";
 
 interface Props {
   email: string;
@@ -61,8 +63,11 @@ const SceneEditor = ({ email }: Props) => {
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
-  const { colorMode } = useColorMode();
+  const toast = useToast();
+
   const carouselBackgroundColor = useColorModeValue("gray.300", "gray.600");
+  const buttonColor = useColorModeValue("gray.50", "gray.700");
+  const buttonHoverColor = useColorModeValue("blue.150", "blue.500");
 
   const [isLoadingScene, setIsLoadingScene] = useState(false);
 
@@ -71,9 +76,15 @@ const SceneEditor = ({ email }: Props) => {
   const { sceneComposition, isCompositionValid } =
     useSceneForEditor(selectedSceneId);
   const [mapImage] = useImage(map?.mapPicS3Url!);
+  const [entityImageCompositions, setEntityImageCompositions] = useState<
+    EntityKonvaImageComposition[]
+  >([]);
 
   // The Scalefactor of the Map
   let scaleFactor = { x: 1.0, y: 1.0 };
+
+  // let mouseOnMapDownClientX = 0;
+  // let mouseOnMapDownClientY = 0;
 
   // Leave Adventure Alert related
   const {
@@ -119,6 +130,31 @@ const SceneEditor = ({ email }: Props) => {
     }
   }, [sceneComposition]);
 
+  // const onMapPointerDown = (event: KonvaEventObject<PointerEvent>) => {
+  //   console.log("onMapPointerDown: ", event.evt);
+  //   mouseOnMapDownClientX = event.evt.clientX;
+  //   mouseOnMapDownClientY = event.evt.clientY;
+  // };
+
+  // const onMapPointerUp = (event: KonvaEventObject<PointerEvent>) => {
+  //   console.log("onMapPointerUp: ", event.evt);
+  // };
+
+  // const onMapDragMove = (event: Konva.KonvaEventObject<DragEvent>) => {
+  // const moveXPos = event.evt.clientX;
+  // const moveYPos = event.evt.clientY;
+  // const deltaX = mouseOnMapDownClientX + moveXPos;
+  // const deltaY = mouseOnMapDownClientY + moveYPos;
+  // console.log("Map X: ", mapRef.current!.x(), " Y: ", mapRef.current!.y());
+  // let arr: EntityKonvaImageComposition[] = [];
+  // for (const entityImageComposition of entityImageCompositions) {
+  //   entityImageComposition.xPos = entityImageComposition.xPos! + deltaX;
+  //   entityImageComposition.yPos = entityImageComposition.yPos! + deltaY;
+  //   arr.push(entityImageComposition);
+  // }
+  // setEntityImageCompositions(arr);
+  // };
+
   const onPointerDown = (event: KonvaEventObject<PointerEvent>) => {
     event;
     // console.log("Event: ", event);
@@ -157,8 +193,6 @@ const SceneEditor = ({ email }: Props) => {
     const newScale = { x: newScaleFactor, y: newScaleFactor };
 
     map.scale(newScale);
-    console.log("oldScale = ", oldScale, " newScale = ", newScale.x);
-
     scaleFactor = newScale;
 
     const newWidth = map.getWidth() * scaleFactor.x;
@@ -173,7 +207,7 @@ const SceneEditor = ({ email }: Props) => {
   };
 
   const onFunctionSelected = (functionName: string) => {
-    console.log("Function Selected: ", functionName);
+    //console.log("Function Selected: ", functionName);
     if (functionName === "Center") {
       centerMap();
     } else if (functionName === "Original Size 100%") {
@@ -204,27 +238,14 @@ const SceneEditor = ({ email }: Props) => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const map = mapRef.current!;
-      console.log(
-        "Window w/h: ",
-        windowWidth,
-        "/",
-        windowHeight,
-        ", Map w/h: ",
-        map.getWidth(),
-        "/",
-        map.getHeight()
-      );
       const scaleX = windowWidth / map.getWidth();
       const scaleY = windowHeight / map.getHeight();
-
-      console.log("scale x/y ", scaleX, "/", scaleY);
       let sc = 0;
       if (windowWidth > windowHeight) {
         sc = scaleY;
       } else {
         sc = scaleX;
       }
-
       const scale = { x: sc, y: sc };
       scaleFactor = scale;
       map.scale(scale);
@@ -241,25 +262,58 @@ const SceneEditor = ({ email }: Props) => {
     map.setPosition(newPosition);
   };
 
+  const onShapeClick = useCallback((e: KonvaEventObject<MouseEvent>) => {
+    e;
+    //if (drawAction !== DrawAction.Select) return;
+    //const currentTarget = e.currentTarget;
+    //transformerRef?.current?.nodes([currentTarget]);
+  }, []);
+
   return (
     <>
       <div
         onDrop={(e) => {
           e.preventDefault();
-          // register event position
           stageRef.current!.setPointersPositions(e);
-          console.log("Dropped at x/y: ", stageRef.current!.getPointerPosition());
-          console.log("", dragUrl.current)
-          // add image
-          // setImages(
-          //   images.concat([
-          //     {
-          //       ...stageRef.current.getPointerPosition(),
-          //       src: dragUrl.current,
-          //     },
-          //   ])
-          // );
-          
+
+          const xDropPosition = stageRef.current!.getPointerPosition()?.x;
+          const yDropPosition = stageRef.current!.getPointerPosition()?.y;
+          const entity = JSON.parse(dragUrl.current!) as Entity;
+
+          // let item1 = array.find(i => i.id === 1);
+
+          const entityFound = entityImageCompositions.find(
+            (composition) => composition.entity.id === entity.id
+          );
+          if (!entityFound) {
+            const image = new Image(55, 55);
+            image.src = entity.tokenPicS3Url!;
+            image.draggable = true;
+
+            const entityImageComposition = {
+              entity: entity,
+              imageElement: image,
+              xPos: xDropPosition,
+              yPos: yDropPosition,
+            };
+            setEntityImageCompositions([
+              ...entityImageCompositions,
+              entityImageComposition,
+            ]);
+          } else {
+            console.log("Entity is already added to the map");
+            toast({
+              title: `'${entity.name}' has already been added to the map.`,
+              status: "error",
+              position: "bottom",
+              isClosable: true,
+              duration: 2000,
+            });
+          }
+
+          // add the shape to the layer
+          //entityLayerRef.current!.add(image).draw();
+          // add the layer to the stage
         }}
         onDragOver={(e) => e.preventDefault()}
       >
@@ -273,16 +327,27 @@ const SceneEditor = ({ email }: Props) => {
           onWheel={onWheel}
         >
           <Layer>
-            <Rect
-              ref={backgroundRef}
-              x={0}
-              y={0}
-              height={window.innerHeight}
-              width={window.innerWidth}
-              fill={colorMode == "dark" ? "#000000" : "#ffffff"}
-              id="bg"
+            <KonvaImage
+              ref={mapRef}
+              image={mapImage}
+              draggable={true}
+              // onDragMove={onMapDragMove}
+              // onPointerDown={onMapPointerDown}
+              // onPointerUp={onMapPointerUp}
             />
-            <Image ref={mapRef} image={mapImage} draggable={true} />
+            {entityImageCompositions.map((entityImageComposition) => (
+              <KonvaImage
+                key={entityImageComposition.entity.id}
+                id={entityImageComposition.entity.id}
+                image={entityImageComposition.imageElement}
+                x={entityImageComposition.xPos! - 55 / 2}
+                y={entityImageComposition.yPos! - 55 / 2}
+                height={55}
+                width={55}
+                draggable={true}
+                onClick={onShapeClick}
+              />
+            ))}
             <Transformer ref={transformerRef} />
           </Layer>
         </Stage>
@@ -304,7 +369,8 @@ const SceneEditor = ({ email }: Props) => {
       >
         <IconButton
           position="absolute"
-          colorScheme="blue"
+          background={buttonColor}
+          _hover={{ bgColor: buttonHoverColor }}
           top="5px"
           left="5px"
           size="lg"
@@ -335,12 +401,20 @@ const SceneEditor = ({ email }: Props) => {
               <Stack width="100%" height="220px">
                 <Carousel gap={5}>
                   {sceneComposition!.entityCompositions!.map((composition) => (
-                    <SceneEditorEntityCard entity={composition!.entity} dragUrlRef={dragUrl} />
+                    <SceneEditorEntityCard
+                      entity={composition!.entity}
+                      dragUrlRef={dragUrl}
+                    />
                   ))}
                 </Carousel>
                 <HStack justify="space-between">
-                  <LeftButton height="24px" mb={1} customIcon={<FaArrowLeftLong />} />
-
+                  <LeftButton
+                    height="24px"
+                    mb={1}
+                    background={buttonColor}
+                    _hover={{ bgColor: buttonHoverColor }}
+                    customIcon={<FaArrowLeftLong />}
+                  />
                   <Context.Consumer>
                     {(value) => (
                       <Text>
@@ -350,10 +424,11 @@ const SceneEditor = ({ email }: Props) => {
                       </Text>
                     )}
                   </Context.Consumer>
-
                   <RightButton
                     height="24px"
                     mb={1}
+                    background={buttonColor}
+                    _hover={{ bgColor: buttonHoverColor }}
                     customIcon={<FaArrowRightLong />}
                   />
                 </HStack>
@@ -365,7 +440,7 @@ const SceneEditor = ({ email }: Props) => {
 
       {isLoadingScene && (
         <Center>
-          <Stack mt={2} position="absolute" top="100px">
+          <Stack mt={2} position="absolute" top="200px">
             <IsLoadingIndicator loadingLabel={"Loading Scene Assets ..."} />
           </Stack>
         </Center>

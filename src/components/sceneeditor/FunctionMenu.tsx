@@ -5,6 +5,7 @@ import {
   IconButton,
   Tooltip,
   useBoolean,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 // React Icon Imports
@@ -29,7 +30,13 @@ const FunctionMenu = ({
   direction,
   handleFunctionSelected,
 }: Props) => {
-  const [toolsMenuEnabled, setToolsMenuEnabled] = useBoolean(false);
+  const [functionsMenuEnabled, setFunctionsMenuEnabled] = useBoolean(false);
+  const functionsMenuBackgroundColor = useColorModeValue(
+    "gray.300",
+    "gray.600"
+  );
+  const functionButtonColor = useColorModeValue("gray.50", "gray.700");
+  const functionButtonHoverColor = useColorModeValue("blue.150", "blue.500");
 
   const menuItems = [
     {
@@ -38,24 +45,24 @@ const FunctionMenu = ({
     },
     {
       name: "Fit to Screen",
-      icon: <TbArrowsMaximize/>
+      icon: <TbArrowsMaximize />,
     },
     {
       name: "Scale 25%",
-      icon: <BiSolidCircleQuarter/>
+      icon: <BiSolidCircleQuarter />,
     },
     {
       name: "Scale 50%",
-      icon: <BiSolidCircleHalf/>
+      icon: <BiSolidCircleHalf />,
     },
     {
       name: "Scale 75%",
-      icon: <BiSolidCircleThreeQuarter/>
+      icon: <BiSolidCircleThreeQuarter />,
     },
     {
       name: "Original Size 100%",
-      icon: <BiSolidCircle/>
-    }
+      icon: <BiSolidCircle />,
+    },
   ];
 
   return (
@@ -64,25 +71,28 @@ const FunctionMenu = ({
         hasArrow
         placement="left"
         label={
-          toolsMenuEnabled ? "Close Functions Menu" : "Open Functions Menu"
+          functionsMenuEnabled ? "Close Functions Menu" : "Open Functions Menu"
         }
         bg="gray.300"
         color="black"
         openDelay={1000}
       >
         <IconButton
-          colorScheme="blue"
+          bg={functionButtonColor}
+          _hover={{ bgColor: functionButtonHoverColor }}
           position="absolute"
           top={positionTop}
           right={positionRight}
           size="lg"
           aria-label="Menu"
-          icon={toolsMenuEnabled ? <TiArrowSortedDown /> : <TiArrowSortedUp />}
-          onClick={setToolsMenuEnabled.toggle}
+          icon={
+            functionsMenuEnabled ? <TiArrowSortedDown /> : <TiArrowSortedUp />
+          }
+          onClick={setFunctionsMenuEnabled.toggle}
         />
       </Tooltip>
 
-      <Collapse in={toolsMenuEnabled} animateOpacity>
+      <Collapse in={functionsMenuEnabled} animateOpacity>
         <Box
           padding={1}
           display="flex"
@@ -91,7 +101,7 @@ const FunctionMenu = ({
           top="40px"
           right="5px"
           color="white"
-          bg="blue.700"
+          bg={functionsMenuBackgroundColor}
           mt={4}
           rounded="md"
           gap={1}
@@ -110,7 +120,8 @@ const FunctionMenu = ({
                 width="40px"
                 icon={menuItem.icon}
                 key={menuItem.name}
-                colorScheme="blue"
+                background={functionButtonColor}
+                _hover={{ bgColor: functionButtonHoverColor }}
                 aria-label={menuItem.name}
                 onClick={() => handleFunctionSelected(menuItem.name)}
               />
