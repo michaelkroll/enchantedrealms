@@ -1,5 +1,7 @@
+// React imports
 import { MutableRefObject } from "react";
-import Entity from "../../data/Entity";
+
+// Chakra UI imports
 import {
   Card,
   CardBody,
@@ -8,6 +10,9 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+// Custom imports
+import Entity from "../../data/Entity";
 
 interface Props {
   entity: Entity;
@@ -30,8 +35,7 @@ const SceneEditorEntityCard = ({ entity, dragUrlRef }: Props) => {
           borderRadius="lg"
           mb={1}
           draggable="true"
-          onDragStart={(event) => {
-            console.log("onDragStartEvent: ", event)
+          onDragStart={() => {
             dragUrlRef.current = JSON.stringify(entity);
           }}
         />

@@ -1,5 +1,5 @@
 // React imports
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // React Router imports
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,22 +25,24 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 // Konva JS imports
 import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva";
+import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import useImage from "use-image";
+
+// Carousel imports
+import { Carousel } from "../carousel/Carousel";
+import { Context, Provider } from "../carousel/Provider";
+import { LeftButton } from "../carousel/LeftButton";
+import { RightButton } from "../carousel/RightButton";
 
 // Cuustom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
 import Map from "../../data/Map";
 import Scene from "../../data/Scene";
-import { KonvaEventObject } from "konva/lib/Node";
 import FunctionMenu from "./FunctionMenu";
 import useSceneForEditor from "../../hooks/useSceneForEditor";
 import SceneEditorEntityCard from "./SceneEditorEntityCard";
 import IsLoadingIndicator from "../IsLoadingIndicator";
-import { Carousel } from "../carousel/Carousel";
-import { Context, Provider } from "../carousel/Provider";
-import { LeftButton } from "../carousel/LeftButton";
-import { RightButton } from "../carousel/RightButton";
 import Entity from "../../data/Entity";
 import EntityKonvaImageComposition from "../../data/EntityKonvaImageComposition";
 
@@ -82,9 +84,6 @@ const SceneEditor = ({ email }: Props) => {
 
   // The Scalefactor of the Map
   let scaleFactor = { x: 1.0, y: 1.0 };
-
-  // let mouseOnMapDownClientX = 0;
-  // let mouseOnMapDownClientY = 0;
 
   // Leave Adventure Alert related
   const {
@@ -130,46 +129,6 @@ const SceneEditor = ({ email }: Props) => {
     }
   }, [sceneComposition]);
 
-  // const onMapPointerDown = (event: KonvaEventObject<PointerEvent>) => {
-  //   console.log("onMapPointerDown: ", event.evt);
-  //   mouseOnMapDownClientX = event.evt.clientX;
-  //   mouseOnMapDownClientY = event.evt.clientY;
-  // };
-
-  // const onMapPointerUp = (event: KonvaEventObject<PointerEvent>) => {
-  //   console.log("onMapPointerUp: ", event.evt);
-  // };
-
-  // const onMapDragMove = (event: Konva.KonvaEventObject<DragEvent>) => {
-  // const moveXPos = event.evt.clientX;
-  // const moveYPos = event.evt.clientY;
-  // const deltaX = mouseOnMapDownClientX + moveXPos;
-  // const deltaY = mouseOnMapDownClientY + moveYPos;
-  // console.log("Map X: ", mapRef.current!.x(), " Y: ", mapRef.current!.y());
-  // let arr: EntityKonvaImageComposition[] = [];
-  // for (const entityImageComposition of entityImageCompositions) {
-  //   entityImageComposition.xPos = entityImageComposition.xPos! + deltaX;
-  //   entityImageComposition.yPos = entityImageComposition.yPos! + deltaY;
-  //   arr.push(entityImageComposition);
-  // }
-  // setEntityImageCompositions(arr);
-  // };
-
-  const onPointerDown = (event: KonvaEventObject<PointerEvent>) => {
-    event;
-    // console.log("Event: ", event);
-  };
-
-  const onPointerMove = (event: KonvaEventObject<PointerEvent>) => {
-    event;
-    // console.log("Event: ", event);
-  };
-
-  const onPointerUp = (event: KonvaEventObject<PointerEvent>) => {
-    event;
-    // console.log("Event: ", event);
-  };
-
   const onWheel = (event: KonvaEventObject<WheelEvent>) => {
     event.evt.preventDefault();
 
@@ -207,29 +166,25 @@ const SceneEditor = ({ email }: Props) => {
   };
 
   const onFunctionSelected = (functionName: string) => {
-    //console.log("Function Selected: ", functionName);
+    const map = mapRef.current!;
     if (functionName === "Center") {
       centerMap();
-    } else if (functionName === "Original Size 100%") {
-      const map = mapRef.current!;
+    } else if (functionName === "Original Size 100%") {      
       const scale100 = { x: 1, y: 1 };
       scaleFactor = scale100;
       map.scale(scale100);
       centerMap();
     } else if (functionName === "Scale 75%") {
-      const map = mapRef.current!;
       const scale75 = { x: 0.75, y: 0.75 };
       scaleFactor = scale75;
       map.scale(scale75);
       centerMap();
     } else if (functionName === "Scale 50%") {
-      const map = mapRef.current!;
       const scale50 = { x: 0.5, y: 0.5 };
       scaleFactor = scale50;
       map.scale(scale50);
       centerMap();
     } else if (functionName === "Scale 25%") {
-      const map = mapRef.current!;
       const scale25 = { x: 0.25, y: 0.25 };
       scaleFactor = scale25;
       map.scale(scale25);
@@ -237,7 +192,6 @@ const SceneEditor = ({ email }: Props) => {
     } else if (functionName === "Fit to Screen") {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      const map = mapRef.current!;
       const scaleX = windowWidth / map.getWidth();
       const scaleY = windowHeight / map.getHeight();
       let sc = 0;
@@ -261,13 +215,6 @@ const SceneEditor = ({ email }: Props) => {
     };
     map.setPosition(newPosition);
   };
-
-  const onShapeClick = useCallback((e: KonvaEventObject<MouseEvent>) => {
-    e;
-    //if (drawAction !== DrawAction.Select) return;
-    //const currentTarget = e.currentTarget;
-    //transformerRef?.current?.nodes([currentTarget]);
-  }, []);
 
   return (
     <>
@@ -321,9 +268,6 @@ const SceneEditor = ({ email }: Props) => {
           ref={stageRef}
           width={window.innerWidth}
           height={window.innerHeight}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
           onWheel={onWheel}
           draggable={true}
         >
@@ -331,10 +275,6 @@ const SceneEditor = ({ email }: Props) => {
             <KonvaImage
               ref={mapRef}
               image={mapImage}
-              //draggable={true}
-              // onDragMove={onMapDragMove}
-              // onPointerDown={onMapPointerDown}
-              // onPointerUp={onMapPointerUp}
             />
             {entityImageCompositions.map((entityImageComposition) => (
               <KonvaImage
@@ -346,7 +286,6 @@ const SceneEditor = ({ email }: Props) => {
                 height={55}
                 width={55}
                 draggable={true}
-                onClick={onShapeClick}
               />
             ))}
             <Transformer ref={transformerRef} />
@@ -442,7 +381,7 @@ const SceneEditor = ({ email }: Props) => {
       {isLoadingScene && (
         <Center>
           <Stack mt={2} position="absolute" top="200px">
-            <IsLoadingIndicator loadingLabel={"Loading Scene Assets ..."} />
+            <IsLoadingIndicator loadingLabel={"Loading Scene Map and Entities ..."} />
           </Stack>
         </Center>
       )}
