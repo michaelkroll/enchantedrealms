@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 // React Icon Imports
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import { TiArrowSortedUp } from "react-icons/ti";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { TbArrowsMaximize } from "react-icons/tb";
 import { BiSolidCircleQuarter } from "react-icons/bi";
