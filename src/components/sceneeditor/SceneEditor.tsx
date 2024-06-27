@@ -35,11 +35,10 @@ import { Context, Provider } from "../carousel/Provider";
 import { LeftButton } from "../carousel/LeftButton";
 import { RightButton } from "../carousel/RightButton";
 
-// Cuustom imports
+// Custom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
 import Map from "../../data/Map";
 import Scene from "../../data/Scene";
-//import FunctionMenu from "./FunctionMenu";
 import useSceneForEditor from "../../hooks/useSceneForEditor";
 import SceneEditorEntityCard from "./SceneEditorEntityCard";
 import IsLoadingIndicator from "../IsLoadingIndicator";
@@ -71,6 +70,8 @@ const SceneEditor = ({ email }: Props) => {
   // Default values set to 100, changed based on the maps gridded flag set.
   const [tokenWidth, setTokenWidth] = useState(100);
   const [tokenHeight, setTokenHeight] = useState(100);
+
+  // Scalefactor which is applied to the stage
   const [scaleFactor, setScaleFactor] = useState<number>(1.0);
 
   const toast = useToast();
@@ -121,7 +122,6 @@ const SceneEditor = ({ email }: Props) => {
   window.addEventListener("resize", fitStageIntoWindow);
 
   useEffect(() => {
-    //console.log("Loading scene...");
     setIsLoadingScene(true);
     setSelectedSceneId(sceneId);
   }, []);
@@ -133,11 +133,9 @@ const SceneEditor = ({ email }: Props) => {
       if (sceneComposition.map?.gridded) {
         if (sceneComposition.map.gridCellWidth) {
           setTokenWidth(sceneComposition.map.gridCellWidth);
-          //console.log("TokenWidth changed to: ", tokenWidth);
         }
         if (sceneComposition.map.gridCellHeight) {
           setTokenHeight(sceneComposition.map.gridCellHeight);
-          //console.log("TokenHeight changed to: ", tokenHeight);
         }
       }
       setMap(sceneComposition.map);
@@ -180,85 +178,23 @@ const SceneEditor = ({ email }: Props) => {
     stageRef.current!.position(newPos);
   };
 
-  // const onFunctionSelected = (functionName: string) => {
-  //   console.log("Selected: ", functionName);
-  // const map = mapRef.current!;
-  // const stage = stageRef.current!;
-  // if (functionName === Functions.Center) {
-  //   centerMap();
-  // } else if (functionName === Functions.FitToSreen) {
-  //   const scale100 = { x: 1, y: 1 };
-  //   scaleFactor = scale100;
-  //   stage.scale(scale100);
-  //   //centerMap();
-  // } else if (functionName === Functions.Scale75Percent) {
-  //   const scale75 = { x: 0.75, y: 0.75 };
-  //   scaleFactor = scale75;
-  //   stage.scale(scale75);
-  //   //centerMap();
-  // } else if (functionName === Functions.Scale50Percent) {
-  //   const scale50 = { x: 0.5, y: 0.5 };
-  //   scaleFactor = scale50;
-  //   stage.scale(scale50);
-  //   //centerMap();
-  // } else if (functionName === Functions.Scale25Percent) {
-  //   const scale25 = { x: 0.25, y: 0.25 };
-  //   scaleFactor = scale25;
-  //   stage.scale(scale25);
-  //   //centerMap();
-  // } else if (functionName === Functions.FitToSreen) {
-  //   const windowWidth = window.innerWidth;
-  //   const windowHeight = window.innerHeight;
-  //   const scaleX = windowWidth / map.getWidth();
-  //   const scaleY = windowHeight / map.getHeight();
-  //   let sc = 0;
-  //   if (windowWidth > windowHeight) {
-  //     sc = scaleY;
-  //   } else {
-  //     sc = scaleX;
-  //   }
-  //   const scale = { x: sc, y: sc };
-  //   scaleFactor = scale;
-  //   stage.scale(scale);
-  //   //centerMap();
-  // }
-  //};
+  const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
-  // const centerMap = () => {
-  //   const map = mapRef.current!;
-  //   const stage = stageRef.current!;
-  //   const newPosition = {
-  //     x: window.innerWidth / 2 - (map.getWidth() * scaleFactor.x) / 2,
-  //     y: window.innerHeight / 2 - (map.getHeight() * scaleFactor.y) / 2,
-  //   };
-  //   stage.setPosition(newPosition);
-  // };
-
-  const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {
-    //console.log(evt.currentTarget);
-  };
-
-  const onEntityDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {
-    //console.log(evt.currentTarget);
-  };
+  const onEntityDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
   const onEntityMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    //console.log(evt.target);
     stageRef.current!.container().style.cursor = "move";
   };
 
   const onEntityMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    //console.log(evt.target);
     stageRef.current!.container().style.cursor = "default";
   };
 
   const onEntityMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    //console.log(evt.target);
     stageRef.current!.container().style.cursor = "pointer";
   };
 
   const onEntityMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    //console.log(evt.target);
     stageRef.current!.container().style.cursor = "default";
   };
 
@@ -273,8 +209,6 @@ const SceneEditor = ({ email }: Props) => {
           const yDropPosition = stageRef.current!.getPointerPosition()?.y!;
           const entity = JSON.parse(dragUrl.current!) as Entity;
 
-          // let item1 = array.find(i => i.id === 1);
-
           const entityFound = entityImageCompositions.find(
             (composition) => composition.entity.id === entity.id
           );
@@ -286,11 +220,8 @@ const SceneEditor = ({ email }: Props) => {
 
             const stagePosX = stageRef.current?.x()!;
             const stagePosY = stageRef.current?.y()!;
-            // console.log("Current Stage X/Y position: ", stagePosX, stagePosY);
-            // console.log("Current State Scale: ", scaleFactor);
-
-            let entityPosX = xDropPosition / scaleFactor; // + stagePosX; // * scaleFactor.x;
-            let entityPosY = yDropPosition / scaleFactor; // + stagePosY; // * scaleFactor.y;
+            let entityPosX = xDropPosition / scaleFactor;
+            let entityPosY = yDropPosition / scaleFactor;
 
             if (stagePosX >= 0) {
               entityPosX -= stagePosX / scaleFactor;
@@ -310,12 +241,12 @@ const SceneEditor = ({ email }: Props) => {
               xPos: entityPosX,
               yPos: entityPosY,
             };
+
             setEntityImageCompositions([
               ...entityImageCompositions,
               entityImageComposition,
             ]);
           } else {
-            // console.log("Entity is already added to the map");
             toast({
               title: `'${entity.name}' has already been added to the map.`,
               status: "error",
@@ -324,10 +255,6 @@ const SceneEditor = ({ email }: Props) => {
               duration: 2000,
             });
           }
-
-          // add the shape to the layer
-          //entityLayerRef.current!.add(image).draw();
-          // add the layer to the stage
         }}
         onDragOver={(e) => e.preventDefault()}
       >
@@ -362,12 +289,6 @@ const SceneEditor = ({ email }: Props) => {
           </Layer>
         </Stage>
       </div>
-      {/* <FunctionMenu
-        positionTop={"5px"}
-        positionRight={"5px"}
-        direction={"column"}
-        handleFunctionSelected={onFunctionSelected}
-      /> */}
 
       <Tooltip
         hasArrow

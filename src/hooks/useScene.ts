@@ -13,7 +13,6 @@ import Scene from "../data/Scene";
 import Map from "../data/Map";
 
 const useScene = (sceneId: string) => {
-
   const [sceneObject, setSceneObject] = useState<Scene>();
   const [mapObject, setMapObject] = useState<Map>();
   const [errorString, setErrorString] = useState("");
@@ -22,21 +21,20 @@ const useScene = (sceneId: string) => {
     const graphqlClient = generateClient();
     const oneScene = await graphqlClient.graphql({
       query: getScene,
-      variables: { id: sceneId }
+      variables: { id: sceneId },
     });
     if (oneScene.data.getScene) {
       setSceneObject(oneScene.data.getScene);
-    }
-    else {
+    } else {
       setErrorString("Error loading Scene.");
     }
   };
 
-  const loadMap = async () => { 
+  const loadMap = async () => {
     const graphqlClient = generateClient();
     const oneMap = await graphqlClient.graphql({
       query: getMap,
-      variables: { id: sceneObject!.mapId }
+      variables: { id: sceneObject!.mapId },
     });
     if (oneMap.data.getMap) {
       const mapPicPath = oneMap.data.getMap.mapPicPath;
@@ -50,25 +48,22 @@ const useScene = (sceneId: string) => {
       const mapCoverImage = getUrlResult.url.toString();
       oneMap.data.getMap.mapPicS3Url = mapCoverImage;
       setMapObject(oneMap.data.getMap);
-    }
-    else {
+    } else {
       setErrorString("Error loading Map.");
     }
   };
 
   useEffect(() => {
-    console.log("Get the scene for: ", sceneId);
     loadScene();
   }, [sceneId]);
 
   useEffect(() => {
     if (sceneObject != null) {
-      console.log("Get the map for: ", sceneObject?.mapId);
       loadMap();
     }
   }, [sceneObject]);
 
-  return {sceneObject, mapObject, errorString};
-}
+  return { sceneObject, mapObject, errorString };
+};
 
 export default useScene;
