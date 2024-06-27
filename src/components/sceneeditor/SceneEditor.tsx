@@ -325,12 +325,13 @@ const SceneEditor = ({ email }: Props) => {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onWheel={onWheel}
+          draggable={true}
         >
           <Layer>
             <KonvaImage
               ref={mapRef}
               image={mapImage}
-              draggable={true}
+              //draggable={true}
               // onDragMove={onMapDragMove}
               // onPointerDown={onMapPointerDown}
               // onPointerUp={onMapPointerUp}
@@ -374,7 +375,7 @@ const SceneEditor = ({ email }: Props) => {
           top="5px"
           left="5px"
           size="lg"
-          aria-label="Leave Adventure"
+          aria-label="Leave the Scene Editor"
           icon={<TbDoorExit />}
           onClick={() => {
             onExitEditorConfirmAlertOpen();

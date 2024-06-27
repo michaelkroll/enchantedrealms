@@ -16,6 +16,7 @@ import { BiSolidCircleQuarter } from "react-icons/bi";
 import { BiSolidCircleHalf } from "react-icons/bi";
 import { BiSolidCircleThreeQuarter } from "react-icons/bi";
 import { BiSolidCircle } from "react-icons/bi";
+import { PiResize } from "react-icons/pi";
 
 interface Props {
   positionTop: string;
@@ -71,7 +72,7 @@ const FunctionMenu = ({
         hasArrow
         placement="left"
         label={
-          functionsMenuEnabled ? "Close Functions Menu" : "Open Functions Menu"
+          functionsMenuEnabled ? "Close Menu" : "Open Size and Scale Functions Menu"
         }
         bg="gray.300"
         color="black"
@@ -86,7 +87,7 @@ const FunctionMenu = ({
           size="lg"
           aria-label="Menu"
           icon={
-            functionsMenuEnabled ? <TiArrowSortedDown /> : <TiArrowSortedUp />
+            functionsMenuEnabled ? <TiArrowSortedUp/> : <PiResize />
           }
           onClick={setFunctionsMenuEnabled.toggle}
         />
