@@ -333,6 +333,7 @@ const SceneEditor = ({ email }: Props) => {
                 <Carousel gap={5}>
                   {sceneComposition!.entityCompositions!.map((composition) => (
                     <SceneEditorEntityCard
+                      key={composition!.entity.id}
                       entity={composition!.entity}
                       dragUrlRef={dragUrl}
                     />
