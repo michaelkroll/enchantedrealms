@@ -34,7 +34,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
 
   const loadScene = async () => {
     setIsLoadingScene(true);
-    console.log("sceneIdInternal: ", sceneIdInternal);
+    //console.log("sceneIdInternal: ", sceneIdInternal);
 
     const graphqlClient = generateClient();
     // read the Scene
@@ -126,7 +126,6 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
               entity: entity!,
               entityPosition: null,
             };
-            console.log("Add to array: ", entityComposition);
             entityCompositionArray.push(entityComposition);
           }
         }
@@ -142,7 +141,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
 
       if (oneMap.data.getMap) {
         map = oneMap.data.getMap;
-        console.log("Map: ", map)
+        //console.log("Map: ", map)
       }
     } catch (error) {
       if (isAppSyncError(error)) {
@@ -165,7 +164,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     const mapPicS3Url = getUrlResult.url.toString();
     map.mapPicS3Url = mapPicS3Url;
 
-    console.log("Map with S3Url: ", map);
+    //console.log("Map with S3Url: ", map);
 
     const sceneComposition: SceneComposition = {
       scene: scene,
@@ -173,7 +172,7 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
       entityCompositions: entityCompositionArray,
     };
 
-    console.log("Composition: ", sceneComposition);
+    //console.log("Composition: ", sceneComposition);
 
     setSceneComposition(sceneComposition);
     setIsCompositionValid(true);
@@ -186,17 +185,17 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
 
   useEffect(() => {
     if (sceneId != undefined && sceneId != null) {
-      console.log("useEffect: ", sceneId);
+      //console.log("useEffect: ", sceneId);
       setSceneIdInternal(sceneId);
     }
   }, [sceneId]);
 
   useEffect(() => {
     if (sceneIdInternal != "") {
-      console.log("Get scene for ID: ", sceneIdInternal);
+      //console.log("Get scene for ID: ", sceneIdInternal);
       loadScene();
     } else {
-      console.log("SceneIdInternal is not set");
+      //console.log("SceneIdInternal is not set");
     }
   }, [sceneIdInternal]);
 

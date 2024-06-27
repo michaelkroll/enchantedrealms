@@ -22,7 +22,16 @@ interface Props {
   positionTop: string;
   positionRight: string;
   direction: string;
-  handleFunctionSelected: (toolName: string) => void;
+  handleFunctionSelected: (selectedFunction: string) => void;
+}
+
+export enum Functions {
+  Center = "CENTER",
+  FitToSreen = "FIT",
+  Scale25Percent = "SCALE25",
+  Scale50Percent = "SCALE50",
+  Scale75Percent = "SCALE75",
+  Scale100Percent = "SCALE100"
 }
 
 const FunctionMenu = ({
@@ -42,26 +51,32 @@ const FunctionMenu = ({
   const menuItems = [
     {
       name: "Center",
+      function: Functions.Center,
       icon: <MdCenterFocusStrong />,
     },
     {
       name: "Fit to Screen",
+      function: Functions.FitToSreen,
       icon: <TbArrowsMaximize />,
     },
     {
       name: "Scale 25%",
+      function: Functions.Scale25Percent,
       icon: <BiSolidCircleQuarter />,
     },
     {
       name: "Scale 50%",
+      function: Functions.Scale50Percent,
       icon: <BiSolidCircleHalf />,
     },
     {
       name: "Scale 75%",
+      function: Functions.Scale75Percent,
       icon: <BiSolidCircleThreeQuarter />,
     },
     {
       name: "Original Size 100%",
+      function: Functions.Scale100Percent,
       icon: <BiSolidCircle />,
     },
   ];
@@ -124,7 +139,7 @@ const FunctionMenu = ({
                 background={functionButtonColor}
                 _hover={{ bgColor: functionButtonHoverColor }}
                 aria-label={menuItem.name}
-                onClick={() => handleFunctionSelected(menuItem.name)}
+                onClick={() => handleFunctionSelected(menuItem.function)}
               />
             </Tooltip>
           ))}
