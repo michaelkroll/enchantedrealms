@@ -178,24 +178,41 @@ const SceneEditor = ({ email }: Props) => {
     stageRef.current!.position(newPos);
   };
 
+  // Stage Mouse Handler
+  const onStageDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
+  const onStageDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
+  const onStageMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    stageRef.current!.container().style.cursor = "move";
+  };
+  const onStageMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    stageRef.current!.container().style.cursor = "grab";
+  };
+  const onStageMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    stageRef.current!.container().style.cursor = "grab";
+  };
+  const onStageMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    stageRef.current!.container().style.cursor = "default";
+  };
+
+  // Entity Mouse Handler
   const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
   const onEntityDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
   const onEntityMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "move";
+    stageRef.current!.container().style.cursor = "grabbing";
   };
 
   const onEntityMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "default";
+    stageRef.current!.container().style.cursor = "grab";
   };
 
   const onEntityMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "pointer";
+    stageRef.current!.container().style.cursor = "grab";
   };
 
   const onEntityMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "default";
+    stageRef.current!.container().style.cursor = "grab";
   };
 
   return (
@@ -262,8 +279,14 @@ const SceneEditor = ({ email }: Props) => {
           ref={stageRef}
           width={window.innerWidth}
           height={window.innerHeight}
-          onWheel={onWheel}
           draggable={true}
+          onWheel={onWheel}
+          onDragMove={onStageDragMove}
+          onDragEnd={onStageDragEnd}
+          onMouseDown={onStageMouseDown}
+          onMouseUp={onStageMouseUp}
+          onMouseLeave={onStageMouseLeave}
+          onMouseEnter={onStageMouseEnter}
         >
           <Layer>
             <KonvaImage ref={mapRef} image={mapImage} />
