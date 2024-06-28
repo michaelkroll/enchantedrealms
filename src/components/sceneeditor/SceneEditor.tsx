@@ -60,8 +60,9 @@ const SceneEditor = () => {
 
   const toast = useToast();
 
-  const buttonColor = useColorModeValue("gray.50", "gray.700");
-  const buttonHoverColor = useColorModeValue("blue.150", "blue.500");
+  const buttonColor = useColorModeValue("gray.300", "gray.700");
+  const buttonHoverColor = useColorModeValue("blue.400", "blue.500");
+  const buttonActiveColor = useColorModeValue("blue.500", "blue.500");
 
   const [isLoadingScene, setIsLoadingScene] = useState(false);
 
@@ -209,6 +210,10 @@ const SceneEditor = () => {
     }
   };
 
+  const onStageClick = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    //disableTransformation();
+  };
+
   // Entity Mouse Handler
   const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
@@ -341,6 +346,7 @@ const SceneEditor = () => {
           onMouseUp={onStageMouseUp}
           onMouseLeave={onStageMouseLeave}
           onMouseEnter={onStageMouseEnter}
+          onClick={onStageClick}
         >
           <Layer>
             <KonvaImage ref={mapRef} image={mapImage} />
@@ -354,7 +360,8 @@ const SceneEditor = () => {
                 y={entityImageComposition.yPos! - tokenHeight / 2}
                 height={tokenHeight}
                 width={tokenHeight}
-                draggable={selectedTool == Tools.Move}
+                //draggable={selectedTool == Tools.Move}
+                draggable={true}
                 onMouseEnter={onEntityMouseEnter}
                 onMouseLeave={onEntityMouseLeave}
                 onMouseDown={onEntityMouseDown}
@@ -363,7 +370,7 @@ const SceneEditor = () => {
                 onDragEnd={onEntityDragEnd}
                 onClick={handleEntityClicked}
                 onTransformEnd={onEntityTransformEnd}
-                />
+              />
             ))}
             <Transformer ref={transformerRef} />
           </Layer>
@@ -382,6 +389,7 @@ const SceneEditor = () => {
           position="absolute"
           background={buttonColor}
           _hover={{ bgColor: buttonHoverColor }}
+          _active={{ bgColor: buttonActiveColor }}
           top="5px"
           left="5px"
           size="lg"

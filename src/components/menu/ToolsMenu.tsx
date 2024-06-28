@@ -11,9 +11,11 @@ import {
 
 // React Icon Imports
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import { IoMdMove } from "react-icons/io";
+import { CiLocationArrow1 } from "react-icons/ci";
 
-import moveIcon from "../../assets/move-icon.svg";
-import selectIcon from "../../assets/select-icon.svg";
+// import moveIcon from "../../assets/move-icon.svg";
+// import selectIcon from "../../assets/select-icon.svg";
 import ToolsMenuRadioItem from "./ToolsMenuRadioItem";
 import { useState } from "react";
 
@@ -38,20 +40,21 @@ const ToolsMenu = ({
   const [toolsMenuEnabled, setToolsMenuEnabled] = useBoolean(false);
   const [selectedTool, setSelectedTool] = useState("");
 
-  const toolsMenuBackgroundColor = useColorModeValue("gray.300", "gray.600");
-  const toolsButtonColor = useColorModeValue("gray.50", "gray.700");
-  const toolsButtonHoverColor = useColorModeValue("blue.150", "blue.500");
+  const toolsMenuBackgroundColor = useColorModeValue("gray.600", "gray.600");
+  const toolsButtonColor = useColorModeValue("gray.300", "gray.700");
+  const toolsButtonHoverColor = useColorModeValue("blue.400", "blue.500");
+  const toolsButtonActiveColor = useColorModeValue("blue.500", "blue.500");
 
   const tools = [
     {
       name: "Move",
       tool: Tools.Move,
-      image: moveIcon,
+      icon: IoMdMove
     },
     {
       name: "Select",
       tool: Tools.Select,
-      image: selectIcon,
+      icon: CiLocationArrow1
     },
   ];
 
@@ -85,6 +88,7 @@ const ToolsMenu = ({
         <IconButton
           background={toolsButtonColor}
           _hover={{ bgColor: toolsButtonHoverColor }}
+          _active={{ bgColor: toolsButtonActiveColor }}
           position="absolute"
           top={positionTop}
           right={positionRight}
@@ -112,7 +116,7 @@ const ToolsMenu = ({
           {tools.map((tool) => (
             <ToolsMenuRadioItem
               key={tool.tool}
-              image={tool.image}
+              icon={tool.icon}
               radioProps={{
                 ...getRadioProps({
                   value: tool.name,

@@ -29,7 +29,8 @@ interface Props {
 const EntityCarousel = ({ dragUrl, entityCompositions }: Props) => {
   const carouselBackgroundColor = useColorModeValue("gray.300", "gray.600");
   const buttonColor = useColorModeValue("gray.50", "gray.700");
-  const buttonHoverColor = useColorModeValue("blue.150", "blue.500");
+  const buttonHoverColor = useColorModeValue("blue.400", "blue.500");
+  const buttonActiveColor = useColorModeValue("blue.500", "blue.500");
 
   const getCarouselPositionText = (
     context: ContextType,
@@ -92,6 +93,7 @@ const EntityCarousel = ({ dragUrl, entityCompositions }: Props) => {
                     ms={1}
                     background={buttonColor}
                     _hover={{ bgColor: buttonHoverColor }}
+                    _active={{ bgColor: buttonActiveColor }}
                     customIcon={<FaArrowLeftLong />}
                   />
                 )}
@@ -109,14 +111,15 @@ const EntityCarousel = ({ dragUrl, entityCompositions }: Props) => {
               <Context.Consumer>
                 {(context) => (
                   <RightButton
-                  isDisabled={
-                    entityCompositions?.length! < context?.constraint!
-                  }
+                    isDisabled={
+                      entityCompositions?.length! < context?.constraint!
+                    }
                     height="24px"
                     mb={1}
                     me={1}
                     background={buttonColor}
                     _hover={{ bgColor: buttonHoverColor }}
+                    _active={{ bgColor: buttonActiveColor }}
                     customIcon={<FaArrowRightLong />}
                   />
                 )}

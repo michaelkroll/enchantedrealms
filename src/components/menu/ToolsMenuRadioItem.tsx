@@ -4,28 +4,30 @@ import { PropsWithChildren } from "react";
 // Chakra UI imports
 import {
   Box,
-  Image,
+  Icon,
   Tooltip,
   UseRadioProps,
   useColorModeValue,
   useRadio,
 } from "@chakra-ui/react";
+import { IconType } from "react-icons";
 
 interface Props {
   radioProps: PropsWithChildren<UseRadioProps>;
-  image: string;
+  icon: IconType;
 }
 
-const ToolsMenuRadioItem = ({ radioProps, image }: Props) => {
+const ToolsMenuRadioItem = ({ radioProps, icon }: Props) => {
   const { getInputProps, getRadioProps } = useRadio(radioProps);
 
   const inputProps = getInputProps();
   const radioButtonProps = getRadioProps();
 
-  //const toolsMenuBackgroundColor = useColorModeValue("gray.300", "gray.600");
-  const toolsButtonColor = useColorModeValue("gray.50", "gray.700");
-  const toolsButtonHoverColor = useColorModeValue("blue.250", "blue.700");
-  const toolsButtonSelectedColor = useColorModeValue("blue.150", "blue.500");
+  const buttonColor = useColorModeValue("gray.300", "gray.700");
+  const buttonHoverColor = useColorModeValue("blue.400", "blue.300");
+  const buttonActiveColor = useColorModeValue("blue.500", "blue.500");
+  const buttonCheckedColor = useColorModeValue("blue.500", "blue.500");
+  const buttonIconColor = useColorModeValue("black", "white");
 
   return (
     <Tooltip
@@ -39,21 +41,27 @@ const ToolsMenuRadioItem = ({ radioProps, image }: Props) => {
       <Box as="label">
         <input {...inputProps} />
         <Box
-          background={toolsButtonColor}
-          px={1}
-          py={1}
+          paddingTop="6px"
+          paddingLeft="4px"
+          paddingRight="4px"
+
+          background={buttonColor}
+          borderRadius="5px"
           {...radioButtonProps}
           _hover={{
-            bgColor: toolsButtonHoverColor,
+            bgColor: buttonHoverColor,
             borderRadius: "5px",
           }}
           _checked={{
-            bgColor: toolsButtonSelectedColor,
+            bgColor: buttonCheckedColor,
             borderRadius: "5px",
-            color: "white",
+          }}
+          _active={{
+            bgColor: buttonActiveColor,
+            borderRadius: "5px",
           }}
         >
-          <Image src={image} width="32px" height="32px" />
+          <Icon as={icon} width="32px" height="28px" color={buttonIconColor} />
         </Box>
       </Box>
     </Tooltip>
