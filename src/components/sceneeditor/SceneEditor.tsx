@@ -138,7 +138,7 @@ const SceneEditor = ({ email }: Props) => {
       console.log("Loading map failed.");
       setIsLoadingScene(false);
       toast({
-        title: "An erro occured loading the map. Please close/leave the editor and try again.",
+        title: "An error occured while loading the map. Please close/leave the editor and try again.",
         status: "error",
         position: "top",
         isClosable: true,
