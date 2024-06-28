@@ -6,22 +6,17 @@ import { useNavigate, useParams } from "react-router-dom";
 
 // Chakra UI imports
 import {
-  Box,
   Center,
   IconButton,
   Stack,
   Tooltip,
-  Text,
   useDisclosure,
-  HStack,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 
 // React Icon imports
 import { TbDoorExit } from "react-icons/tb";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { FaArrowRightLong } from "react-icons/fa6";
 
 // Konva JS imports
 import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva";
@@ -29,21 +24,15 @@ import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import useImage from "use-image";
 
-// Carousel imports
-import { Carousel } from "../carousel/Carousel";
-import { Context, Provider } from "../carousel/Provider";
-import { LeftButton } from "../carousel/LeftButton";
-import { RightButton } from "../carousel/RightButton";
-
 // Custom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
 import Map from "../../data/Map";
 import Scene from "../../data/Scene";
 import useSceneForEditor from "../../hooks/useSceneForEditor";
-import SceneEditorEntityCard from "./SceneEditorEntityCard";
 import IsLoadingIndicator from "../IsLoadingIndicator";
 import Entity from "../../data/Entity";
 import EntityKonvaImageComposition from "../../data/EntityKonvaImageComposition";
+import EntityCarousel from "../entities/EntityCarousel";
 
 interface Props {
   email: string;
@@ -76,7 +65,6 @@ const SceneEditor = ({ email }: Props) => {
 
   const toast = useToast();
 
-  const carouselBackgroundColor = useColorModeValue("gray.300", "gray.600");
   const buttonColor = useColorModeValue("gray.50", "gray.700");
   const buttonHoverColor = useColorModeValue("blue.150", "blue.500");
 
@@ -128,17 +116,13 @@ const SceneEditor = ({ email }: Props) => {
 
   useEffect(() => {
     if (mapStatus === "loaded") {
-      console.log("Loaded map success.");
       setIsLoadingScene(false);
-    }
-    else if (mapStatus === "loading") {
-      console.log("Loading map...");
-    }
-    else if (mapStatus == "failed") {
-      console.log("Loading map failed.");
+    } else if (mapStatus === "loading") {
+    } else if (mapStatus == "failed") {
       setIsLoadingScene(false);
       toast({
-        title: "An error occured while loading the map. Please close/leave the editor and try again.",
+        title:
+          "An error occured while loading the map. Please close/leave the editor and try again.",
         status: "error",
         position: "top",
         isClosable: true,
@@ -357,60 +341,10 @@ const SceneEditor = ({ email }: Props) => {
       </Tooltip>
 
       {isCompositionValid && (
-        <Center>
-          <Box
-            paddingLeft={1}
-            paddingRight={1}
-            width="500px"
-            height="225px"
-            display="flex"
-            position="absolute"
-            bottom="5px"
-            bg={carouselBackgroundColor}
-            mt={4}
-            rounded="md"
-            gap={1}
-          >
-            <Provider>
-              <Stack width="100%" height="220px">
-                <Carousel gap={5}>
-                  {sceneComposition!.entityCompositions!.map((composition) => (
-                    <SceneEditorEntityCard
-                      key={composition!.entity.id}
-                      entity={composition!.entity}
-                      dragUrlRef={dragUrl}
-                    />
-                  ))}
-                </Carousel>
-                <HStack justify="space-between">
-                  <LeftButton
-                    height="24px"
-                    mb={1}
-                    background={buttonColor}
-                    _hover={{ bgColor: buttonHoverColor }}
-                    customIcon={<FaArrowLeftLong />}
-                  />
-                  <Context.Consumer>
-                    {(value) => (
-                      <Text>
-                        Showing {value?.activeItem! + 1} -{" "}
-                        {value?.activeItem! + value?.constraint!} out of{" "}
-                        {sceneComposition!.entityCompositions!.length} entities
-                      </Text>
-                    )}
-                  </Context.Consumer>
-                  <RightButton
-                    height="24px"
-                    mb={1}
-                    background={buttonColor}
-                    _hover={{ bgColor: buttonHoverColor }}
-                    customIcon={<FaArrowRightLong />}
-                  />
-                </HStack>
-              </Stack>
-            </Provider>
-          </Box>
-        </Center>
+        <EntityCarousel
+          entityCompositions={sceneComposition?.entityCompositions}
+          dragUrl={dragUrl}
+        />
       )}
 
       {isLoadingScene && (

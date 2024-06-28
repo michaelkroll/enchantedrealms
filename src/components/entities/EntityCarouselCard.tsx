@@ -19,7 +19,7 @@ interface Props {
   dragUrlRef: MutableRefObject<string | undefined>;
 }
 
-const SceneEditorEntityCard = ({ entity, dragUrlRef }: Props) => {
+const EntityCarouselCard = ({ entity, dragUrlRef }: Props) => {
   const cardBorderColor = useColorModeValue("gray.300", "gray.600");
   const cardBackgroundColor = useColorModeValue("gray.50", "gray.700");
 
@@ -49,4 +49,4 @@ const SceneEditorEntityCard = ({ entity, dragUrlRef }: Props) => {
   );
 };
 
-export default SceneEditorEntityCard;
+export default EntityCarouselCard;
