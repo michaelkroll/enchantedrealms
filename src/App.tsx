@@ -104,7 +104,7 @@ function App() {
           }
         />
         <Route path="/room/:adventureId" element={<Room email={email} />} />
-        <Route path="/scene/:sceneId" element={<SceneEditor email={email} />} />
+        <Route path="/scene/:sceneId" element={<SceneEditor />} />
       </Routes>
     </Authenticator>
   );

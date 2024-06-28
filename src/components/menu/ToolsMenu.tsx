@@ -17,6 +17,11 @@ import selectIcon from "../../assets/select-icon.svg";
 import ToolsMenuRadioItem from "./ToolsMenuRadioItem";
 import { useState } from "react";
 
+export enum Tools {
+  Move = "Move",
+  Select = "Select",
+}
+
 interface Props {
   positionTop: string;
   positionRight: string;
@@ -31,17 +36,21 @@ const ToolsMenu = ({
   handleToolSelected,
 }: Props) => {
   const [toolsMenuEnabled, setToolsMenuEnabled] = useBoolean(false);
-  const buttonBackground = useColorModeValue("gray.200", "gray.700");
-  const toolsMenuBackground = useColorModeValue("gray.200", "gray.700");
   const [selectedTool, setSelectedTool] = useState("");
 
-  const menuItems = [
+  const toolsMenuBackgroundColor = useColorModeValue("gray.300", "gray.600");
+  const toolsButtonColor = useColorModeValue("gray.50", "gray.700");
+  const toolsButtonHoverColor = useColorModeValue("blue.150", "blue.500");
+
+  const tools = [
     {
       name: "Move",
+      tool: Tools.Move,
       image: moveIcon,
     },
     {
       name: "Select",
+      tool: Tools.Select,
       image: selectIcon,
     },
   ];
@@ -74,7 +83,8 @@ const ToolsMenu = ({
         openDelay={1000}
       >
         <IconButton
-          bg={buttonBackground}
+          background={toolsButtonColor}
+          _hover={{ bgColor: toolsButtonHoverColor }}
           position="absolute"
           top={positionTop}
           right={positionRight}
@@ -94,18 +104,18 @@ const ToolsMenu = ({
           top="40px"
           right="5px"
           color="white"
-          bg={toolsMenuBackground}
+          background={toolsMenuBackgroundColor}
           mt={5}
           rounded="md"
           gap={1}
         >
-          {menuItems.map((menuItem) => (
+          {tools.map((tool) => (
             <ToolsMenuRadioItem
-              key={menuItem.name}
-              image={menuItem.image}
+              key={tool.tool}
+              image={tool.image}
               radioProps={{
                 ...getRadioProps({
-                  value: menuItem.name,
+                  value: tool.name,
                 }),
               }}
             />

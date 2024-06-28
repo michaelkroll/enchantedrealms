@@ -7,7 +7,7 @@ import {
   Image,
   Tooltip,
   UseRadioProps,
-  useColorMode,
+  useColorModeValue,
   useRadio,
 } from "@chakra-ui/react";
 
@@ -22,7 +22,10 @@ const ToolsMenuRadioItem = ({ radioProps, image }: Props) => {
   const inputProps = getInputProps();
   const radioButtonProps = getRadioProps();
 
-  const { colorMode } = useColorMode();
+  //const toolsMenuBackgroundColor = useColorModeValue("gray.300", "gray.600");
+  const toolsButtonColor = useColorModeValue("gray.50", "gray.700");
+  const toolsButtonHoverColor = useColorModeValue("blue.250", "blue.700");
+  const toolsButtonSelectedColor = useColorModeValue("blue.150", "blue.500");
 
   return (
     <Tooltip
@@ -36,19 +39,16 @@ const ToolsMenuRadioItem = ({ radioProps, image }: Props) => {
       <Box as="label">
         <input {...inputProps} />
         <Box
+          background={toolsButtonColor}
           px={1}
           py={1}
           {...radioButtonProps}
           _hover={{
-            bg: colorMode === "light" ? "gray.300" : "gray.500",
+            bgColor: toolsButtonHoverColor,
             borderRadius: "5px",
-          }}
-          _focus={{
-            borderRadius: "5px",
-            color: "white",
           }}
           _checked={{
-            bg: colorMode === "light" ? "gray.400" : "gray.300",
+            bgColor: toolsButtonSelectedColor,
             borderRadius: "5px",
             color: "white",
           }}

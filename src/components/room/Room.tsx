@@ -35,7 +35,7 @@ import useAdventure from "../../hooks/useAdventure";
 //import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import LeaveRoomConfirmationAlert from "./LeaveRoomConfirmationAlert";
-import ToolsMenu from "./ToolsMenu";
+import ToolsMenu from "../menu/ToolsMenu";
 
 interface Props {
   email: string;

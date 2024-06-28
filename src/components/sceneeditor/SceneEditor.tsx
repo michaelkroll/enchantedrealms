@@ -33,18 +33,11 @@ import IsLoadingIndicator from "../IsLoadingIndicator";
 import Entity from "../../data/Entity";
 import EntityKonvaImageComposition from "../../data/EntityKonvaImageComposition";
 import EntityCarousel from "../entities/EntityCarousel";
+import ToolsMenu, { Tools } from "../menu/ToolsMenu";
 
-interface Props {
-  email: string;
-}
-
-const SceneEditor = ({ email }: Props) => {
+const SceneEditor = () => {
   const params = useParams();
   const sceneId: string = params.sceneId!;
-
-  email;
-
-  //console.log("Scene Editor Params email: ", email, " sceneId: ", sceneId);
 
   // Konva JS references
   const stageRef = useRef<Konva.Stage>(null);
@@ -52,6 +45,8 @@ const SceneEditor = ({ email }: Props) => {
   const mapRef = useRef<Konva.Image>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const dragUrl = useRef<string | undefined>();
+
+  const [selectedTool, setSelectedTool] = useState("");
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
@@ -74,7 +69,7 @@ const SceneEditor = ({ email }: Props) => {
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
   const { sceneComposition, isCompositionValid } =
     useSceneForEditor(selectedSceneId);
-  const [mapImage, mapStatus] = useImage(map?.mapPicS3Url!);
+  const [mapImage, mapImageStatus] = useImage(map?.mapPicS3Url!);
   const [entityImageCompositions, setEntityImageCompositions] = useState<
     EntityKonvaImageComposition[]
   >([]);
@@ -115,10 +110,10 @@ const SceneEditor = ({ email }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (mapStatus === "loaded") {
+    if (mapImageStatus === "loaded") {
       setIsLoadingScene(false);
-    } else if (mapStatus === "loading") {
-    } else if (mapStatus == "failed") {
+    } else if (mapImageStatus === "loading") {
+    } else if (mapImageStatus == "failed") {
       setIsLoadingScene(false);
       toast({
         title:
@@ -129,7 +124,7 @@ const SceneEditor = ({ email }: Props) => {
         duration: 2000,
       });
     }
-  }, [mapStatus]);
+  }, [mapImageStatus]);
 
   useEffect(() => {
     if (sceneComposition != null) {
@@ -186,16 +181,32 @@ const SceneEditor = ({ email }: Props) => {
   const onStageDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
   const onStageDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
   const onStageMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "move";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "move";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "default";
+    }
   };
   const onStageMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grab";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grab";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "default";
+    }
   };
   const onStageMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grab";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grab";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "default";
+    }
   };
   const onStageMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "default";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "default";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "default";
+    }
   };
 
   // Entity Mouse Handler
@@ -203,20 +214,55 @@ const SceneEditor = ({ email }: Props) => {
 
   const onEntityDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
-  const onEntityMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grabbing";
+  const onEntityMouseDown = (e: Konva.KonvaEventObject<MouseEvent>): void => {
+    console.log("The selected EntityID: ", e.target.attrs.id);
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grabbing";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "pointer";
+      console.log("The selected EntityID: ", e.target.attrs.id);
+    }
   };
 
   const onEntityMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grab";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grab";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "pointer";
+    }
   };
 
   const onEntityMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grab";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grab";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "pointer";
+    }
   };
 
   const onEntityMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    stageRef.current!.container().style.cursor = "grab";
+    if (selectedTool == Tools.Move) {
+      stageRef.current!.container().style.cursor = "grab";
+    } else if (selectedTool == Tools.Select) {
+      stageRef.current!.container().style.cursor = "default";
+    }
+  };
+
+  const onToolSelected = (toolName: string) => {
+    setSelectedTool(toolName);
+    if (toolName == Tools.Move) {
+      disableTransformation();
+    }
+  };
+
+  const handleEntityClicked = (evt: Konva.KonvaEventObject<MouseEvent>) => {
+    if (selectedTool != Tools.Select) return;
+    const target = evt.currentTarget;
+    transformerRef!.current!.nodes([target]);
+  };
+
+  const disableTransformation = () => {
+    transformerRef?.current!.nodes([]);
   };
 
   return (
@@ -283,7 +329,7 @@ const SceneEditor = ({ email }: Props) => {
           ref={stageRef}
           width={window.innerWidth}
           height={window.innerHeight}
-          draggable={true}
+          draggable={selectedTool == Tools.Move}
           onWheel={onWheel}
           onDragMove={onStageDragMove}
           onDragEnd={onStageDragEnd}
@@ -296,6 +342,7 @@ const SceneEditor = ({ email }: Props) => {
             <KonvaImage ref={mapRef} image={mapImage} />
             {entityImageCompositions.map((entityImageComposition) => (
               <KonvaImage
+                name={entityImageComposition.entity.id}
                 key={entityImageComposition.entity.id}
                 id={entityImageComposition.entity.id}
                 image={entityImageComposition.imageElement}
@@ -303,13 +350,14 @@ const SceneEditor = ({ email }: Props) => {
                 y={entityImageComposition.yPos! - tokenHeight / 2}
                 height={tokenHeight}
                 width={tokenHeight}
-                draggable={true}
+                draggable={selectedTool == Tools.Move}
                 onMouseEnter={onEntityMouseEnter}
                 onMouseLeave={onEntityMouseLeave}
                 onMouseDown={onEntityMouseDown}
                 onMouseUp={onEntityMouseUp}
                 onDragMove={onEntityDragMove}
                 onDragEnd={onEntityDragEnd}
+                onClick={handleEntityClicked}
               />
             ))}
             <Transformer ref={transformerRef} />
@@ -356,6 +404,13 @@ const SceneEditor = ({ email }: Props) => {
           </Stack>
         </Center>
       )}
+
+      <ToolsMenu
+        positionTop={"5px"}
+        positionRight={"5px"}
+        direction={"column"}
+        handleToolSelected={onToolSelected}
+      />
 
       <CloseSceneEditorConfirmationAlert
         isOpen={isExitEditorConfirmAlertOpen}
