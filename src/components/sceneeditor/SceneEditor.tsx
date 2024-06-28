@@ -248,6 +248,10 @@ const SceneEditor = () => {
     }
   };
 
+  const onEntityTransformEnd = (evt: Konva.KonvaEventObject<Event>): void => {
+    console.log(evt);
+  };
+
   const onToolSelected = (toolName: string) => {
     setSelectedTool(toolName);
     if (toolName == Tools.Move) {
@@ -358,7 +362,8 @@ const SceneEditor = () => {
                 onDragMove={onEntityDragMove}
                 onDragEnd={onEntityDragEnd}
                 onClick={handleEntityClicked}
-              />
+                onTransformEnd={onEntityTransformEnd}
+                />
             ))}
             <Transformer ref={transformerRef} />
           </Layer>
