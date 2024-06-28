@@ -86,7 +86,7 @@ const SceneEditor = ({ email }: Props) => {
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
   const { sceneComposition, isCompositionValid } =
     useSceneForEditor(selectedSceneId);
-  const [mapImage] = useImage(map?.mapPicS3Url!);
+  const [mapImage, mapStatus] = useImage(map?.mapPicS3Url!);
   const [entityImageCompositions, setEntityImageCompositions] = useState<
     EntityKonvaImageComposition[]
   >([]);
@@ -127,6 +127,27 @@ const SceneEditor = ({ email }: Props) => {
   }, []);
 
   useEffect(() => {
+    if (mapStatus === "loaded") {
+      console.log("Loaded map success.");
+      setIsLoadingScene(false);
+    }
+    else if (mapStatus === "loading") {
+      console.log("Loading map...");
+    }
+    else if (mapStatus == "failed") {
+      console.log("Loading map failed.");
+      setIsLoadingScene(false);
+      toast({
+        title: "An erro occured loading the map. Please close/leave the editor and try again.",
+        status: "error",
+        position: "top",
+        isClosable: true,
+        duration: 2000,
+      });
+    }
+  }, [mapStatus]);
+
+  useEffect(() => {
     if (sceneComposition != null) {
       setScene(sceneComposition.scene);
 
@@ -139,7 +160,6 @@ const SceneEditor = ({ email }: Props) => {
         }
       }
       setMap(sceneComposition.map);
-      setIsLoadingScene(false);
     }
   }, [sceneComposition]);
 
