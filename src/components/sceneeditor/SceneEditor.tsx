@@ -210,26 +210,30 @@ const SceneEditor = () => {
     }
   };
 
-  const onStageClick = (_: Konva.KonvaEventObject<MouseEvent>): void => {
-    //disableTransformation();
-  };
-
   // Entity Mouse Handler
   const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
   const onEntityDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
-  const onEntityMouseDown = (e: Konva.KonvaEventObject<MouseEvent>): void => {
-    console.log("The selected EntityID: ", e.target.attrs.id);
+  const onEntityMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+    //console.log("The selected EntityID: ", e.target.attrs.id);
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "grabbing";
     } else if (selectedTool == Tools.Select) {
       stageRef.current!.container().style.cursor = "pointer";
-      console.log("The selected EntityID: ", e.target.attrs.id);
+      //console.log("The selected EntityID: ", e.target.attrs.id);
     }
   };
 
-  const onEntityMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
+  const onEntityMouseUp = (evt: Konva.KonvaEventObject<MouseEvent>): void => {
+    console.log("--- MouseUp ---");
+    console.log("Entity ID: ", evt.target.attrs.id);
+    console.log("   rotation: ", evt.target.attrs.rotation);
+    console.log("   x/y: ", evt.target.attrs.x, evt.target.attrs.y);
+    console.log("   width/height: ", evt.target.attrs.width, evt.target.attrs.height);
+    console.log("   scale x/y: ", evt.target.attrs.scaleX, evt.target.attrs.scaleY);
+
+
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "grab";
     } else if (selectedTool == Tools.Select) {
@@ -253,8 +257,17 @@ const SceneEditor = () => {
     }
   };
 
+  const onEntityTransform = (_: Konva.KonvaEventObject<Event>): void => {
+    //console.log(evt.target.attrs);
+  };
+
   const onEntityTransformEnd = (evt: Konva.KonvaEventObject<Event>): void => {
-    console.log(evt);
+    console.log("--- Transform End ---");
+    console.log("Entity ID: ", evt.target.attrs.id);
+    console.log("   rotation: ", evt.target.attrs.rotation);
+    console.log("   x/y: ", evt.target.attrs.x, evt.target.attrs.y);
+    console.log("   width/height: ", evt.target.attrs.width, evt.target.attrs.height);
+    console.log("   scale x/y: ", evt.target.attrs.scaleX, evt.target.attrs.scaleY);
   };
 
   const onToolSelected = (toolName: string) => {
@@ -346,7 +359,6 @@ const SceneEditor = () => {
           onMouseUp={onStageMouseUp}
           onMouseLeave={onStageMouseLeave}
           onMouseEnter={onStageMouseEnter}
-          onClick={onStageClick}
         >
           <Layer>
             <KonvaImage ref={mapRef} image={mapImage} />
@@ -370,9 +382,10 @@ const SceneEditor = () => {
                 onDragEnd={onEntityDragEnd}
                 onClick={handleEntityClicked}
                 onTransformEnd={onEntityTransformEnd}
+                onTransform={onEntityTransform}
               />
             ))}
-            <Transformer ref={transformerRef} />
+            <Transformer rotationSnaps={[0, 45, 90, 135, 180, 225, 270]} ref={transformerRef} />
           </Layer>
         </Stage>
       </div>
