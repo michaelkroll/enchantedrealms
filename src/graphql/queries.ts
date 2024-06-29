@@ -270,6 +270,9 @@ export const getEntityPosition = /* GraphQL */ `query GetEntityPosition($id: ID!
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -290,6 +293,9 @@ export const listEntityPositions = /* GraphQL */ `query ListEntityPositions(
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
@@ -313,6 +319,9 @@ export const getScene = /* GraphQL */ `query GetScene($id: ID!) {
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename

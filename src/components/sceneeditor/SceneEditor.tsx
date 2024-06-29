@@ -13,10 +13,18 @@ import {
   useDisclosure,
   useColorModeValue,
   useToast,
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  MenuGroup,
 } from "@chakra-ui/react";
 
 // React Icon imports
 import { TbDoorExit } from "react-icons/tb";
+import { TbWindowMinimize } from "react-icons/tb";
+import { TbRotate2 } from "react-icons/tb";
+import { GiResize } from "react-icons/gi";
 
 // Konva JS imports
 import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva";
@@ -50,6 +58,9 @@ const SceneEditor = () => {
 
   const [scene, setScene] = useState<Scene>();
   const [map, setMap] = useState<Map>();
+
+  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+  const [entityIdContextMenu, setEntityIdContextMenu] = useState("");
 
   // Default values set to 100, changed based on the maps gridded flag set.
   const [tokenWidth, setTokenWidth] = useState(100);
@@ -210,6 +221,12 @@ const SceneEditor = () => {
     }
   };
 
+  const onStageClick = (event: Konva.KonvaEventObject<MouseEvent>): void => {
+    if (event.target.attrs.name !== "Entity") {
+      disableTransformation();
+    }
+  };
+
   // Entity Mouse Handler
   const onEntityDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
 
@@ -291,7 +308,80 @@ const SceneEditor = () => {
     evt: Konva.KonvaEventObject<PointerEvent>
   ): void => {
     console.log("Show Context Menu.");
+
+    setEntityIdContextMenu(evt.target.attrs.id);
+
     evt.evt.preventDefault();
+    setIsContextMenuOpen(true);
+
+    const menu = document.querySelector("[role=menu]");
+    const popper = menu!.parentElement;
+
+    const x = evt.evt.clientX;
+    const y = evt.evt.clientY;
+
+    Object.assign(popper!.style, {
+      top: `${y}px`,
+      left: `${x}px`,
+    });
+  };
+
+  const contextMenuResetEntityRotation = () => {
+    console.log("Reset Rotation for: ", entityIdContextMenu);
+    const stage = stageRef.current!;
+    const image = stage.find("#" + entityIdContextMenu)[0];
+
+    new Konva.Tween({
+      node: image,
+      duration: 0.5,
+      rotation: 0,
+      easing: Konva.Easings.EaseOut,
+    }).play();
+  };
+
+  const contextMenuResetEntityScale = () => {
+    console.log("Reset Scale for: ", entityIdContextMenu);
+
+    const stage = stageRef.current!;
+    const image = stage.find("#" + entityIdContextMenu)[0];
+
+    new Konva.Tween({
+      node: image,
+      duration: 0.5,
+      scaleX: 1.0,
+      scaleY: 1.0,
+      easing: Konva.Easings.EaseOut,
+    }).play();
+  };
+
+  const contextMenuResizeEntityFactor2 = () => {
+    console.log("Resize factor 2: ", entityIdContextMenu);
+
+    const stage = stageRef.current!;
+    const image = stage.find("#" + entityIdContextMenu)[0];
+
+    new Konva.Tween({
+      node: image,
+      duration: 0.5,
+      scaleX: 2.0,
+      scaleY: 2.0,
+      easing: Konva.Easings.EaseOut,
+    }).play();
+  };
+
+  const contextMenuResizeEntityFactor3 = () => {
+    console.log("Resize factor 3: ", entityIdContextMenu);
+
+    const stage = stageRef.current!;
+    const image = stage.find("#" + entityIdContextMenu)[0];
+
+    new Konva.Tween({
+      node: image,
+      duration: 0.5,
+      scaleX: 3.0,
+      scaleY: 3.0,
+      easing: Konva.Easings.EaseOut,
+    }).play();
   };
 
   const onToolSelected = (toolName: string) => {
@@ -383,13 +473,13 @@ const SceneEditor = () => {
           onMouseUp={onStageMouseUp}
           onMouseLeave={onStageMouseLeave}
           onMouseEnter={onStageMouseEnter}
-          //onClick={onStageClick}
+          onClick={onStageClick}
         >
           <Layer>
             <KonvaImage ref={mapRef} image={mapImage} />
             {entityImageCompositions.map((entityImageComposition) => (
               <KonvaImage
-                name={entityImageComposition.entity.id}
+                name="Entity"
                 key={entityImageComposition.entity.id}
                 id={entityImageComposition.entity.id}
                 image={entityImageComposition.imageElement}
@@ -418,6 +508,45 @@ const SceneEditor = () => {
           </Layer>
         </Stage>
       </div>
+
+      <Menu
+        isOpen={isContextMenuOpen}
+        onClose={() => {
+          setIsContextMenuOpen(false);
+        }}
+      >
+        <MenuList>
+          <MenuGroup title="Transform">
+            <MenuItem
+              icon={<GiResize />}
+              onClick={() => contextMenuResizeEntityFactor2()}
+            >
+              Resize to 2x2 on Grid
+            </MenuItem>
+            <MenuItem
+              icon={<GiResize />}
+              onClick={() => contextMenuResizeEntityFactor3()}
+            >
+              Resize to 3x3 on Grid
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title="Reset">
+            <MenuItem
+              icon={<TbRotate2 />}
+              onClick={() => contextMenuResetEntityRotation()}
+            >
+              Reset Rotation
+            </MenuItem>
+            <MenuItem
+              icon={<TbWindowMinimize />}
+              onClick={() => contextMenuResetEntityScale()}
+            >
+              Reset Scale
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
 
       <Tooltip
         hasArrow

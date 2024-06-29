@@ -691,6 +691,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "xScale": {
+                    "name": "xScale",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "yScale": {
+                    "name": "yScale",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "rotation": {
+                    "name": "rotation",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -962,5 +983,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ca2cba0ccf9a4726a57a69ff53e17a02"
+    "version": "9ae875544e68147918b097843fadaabf"
 };

@@ -253,6 +253,9 @@ type EagerEntityPosition = {
   readonly entityId: string;
   readonly xPosition?: number | null;
   readonly yPosition?: number | null;
+  readonly xScale?: number | null;
+  readonly yScale?: number | null;
+  readonly rotation?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -266,6 +269,9 @@ type LazyEntityPosition = {
   readonly entityId: string;
   readonly xPosition?: number | null;
   readonly yPosition?: number | null;
+  readonly xScale?: number | null;
+  readonly yScale?: number | null;
+  readonly rotation?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -376,6 +376,9 @@ export const onCreateEntityPosition = /* GraphQL */ `subscription OnCreateEntity
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -393,6 +396,9 @@ export const onUpdateEntityPosition = /* GraphQL */ `subscription OnUpdateEntity
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -410,6 +416,9 @@ export const onDeleteEntityPosition = /* GraphQL */ `subscription OnDeleteEntity
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -430,6 +439,9 @@ export const onCreateScene = /* GraphQL */ `subscription OnCreateScene($filter: 
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
@@ -497,6 +509,9 @@ export const onUpdateScene = /* GraphQL */ `subscription OnUpdateScene($filter: 
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
@@ -564,6 +579,9 @@ export const onDeleteScene = /* GraphQL */ `subscription OnDeleteScene($filter: 
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename

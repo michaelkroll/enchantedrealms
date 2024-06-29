@@ -422,6 +422,9 @@ export const createEntityPosition = /* GraphQL */ `mutation CreateEntityPosition
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -440,6 +443,9 @@ export const updateEntityPosition = /* GraphQL */ `mutation UpdateEntityPosition
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -458,6 +464,9 @@ export const deleteEntityPosition = /* GraphQL */ `mutation DeleteEntityPosition
     entityId
     xPosition
     yPosition
+    xScale
+    yScale
+    rotation
     createdAt
     updatedAt
     __typename
@@ -481,6 +490,9 @@ export const createScene = /* GraphQL */ `mutation CreateScene(
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
@@ -551,6 +563,9 @@ export const updateScene = /* GraphQL */ `mutation UpdateScene(
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
@@ -621,6 +636,9 @@ export const deleteScene = /* GraphQL */ `mutation DeleteScene(
       entityId
       xPosition
       yPosition
+      xScale
+      yScale
+      rotation
       createdAt
       updatedAt
       __typename
