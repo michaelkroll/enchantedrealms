@@ -159,8 +159,8 @@ const Track: React.FC<TrackPropsType> = ({ children }) => {
             onDragEnd={handleDragEnd}
             animate={controls}
             style={{ x }}
-            drag="x"
-            _active={{ cursor: "grabbing" }}
+            //drag="x"
+            //_active={{ cursor: "grabbing" }}
             minWidth="min-content"
             flexWrap="nowrap"
             cursor="grab"
