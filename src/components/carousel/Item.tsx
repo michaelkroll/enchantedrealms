@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { Context, ContextType } from "../Provider";
+import { Context, ContextType } from "./Provider";
 
 interface ItemPropsType {
   children: React.ReactNode;

@@ -1,9 +1,9 @@
 import { useMediaQuery, useTheme } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
-import Item from "../Item";
-import { Context, ContextType } from "../Provider";
-import Slider from "../Slider";
-import Track from "../Track";
+import Item from "./Item";
+import { Context, ContextType } from "./Provider";
+import Slider from "./Slider";
+import Track from "./Track";
 
 export interface CarouselPropTypes {
   children: React.ReactNode[];

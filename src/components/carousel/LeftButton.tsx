@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -6,43 +5,40 @@ import {
   ComponentWithAs,
   IconProps,
 } from "@chakra-ui/react";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 import React, { useContext } from "react";
-import { Context, ContextType } from "../Provider";
+import { Context, ContextType } from "./Provider";
 
 interface CustomButtonProps extends ButtonProps {
   // @ts-expect-error
   customIcon?: ComponentWithAs<"svg", IconProps> | React.Element;
 }
 
-export const RightButton = ({ customIcon, ...props }: CustomButtonProps) => {
+export const LeftButton = ({ customIcon, ...props }: CustomButtonProps) => {
   const context = useContext(Context);
 
-  const { setTrackIsActive, activeItem, constraint, positions, setActiveItem } =
+  const { setTrackIsActive, activeItem, positions, setActiveItem } =
     context as ContextType;
 
   const handleFocus = () => setTrackIsActive(true);
 
-  const handleIncrementClick = () => {
+  const handleDecrementClick = () => {
     setTrackIsActive(true);
-    !(activeItem === positions.length - constraint) &&
+    !(activeItem === positions.length - positions.length) &&
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      setActiveItem((prev: number) => prev + 1);
+      setActiveItem((prev: number) => prev - 1);
   };
   return (
     <>
       <Button
         {...props}
-        onClick={handleIncrementClick}
+        onClick={handleDecrementClick}
         onFocus={handleFocus}
         zIndex={2}
         minW={0}
       >
-        {customIcon ? (
-          <Box>{customIcon}</Box>
-        ) : (
-          <ChevronRightIcon boxSize={9} />
-        )}
+        {customIcon ? <Box>{customIcon}</Box> : <ChevronLeftIcon boxSize={9} />}
       </Button>
     </>
   );

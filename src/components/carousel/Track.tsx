@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Context, ContextType } from "../Provider";
+import { Context, ContextType } from "./Provider";
 
 const MotionFlex = motion(Flex);
 
@@ -101,7 +101,7 @@ const Track: React.FC<TrackPropsType> = ({ children }) => {
   );
 
   const handleClick = useCallback(
-    (event: { target: any; }) =>
+    (event: { target: any }) =>
       // @ts-expect-error
       node?.current?.contains(event.target)
         ? setTrackIsActive(true)
@@ -110,7 +110,7 @@ const Track: React.FC<TrackPropsType> = ({ children }) => {
   );
 
   const handleKeyDown = useCallback(
-    (event: { key: string; preventDefault: () => void; }) => {
+    (event: { key: string; preventDefault: () => void }) => {
       if (trackIsActive) {
         if (activeItem < positions.length - constraint) {
           if (event.key === "ArrowRight" || event.key === "ArrowUp") {

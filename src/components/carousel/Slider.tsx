@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import React, { useContext, useLayoutEffect } from "react";
 import { useBoundingclientrectRef } from "rooks";
-import { Context, ContextType } from "../Provider";
+import { Context, ContextType } from "./Provider";
 
 interface SliderPropsType {
   children: React.ReactNode;
@@ -12,7 +12,6 @@ const Slider: React.FC<SliderPropsType> = ({ children, gap }) => {
   const context = useContext(Context);
 
   const { initSliderWidth } = context as ContextType;
-  
 
   const [myRef, boundingClientRect] = useBoundingclientrectRef();
 
@@ -20,7 +19,6 @@ const Slider: React.FC<SliderPropsType> = ({ children, gap }) => {
     () => initSliderWidth(Math.round(boundingClientRect?.width ?? 0)),
     [boundingClientRect?.width, initSliderWidth]
   );
-
 
   return (
     <>
