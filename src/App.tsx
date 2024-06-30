@@ -26,6 +26,7 @@ import Adventure from "./data/Adventure";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Room from "./components/room/Room";
 import SceneEditor from "./components/sceneeditor/SceneEditor";
+import Playground from "./components/playground/Playground";
 
 // Configures the Amplify library with the settings from aws-exports.js, which includes all the AWS service configurations for this project.
 Amplify.configure(awsExports);
@@ -101,6 +102,12 @@ function App() {
           path="/scenes"
           element={
             <SceneGrid email={email} sub={sub} adventures={adventures} />
+          }
+        />
+        <Route
+          path="/playground"
+          element={
+            <Playground email={email} sub={sub} adventures={adventures} />
           }
         />
         <Route path="/room/:adventureId" element={<Room email={email} />} />

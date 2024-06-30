@@ -228,6 +228,16 @@ const NavBar = ({ email, sub, onLogout, onFetchUserProperties }: Props) => {
               Scenes
             </ChakraLink>
           </Tab>
+          <Tab>
+            <ChakraLink
+              display={email == "m.kroll@mac.com" ? "" : "none"}
+              as={ReactRouterLink}
+              to="/playground"
+              style={{ textDecoration: "none", fontSize: fontSize }}
+            >
+              Playground
+            </ChakraLink>
+          </Tab>
         </TabList>
         <TabIndicator
           mt="-1.5px"
