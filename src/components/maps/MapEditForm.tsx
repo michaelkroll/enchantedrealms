@@ -31,8 +31,8 @@ import { generateClient } from "aws-amplify/api";
 import * as mutations from "../../graphql/mutations";
 
 // Custom imports
-import mapCategories from "../../data/MapCategories";
-import Map from "../../data/Map";
+import mapCategories from "../../data/map/MapCategories";
+import Map from "../../data/map/Map";
 
 interface Props {
   handleFormClose: () => void;

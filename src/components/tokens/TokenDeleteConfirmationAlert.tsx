@@ -14,7 +14,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import Token from "../../data/Token";
+import Token from "../../data/token/Token";
 
 interface Props {
   isOpen: boolean;

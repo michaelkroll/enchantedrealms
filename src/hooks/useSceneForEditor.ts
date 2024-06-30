@@ -16,11 +16,11 @@ import { getUrl } from "aws-amplify/storage";
 // Custom Imports
 import { isAppSyncError, AppSyncError } from "../errors/AppSyncError";
 import Scene from "../data/Scene";
-import Map from "../data/Map";
-import Entity from "../data/Entity";
-import EntityComposition from "../data/EntityComposition";
-import SceneComposition from "../data/SceneComposition";
-import EntityPosition from "../data/EntityPosition";
+import Map from "../data/map/Map";
+import Entity from "../data/entity/Entity";
+import EntityComposition from "../data/compositions/EntityComposition";
+import SceneComposition from "../data/compositions/SceneComposition";
+import EntityPosition from "../data/entity/EntityPosition";
 
 const useSceneForEditor = (sceneId: string | undefined | null) => {
   const [sceneIdInternal, setSceneIdInternal] = useState("");

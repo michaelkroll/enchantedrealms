@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/react";
-import Entity from "../../data/Entity";
+import Entity from "../../data/entity/Entity";
 import EntityEditForm from "./EntityEditForm";
 
 interface Props {

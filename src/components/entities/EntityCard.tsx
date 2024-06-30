@@ -22,8 +22,8 @@ import {
 
 // Custom imports
 import EntityDeleteConfirmationAlert from "./EntityDeleteConfirmationAlert";
-import Entity from "../../data/Entity";
-import entityCategories from "../../data/EntityCategories";
+import Entity from "../../data/entity/Entity";
+import entityCategories from "../../data/entity/EntityCategories";
 import EntityDisplayModal from "./EntityDisplayModal";
 
 interface Props {

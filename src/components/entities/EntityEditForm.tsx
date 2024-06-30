@@ -26,8 +26,8 @@ import { generateClient } from "aws-amplify/api";
 import * as mutations from "../../graphql/mutations";
 
 // Custom imports
-import entityCategories from "../../data/EntityCategories";
-import Entity from "../../data/Entity";
+import entityCategories from "../../data/entity/EntityCategories";
+import Entity from "../../data/entity/Entity";
 
 interface Props {
   handleFormClose: () => void;

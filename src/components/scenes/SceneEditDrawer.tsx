@@ -10,7 +10,7 @@ import {
 
 // Custom imports
 import SceneEditForm from "./SceneEditForm";
-import SceneMapEntities from "../../data/SceneMapEntities";
+import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 
 interface Props {
   handleDrawerClose: () => void;

@@ -23,8 +23,8 @@ import { listEntities } from "../../graphql/queries";
 import { getUrl } from "aws-amplify/storage";
 
 // Custom imports
-import Entity from "../../data/Entity";
-import entityCategories from "../../data/EntityCategories";
+import Entity from "../../data/entity/Entity";
+import entityCategories from "../../data/entity/EntityCategories";
 
 interface Props {
   email: string;

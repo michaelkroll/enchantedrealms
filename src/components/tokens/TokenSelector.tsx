@@ -23,8 +23,8 @@ import { listTokens } from "../../graphql/queries";
 import { getUrl } from "aws-amplify/storage";
 
 // Custom imports
-import Token from "../../data/Token";
-import tokenCategories from "../../data/TokenCategories";
+import Token from "../../data/token/Token";
+import tokenCategories from "../../data/token/TokenCategories";
 
 interface Props {
   email: string;

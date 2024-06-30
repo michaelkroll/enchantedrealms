@@ -26,9 +26,9 @@ import * as mutations from "../../graphql/mutations";
 
 // Custom imports
 import { v4 as uuid } from "uuid";
-import entityCategories from "../../data/EntityCategories";
+import entityCategories from "../../data/entity/EntityCategories";
 import TokenSelector from "../tokens/TokenSelector";
-import Token from "../../data/Token";
+import Token from "../../data/token/Token";
 
 interface Props {
   handleFormClose: () => void;

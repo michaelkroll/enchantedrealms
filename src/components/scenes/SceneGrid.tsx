@@ -35,8 +35,8 @@ import SceneCreateDrawer from "./SceneCreateDrawer";
 import SceneEditDrawer from "./SceneEditDrawer";
 import AdventureSelectorDropdown from "../adventures/AdventureSelectorDropdown";
 import Adventure from "../../data/Adventure";
-import Entity from "../../data/Entity";
-import SceneMapEntities from "../../data/SceneMapEntities";
+import Entity from "../../data/entity/Entity";
+import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 import IsLoadingIndicator from "../IsLoadingIndicator";
 
 interface Props {

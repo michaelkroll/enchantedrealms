@@ -6,10 +6,9 @@ import { generateClient } from "aws-amplify/api";
 import { getMap } from "../graphql/queries";
 
 // Custom Imports
-import Map from "../data/Map";
+import Map from "../data/map/Map";
 
 const useMap = (mapId: string) => {
-
   const [map, setMap] = useState<Map>();
   const [mapError, setMapError] = useState();
 
@@ -19,7 +18,7 @@ const useMap = (mapId: string) => {
     graphqlClient
       .graphql({
         query: getMap,
-        variables: {id: mapId},
+        variables: { id: mapId },
       })
       .then((response) => {
         const map = response.data.getMap;
@@ -30,7 +29,7 @@ const useMap = (mapId: string) => {
       });
   }, []);
 
-  return {map, mapError};
-}
+  return { map, mapError };
+};
 
 export default useMap;

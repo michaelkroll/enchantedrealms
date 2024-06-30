@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/react";
-import Token from "../../data/Token";
+import Token from "../../data/token/Token";
 import TokenEditForm from "./TokenEditForm";
 
 interface Props {

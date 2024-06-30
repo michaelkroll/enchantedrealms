@@ -13,7 +13,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import Entity from "../../data/Entity";
+import Entity from "../../data/entity/Entity";
 
 interface Props {
   isOpen: boolean;

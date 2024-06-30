@@ -18,7 +18,7 @@ import EntityCarouselCard from "./EntityCarouselCard";
 // React Icon imports
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
-import EntityComposition from "../../data/EntityComposition";
+import EntityComposition from "../../data/compositions/EntityComposition";
 import { MutableRefObject } from "react";
 
 interface Props {

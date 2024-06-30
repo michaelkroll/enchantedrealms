@@ -34,12 +34,12 @@ import useImage from "use-image";
 
 // Custom imports
 import CloseSceneEditorConfirmationAlert from "./CloseSceneEditorConfirmationAlert";
-import Map from "../../data/Map";
+import Map from "../../data/map/Map";
 import Scene from "../../data/Scene";
 import useSceneForEditor from "../../hooks/useSceneForEditor";
 import IsLoadingIndicator from "../IsLoadingIndicator";
-import Entity from "../../data/Entity";
-import EntityKonvaImageComposition from "../../data/EntityKonvaImageComposition";
+import Entity from "../../data/entity/Entity";
+import EntityKonvaImageComposition from "../../data/compositions/EntityKonvaImageComposition";
 import EntityCarousel from "../entities/EntityCarousel";
 import ToolsMenu, { Tools } from "../menu/ToolsMenu";
 

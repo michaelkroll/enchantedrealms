@@ -44,8 +44,8 @@ import AdventureSelector from "../adventures/AdventureSelector";
 import Adventure from "../../data/Adventure";
 
 import MapSelector from "../maps/MapSelector";
-import Map from "../../data/Map";
-import Entity from "../../data/Entity";
+import Map from "../../data/map/Map";
+import Entity from "../../data/entity/Entity";
 import EntitySelector from "../entities/EntitySelector";
 
 interface Props {

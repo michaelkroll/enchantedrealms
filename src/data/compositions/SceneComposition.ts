@@ -1,5 +1,5 @@
-import Scene from "./Scene";
-import Map from "./Map";
+import Scene from "../Scene";
+import Map from "../map/Map";
 import EntityComposition from "./EntityComposition";
 
 interface SceneComposition {

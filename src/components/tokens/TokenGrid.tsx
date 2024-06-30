@@ -21,8 +21,8 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 import TokenCard from "./TokenCard";
-import Token from "../../data/Token";
-import tokenCategories from "../../data/TokenCategories";
+import Token from "../../data/token/Token";
+import tokenCategories from "../../data/token/TokenCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import TokenCreateDrawer from "./TokenCreateDrawer";

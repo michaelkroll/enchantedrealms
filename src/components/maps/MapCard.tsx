@@ -37,8 +37,8 @@ import {
 
 // Custom imports
 import MapDeleteConfirmationAlert from "./MapDeleteConfirmationAlert";
-import Map from "../../data/Map";
-import mapCategories from "../../data/MapCategories";
+import Map from "../../data/map/Map";
+import mapCategories from "../../data/map/MapCategories";
 import MapDisplayModal from "./MapDisplayModal";
 
 interface Props {

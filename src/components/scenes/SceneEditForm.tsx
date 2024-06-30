@@ -39,9 +39,9 @@ import { VscWorkspaceUnknown } from "react-icons/vsc";
 import { IconType } from "react-icons";
 
 // Custom imports
-import Entity from "../../data/Entity";
+import Entity from "../../data/entity/Entity";
 import EntitySelector from "../entities/EntitySelector";
-import SceneMapEntities from "../../data/SceneMapEntities";
+import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 
 interface Props {
   handleFormClose: () => void;

@@ -43,7 +43,7 @@ import {
 
 // Custom imports
 import { v4 as uuid } from "uuid";
-import mapCategories from "../../data/MapCategories";
+import mapCategories from "../../data/map/MapCategories";
 
 interface Props {
   handleFormClose: () => void;

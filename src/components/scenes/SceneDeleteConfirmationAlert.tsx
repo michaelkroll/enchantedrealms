@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 // Custom imports
-import SceneMapEntities from "../../data/SceneMapEntities";
+import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 
 interface Props {
   scene: SceneMapEntities;

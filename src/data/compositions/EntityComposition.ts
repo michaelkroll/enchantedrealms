@@ -1,5 +1,5 @@
-import Entity from "./Entity";
-import EntityPosition from "./EntityPosition";
+import Entity from "../entity/Entity";
+import EntityPosition from "../entity/EntityPosition";
 
 interface EntityComposition {
   entity: Entity;

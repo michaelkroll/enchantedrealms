@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 // Custom imports
-import Entity from "../../data/Entity";
+import Entity from "../../data/entity/Entity";
 
 interface Props {
   entity: Entity;

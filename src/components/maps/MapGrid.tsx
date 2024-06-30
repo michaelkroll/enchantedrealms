@@ -19,8 +19,8 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 import MapCard from "./MapCard";
-import Map from "../../data/Map";
-import mapCategories from "../../data/MapCategories";
+import Map from "../../data/map/Map";
+import mapCategories from "../../data/map/MapCategories";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
 import MapCreateDrawer from "./MapCreateDrawer";

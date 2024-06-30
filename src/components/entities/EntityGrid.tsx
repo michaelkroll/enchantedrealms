@@ -21,10 +21,10 @@ import { AddIcon } from "@chakra-ui/icons";
 import { IoReload } from "react-icons/io5";
 
 import EntityCard from "./EntityCard";
-import Entity from "../../data/Entity";
+import Entity from "../../data/entity/Entity";
 import CategorySelector from "../CategorySelector";
 import Category from "../../data/Category";
-import entityCategories from "../../data/EntityCategories";
+import entityCategories from "../../data/entity/EntityCategories";
 import EntityCreateDrawer from "./EntityCreateDrawer";
 import EntityEditDrawer from "./EntityEditDrawer";
 import IsLoadingIndicator from "../IsLoadingIndicator";

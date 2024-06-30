@@ -27,8 +27,8 @@ import { listMaps } from "../../graphql/queries";
 import { getUrl } from "aws-amplify/storage";
 
 // Custom imports
-import Map from "../../data/Map";
-import mapCategories from "../../data/MapCategories";
+import Map from "../../data/map/Map";
+import mapCategories from "../../data/map/MapCategories";
 
 interface Props {
   email: string;

@@ -30,8 +30,8 @@ import {
 } from "@chakra-ui/react";
 
 import TokenDeleteConfirmationAlert from "./TokenDeleteConfirmationAlert";
-import Token from "../../data/Token";
-import tokenCategories from "../../data/TokenCategories";
+import Token from "../../data/token/Token";
+import tokenCategories from "../../data/token/TokenCategories";
 
 interface Props {
   token: Token;

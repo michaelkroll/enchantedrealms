@@ -10,7 +10,7 @@ import { getUrl } from "aws-amplify/storage";
 
 // Custom Imports
 import Scene from "../data/Scene";
-import Map from "../data/Map";
+import Map from "../data/map/Map";
 
 const useScene = (sceneId: string) => {
   const [sceneObject, setSceneObject] = useState<Scene>();

@@ -37,7 +37,7 @@ import { PiPathBold } from "react-icons/pi";
 
 // Custom imports
 import SceneDeleteConfirmationAlert from "./SceneDeleteConfirmationAlert";
-import SceneMapEntities from "../../data/SceneMapEntities";
+import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

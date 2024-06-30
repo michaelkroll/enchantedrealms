@@ -13,7 +13,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
-import Map from "../../data/Map";
+import Map from "../../data/map/Map";
 
 interface Props {
   isOpen: boolean;

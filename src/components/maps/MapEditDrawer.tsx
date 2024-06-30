@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/react";
-import Map from "../../data/Map";
+import Map from "../../data/map/Map";
 import MapEditForm from "./MapEditForm";
 
 interface Props {

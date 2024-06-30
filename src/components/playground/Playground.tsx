@@ -1,5 +1,5 @@
 // Chakra UI imports
-import { Text } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 
 // Custom imports
 import Adventure from "../../data/Adventure";
@@ -13,9 +13,11 @@ interface Props {
 const Playground = ({ email, sub, adventures }: Props) => {
   return (
     <>
-      <Text>Email: {email}</Text>
-      <Text>sub: {sub}</Text>
-      <Text>Number of Adventures created: {adventures.length}</Text>
+      <Stack m={5}>
+        <Text>Email: {email}</Text>
+        <Text>sub: {sub}</Text>
+        <Text>Number of Adventures created: {adventures.length}</Text>
+      </Stack>
     </>
   );
 };

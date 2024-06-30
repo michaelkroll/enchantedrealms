@@ -36,7 +36,7 @@ import {
 
 // Custom imports
 import { v4 as uuid } from "uuid";
-import tokenCategories from "../../data/TokenCategories";
+import tokenCategories from "../../data/token/TokenCategories";
 
 interface Props {
   handleFormClose: () => void;
