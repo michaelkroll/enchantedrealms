@@ -123,6 +123,7 @@ const EntitySelector = ({ email, handleSelectedEntity, isInvalid }: Props) => {
     >
       <HStack>
         <Select
+          id="EntitySelector"
           onChange={(event) => {
             setSelectedEntityCategory(event.target.value);
           }}

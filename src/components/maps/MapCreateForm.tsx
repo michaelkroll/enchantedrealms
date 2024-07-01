@@ -26,6 +26,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Progress,
 } from "@chakra-ui/react";
 
 // GraphQL / DynamoDB
@@ -44,6 +45,7 @@ import {
 // Custom imports
 import { v4 as uuid } from "uuid";
 import mapCategories from "../../data/map/MapCategories";
+import Resizer from "react-image-file-resizer";
 
 interface Props {
   handleFormClose: () => void;
@@ -59,12 +61,32 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
   } = useForm();
 
   const [mapPic, setMapPic] = useState<File>();
+  const [mapUploadProgress, setMapUploadProgress] = useState<number>(0);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const pictureBorderColor = useColorModeValue("gray.200", "gray.600");
   const pictureBorderColorError = useColorModeValue("red.500", "red.300");
 
   let mapPicPath: string = "";
+  let mapThumbPicPath: string = "";
+
+  let mapThumb;
+
+  const resizeMap = (map: File) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        map,
+        400,
+        300,
+        "PNG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "blob"
+      );
+    });
 
   // States used to create a new Map
   const [mapData, setMapData] = useState({
@@ -101,9 +123,11 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
       gridCellHeight,
     } = mapData;
 
+    const uuidString = uuid();
+
     try {
       const result = await uploadData({
-        path: `public/maps/${uuid()}.png`,
+        path: `public/maps/${uuidString}.png`,
         data: mapPic!,
         options: {
           onProgress: ({ transferredBytes, totalBytes }) => {
@@ -119,6 +143,37 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
       }).result;
       console.log("Path from response: ", result.path);
       mapPicPath = result.path;
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+
+    try {
+      const image = await resizeMap(mapPic!);
+      mapThumb = new File([image as Blob], `${uuidString}.png`);
+    } catch (err) {
+      console.error("Error creating the thumbnail: ", err);
+    }
+    try {
+      const result = await uploadData({
+        path: `public/mapthumbs/${uuidString}.png`,
+        data: mapThumb!,
+        options: {
+          onProgress: ({ transferredBytes, totalBytes }) => {
+            if (totalBytes) {
+              console.log(
+                `Upload progress ${Math.round(
+                  (transferredBytes / totalBytes) * 100
+                )}%`
+              );
+              setMapUploadProgress(
+                Math.round((transferredBytes / totalBytes) * 100)
+              );
+            }
+          },
+        },
+      }).result;
+      console.log("Path from response: ", result.path);
+      mapThumbPicPath = result.path;
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -140,6 +195,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
       gridCellWidth,
       gridCellHeight,
       mapPicPath,
+      mapThumbPicPath,
     };
 
     const graphqlClient = generateClient();
@@ -429,6 +485,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
                 <input
                   {...register("gridHtmlColor", {})}
                   type="color"
+                  id="gridHtmlColor"
                   onChange={(event) => {
                     setMapData({
                       ...mapData,
@@ -500,6 +557,7 @@ const MapCreateForm = ({ handleFormClose, email, sub }: Props) => {
             </FileUpload>
             <FormErrorMessage>{`${errors.map?.message}`}</FormErrorMessage>
           </FormControl>
+          <Progress value={mapUploadProgress} mt={1}/>
           <Center>
             <Button
               mt={4}

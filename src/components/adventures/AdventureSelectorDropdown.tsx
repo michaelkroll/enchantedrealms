@@ -36,6 +36,7 @@ const AdventureSelectorDropdown = ({
         Adventure
       </Text> */}
       <Select
+        id="AdventureSelect"
         ref={selectRef}
         onChange={(event) => {
           if (event.target.value != "Select Adventure") {

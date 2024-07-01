@@ -10,8 +10,11 @@ interface Props {
 const CategorySelector = ({ onSelectCategory, categories }: Props) => {
   return (
     <HStack>
-      <Text as="b" mr={2}>Category</Text>
+      <Text as="b" mr={2}>
+        Category
+      </Text>
       <Select
+        id="CategorySelector"
         onChange={(event) => {
           let cat = categories.find((category) =>
             category.label === event.target.value ? category : null

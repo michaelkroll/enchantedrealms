@@ -12,7 +12,7 @@ import {
   MdOutlineShare,
 } from "react-icons/md";
 
-import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
+//import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 import { TbGrid4X4 } from "react-icons/tb";
 
@@ -39,7 +39,7 @@ import {
 import MapDeleteConfirmationAlert from "./MapDeleteConfirmationAlert";
 import Map from "../../data/map/Map";
 import mapCategories from "../../data/map/MapCategories";
-import MapDisplayModal from "./MapDisplayModal";
+//import MapDisplayModal from "./MapDisplayModal";
 
 interface Props {
   map: Map;
@@ -62,8 +62,8 @@ const MapCard = ({
   const [isDeleteMapConfirmModalOpen, setDeleteMapConfirmModalOpen] =
     useState(false);
 
-  const [isShowFullsizeMapModalOpen, setShowFullsizeMapModalOpen] =
-    useState(false);
+  // const [isShowFullsizeMapModalOpen, setShowFullsizeMapModalOpen] =
+  //   useState(false);
 
   const onDeleteMapAlertConfirmClose = () => {
     setDeleteMapConfirmModalOpen(false);
@@ -74,9 +74,9 @@ const MapCard = ({
     handleDeleteMap(map);
   };
 
-  const onFullSizeMapClose = () => {
-    setShowFullsizeMapModalOpen(false);
-  };
+  // const onFullSizeMapClose = () => {
+  //   setShowFullsizeMapModalOpen(false);
+  // };
 
   const categoryLabel = (categoryValue: string): string | undefined => {
     return mapCategories.find((category) => category.value === categoryValue)
@@ -134,7 +134,7 @@ const MapCard = ({
               color="black"
             >
               <Image
-                src={map.mapPicS3Url!}
+                src={map.mapThumbPicS3Url!}
                 borderTopRadius={4}
                 draggable="false"
               />
@@ -165,7 +165,7 @@ const MapCard = ({
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
-          <HStack display={loggedInEmail != map.creatorEmail ? "flex" : "none"}>
+          {/* <HStack display={loggedInEmail != map.creatorEmail ? "flex" : "none"}>
             <Tooltip
               hasArrow
               label="Show the Map in original Size"
@@ -186,7 +186,7 @@ const MapCard = ({
             <Text padding="6px" fontSize="sm">
               {textForSharedLabel()}
             </Text>
-          </HStack>
+          </HStack> */}
           <ButtonGroup
             size="sm"
             isAttached
@@ -210,7 +210,7 @@ const MapCard = ({
                 <MdOutlineEditNote />
               </Button>
             </Tooltip>
-            <Tooltip
+            {/* <Tooltip
               hasArrow
               label="Show the Map in original Size"
               bg="gray.300"
@@ -227,7 +227,7 @@ const MapCard = ({
               >
                 <HiOutlineMagnifyingGlass />
               </Button>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip
               hasArrow
@@ -272,13 +272,13 @@ const MapCard = ({
         onClose={onDeleteMapAlertConfirmClose}
         onCloseAfterDelete={onDeleteMapAlertConfirmCloseAfterDelete}
       />
-      <MapDisplayModal
+      {/* <MapDisplayModal
         map={map}
         isOpen={isShowFullsizeMapModalOpen}
         onClose={() => {
           onFullSizeMapClose();
         }}
-      />
+      /> */}
     </>
   );
 };

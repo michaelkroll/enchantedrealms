@@ -120,16 +120,27 @@ const MapGrid = ({ email, sub }: Props) => {
         const mapList = response.data.listMaps.items;
 
         mapList.map(async (map) => {
-          const mapPicPath = map.mapPicPath;
+          const mapThumbPicPath = map.mapThumbPicPath;
           const getUrlResult = await getUrl({
+            path: mapThumbPicPath!,
+            options: {
+              expiresIn: 900,
+            },
+          });
+
+          const mapThumbPicImage = getUrlResult.url.toString();
+          map.mapThumbPicS3Url = mapThumbPicImage;
+
+          const mapPicPath = map.mapPicPath;
+          const getMapUrlResult = await getUrl({
             path: mapPicPath!,
             options: {
               expiresIn: 900,
             },
           });
 
-          const mapCoverImage = getUrlResult.url.toString();
-          map.mapPicS3Url = mapCoverImage;
+          const mapPicImage = getMapUrlResult.url.toString();
+          map.mapPicS3Url = mapPicImage;
         });
 
         mapList.sort((a, b) => a.name.localeCompare(b.name));
