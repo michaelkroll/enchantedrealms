@@ -38,6 +38,7 @@ import Adventure from "../../data/Adventure";
 import Entity from "../../data/entity/Entity";
 import SceneMapEntities from "../../data/compositions/SceneMapEntities";
 import IsLoadingIndicator from "../IsLoadingIndicator";
+import SceneGridCallToAction from "./SceneGridCallToAction";
 
 interface Props {
   email: string;
@@ -315,6 +316,7 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         editScene={editScene!}
       />
 
+      {scenes.length == 0 && <SceneGridCallToAction/>}
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}
