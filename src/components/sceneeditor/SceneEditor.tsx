@@ -25,6 +25,7 @@ import { TbDoorExit } from "react-icons/tb";
 import { TbWindowMinimize } from "react-icons/tb";
 import { TbRotate2 } from "react-icons/tb";
 import { GiResize } from "react-icons/gi";
+import { IoRemoveCircleOutline } from "react-icons/io5";
 
 // Konva JS imports
 import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva";
@@ -42,6 +43,7 @@ import Entity from "../../data/entity/Entity";
 import EntityKonvaImageComposition from "../../data/compositions/EntityKonvaImageComposition";
 import EntityCarousel from "../entities/EntityCarousel";
 import ToolsMenu, { Tools } from "../menu/ToolsMenu";
+import EntityPosition from "../../data/entity/EntityPosition";
 
 const SceneEditor = () => {
   const params = useParams();
@@ -79,8 +81,12 @@ const SceneEditor = () => {
 
   const navigate = useNavigate();
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
-  const { sceneComposition, isCompositionValid } =
-    useSceneForEditor(selectedSceneId);
+  const {
+    sceneComposition,
+    isCompositionValid,
+    storeEntityPosition,
+    deleteEntityPosition,
+  } = useSceneForEditor(selectedSceneId);
   const [mapImage, mapImageStatus] = useImage(map?.mapPicS3Url!);
   const [entityImageCompositions, setEntityImageCompositions] = useState<
     EntityKonvaImageComposition[]
@@ -151,6 +157,17 @@ const SceneEditor = () => {
         }
       }
       setMap(sceneComposition.map);
+      const entityImageCompositionArray: EntityKonvaImageComposition[] = [];
+      sceneComposition?.entityCompositions!.map((entityComposition) => {
+        if (entityComposition?.entityPosition) {
+          const entityImageComposition = getEntityImageComposition(
+            entityComposition?.entity!,
+            entityComposition?.entityPosition!
+          );
+          entityImageCompositionArray.push(entityImageComposition);
+        }
+      });
+      setEntityImageCompositions(entityImageCompositionArray);
     }
   }, [sceneComposition]);
 
@@ -192,6 +209,7 @@ const SceneEditor = () => {
   // Stage Mouse Handler
   const onStageDragMove = (_: Konva.KonvaEventObject<DragEvent>): void => {};
   const onStageDragEnd = (_: Konva.KonvaEventObject<DragEvent>): void => {};
+
   const onStageMouseDown = (_: Konva.KonvaEventObject<MouseEvent>): void => {
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "move";
@@ -199,6 +217,7 @@ const SceneEditor = () => {
       stageRef.current!.container().style.cursor = "default";
     }
   };
+
   const onStageMouseUp = (_: Konva.KonvaEventObject<MouseEvent>): void => {
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "grab";
@@ -206,6 +225,7 @@ const SceneEditor = () => {
       stageRef.current!.container().style.cursor = "default";
     }
   };
+
   const onStageMouseEnter = (_: Konva.KonvaEventObject<MouseEvent>): void => {
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "grab";
@@ -213,6 +233,7 @@ const SceneEditor = () => {
       stageRef.current!.container().style.cursor = "default";
     }
   };
+
   const onStageMouseLeave = (_: Konva.KonvaEventObject<MouseEvent>): void => {
     if (selectedTool == Tools.Move) {
       stageRef.current!.container().style.cursor = "default";
@@ -238,26 +259,22 @@ const SceneEditor = () => {
       stageRef.current!.container().style.cursor = "grabbing";
     } else if (selectedTool == Tools.Select) {
       stageRef.current!.container().style.cursor = "pointer";
-      //console.log("The selected EntityID: ", e.target.attrs.id);
     }
   };
 
   const onEntityMouseUp = (evt: Konva.KonvaEventObject<MouseEvent>): void => {
     if (evt.evt.button == 0) {
-      console.log("--- MouseUp ---");
-      console.log("Entity ID: ", evt.target.attrs.id);
-      console.log("   rotation: ", evt.target.attrs.rotation);
-      console.log("   x/y: ", evt.target.attrs.x, evt.target.attrs.y);
-      console.log(
-        "   width/height: ",
-        evt.target.attrs.width,
-        evt.target.attrs.height
-      );
-      console.log(
-        "   scale x/y: ",
-        evt.target.attrs.scaleX,
-        evt.target.attrs.scaleY
-      );
+      const entityPosition = {
+        id: evt.target.attrs.id,
+        entityId: evt.target.attrs.id,
+        xPosition: evt.target.attrs.x,
+        yPosition: evt.target.attrs.y,
+        xScale: evt.target.attrs.scaleX,
+        yScale: evt.target.attrs.scaleY,
+        rotation: evt.target.attrs.rotation,
+      };
+
+      storeEntityPosition(entityPosition);
     }
 
     if (selectedTool == Tools.Move) {
@@ -283,40 +300,28 @@ const SceneEditor = () => {
     }
   };
 
-  const onEntityTransform = (evt: Konva.KonvaEventObject<Event>): void => {
-    console.log(evt.target.attrs);
-  };
-
   const onEntityTransformEnd = (evt: Konva.KonvaEventObject<Event>): void => {
-    console.log("--- Transform End ---");
-    console.log("Entity ID: ", evt.target.attrs.id);
-    console.log("   rotation: ", evt.target.attrs.rotation);
-    console.log("   x/y: ", evt.target.attrs.x, evt.target.attrs.y);
-    console.log(
-      "   width/height: ",
-      evt.target.attrs.width,
-      evt.target.attrs.height
-    );
-    console.log(
-      "   scale x/y: ",
-      evt.target.attrs.scaleX,
-      evt.target.attrs.scaleY
-    );
+    const entityPosition = {
+      id: evt.target.attrs.id,
+      entityId: evt.target.attrs.id,
+      xPosition: evt.target.attrs.x,
+      yPosition: evt.target.attrs.y,
+      xScale: evt.target.attrs.scaleX,
+      yScale: evt.target.attrs.scaleY,
+      rotation: evt.target.attrs.rotation,
+    };
+    storeEntityPosition(entityPosition);
   };
 
   const onEntityContextMenu = (
     evt: Konva.KonvaEventObject<PointerEvent>
   ): void => {
-    console.log("Show Context Menu.");
-
     setEntityIdContextMenu(evt.target.attrs.id);
-
     evt.evt.preventDefault();
     setIsContextMenuOpen(true);
 
     const menu = document.querySelector("[role=menu]");
     const popper = menu!.parentElement;
-
     const x = evt.evt.clientX;
     const y = evt.evt.clientY;
 
@@ -327,60 +332,82 @@ const SceneEditor = () => {
   };
 
   const contextMenuResetEntityRotation = () => {
-    console.log("Reset Rotation for: ", entityIdContextMenu);
     const stage = stageRef.current!;
     const image = stage.find("#" + entityIdContextMenu)[0];
-
     new Konva.Tween({
       node: image,
       duration: 0.5,
       rotation: 0,
       easing: Konva.Easings.EaseOut,
+      onFinish: () => {
+        storeModifedEntityFromMap(entityIdContextMenu);
+      },
     }).play();
   };
 
   const contextMenuResetEntityScale = () => {
-    console.log("Reset Scale for: ", entityIdContextMenu);
-
     const stage = stageRef.current!;
     const image = stage.find("#" + entityIdContextMenu)[0];
-
     new Konva.Tween({
       node: image,
       duration: 0.5,
       scaleX: 1.0,
       scaleY: 1.0,
       easing: Konva.Easings.EaseOut,
+      onFinish: () => {
+        storeModifedEntityFromMap(entityIdContextMenu);
+      },
     }).play();
   };
 
-  const contextMenuResizeEntityFactor2 = () => {
-    console.log("Resize factor 2: ", entityIdContextMenu);
+  const contextMenuRemoveEntity = () => {
+    const entityImageCompositionFound = entityImageCompositions.find(
+      (composition) => composition.entity.id === entityIdContextMenu
+    );
 
+    const entityCompositionFound = sceneComposition?.entityCompositions!.find(
+      (composition) =>
+        composition?.entityPosition?.entityId === entityIdContextMenu
+    );
+
+    deleteEntityPosition(entityCompositionFound?.entityPosition!);
+
+    setEntityImageCompositions((oldValues) => {
+      return oldValues.filter(
+        (entityImageComposition) =>
+          entityImageComposition.entity.id !==
+          entityImageCompositionFound!.entity.id
+      );
+    });
+  };
+
+  const contextMenuResizeEntityFactor2 = () => {
     const stage = stageRef.current!;
     const image = stage.find("#" + entityIdContextMenu)[0];
-
     new Konva.Tween({
       node: image,
       duration: 0.5,
       scaleX: 2.0,
       scaleY: 2.0,
       easing: Konva.Easings.EaseOut,
+      onFinish: () => {
+        storeModifedEntityFromMap(entityIdContextMenu);
+      },
     }).play();
   };
 
   const contextMenuResizeEntityFactor3 = () => {
-    console.log("Resize factor 3: ", entityIdContextMenu);
-
     const stage = stageRef.current!;
     const image = stage.find("#" + entityIdContextMenu)[0];
-
     new Konva.Tween({
       node: image,
       duration: 0.5,
       scaleX: 3.0,
       scaleY: 3.0,
       easing: Konva.Easings.EaseOut,
+      onFinish: () => {
+        storeModifedEntityFromMap(entityIdContextMenu);
+      },
     }).play();
   };
 
@@ -401,6 +428,101 @@ const SceneEditor = () => {
     transformerRef?.current!.nodes([]);
   };
 
+  const getEntityImageComposition = (
+    entity: Entity,
+    entityPosition: EntityPosition
+  ) => {
+    const image = new Image(tokenWidth, tokenHeight);
+    image.src = entity.tokenPicS3Url!;
+    image.draggable = true;
+
+    const stagePosX = stageRef.current?.x()!;
+    const stagePosY = stageRef.current?.y()!;
+    let entityPosX = entityPosition.xPosition! / scaleFactor;
+    let entityPosY = entityPosition.yPosition! / scaleFactor;
+
+    if (stagePosX >= 0) {
+      entityPosX -= stagePosX / scaleFactor;
+    } else {
+      entityPosX += (stagePosX / scaleFactor) * -1;
+    }
+
+    if (stagePosY >= 0) {
+      entityPosY -= stagePosY / scaleFactor;
+    } else {
+      entityPosY += (stagePosY / scaleFactor) * -1;
+    }
+
+    const entityImageComposition = {
+      entity: entity,
+      imageElement: image,
+      xPos: entityPosX,
+      yPos: entityPosY,
+      xScale: entityPosition.xScale,
+      yScale: entityPosition.yScale,
+      rotation: entityPosition.rotation,
+    };
+
+    return entityImageComposition;
+  };
+
+  const addEntityToMap = (entity: Entity, entityPosition: EntityPosition) => {
+    const image = new Image(tokenWidth, tokenHeight);
+    image.src = entity.tokenPicS3Url!;
+    image.draggable = true;
+
+    const stagePosX = stageRef.current?.x()!;
+    const stagePosY = stageRef.current?.y()!;
+    let entityPosX = entityPosition.xPosition! / scaleFactor;
+    let entityPosY = entityPosition.yPosition! / scaleFactor;
+
+    if (stagePosX >= 0) {
+      entityPosX -= stagePosX / scaleFactor;
+    } else {
+      entityPosX += (stagePosX / scaleFactor) * -1;
+    }
+
+    if (stagePosY >= 0) {
+      entityPosY -= stagePosY / scaleFactor;
+    } else {
+      entityPosY += (stagePosY / scaleFactor) * -1;
+    }
+
+    const newEntityImageComposition = {
+      entity: entity,
+      imageElement: image,
+      xPos: entityPosX,
+      yPos: entityPosY,
+      xScale: entityPosition.xScale,
+      yScale: entityPosition.yScale,
+      rotation: entityPosition.rotation,
+    };
+
+    setEntityImageCompositions([
+      ...entityImageCompositions,
+      newEntityImageComposition,
+    ]);
+  };
+
+  const storeModifedEntityFromMap = (entityId: string) => {
+    const entityFound = entityImageCompositions.find(
+      (composition) => composition.entity.id === entityId
+    );
+    const stage = stageRef.current!;
+    const image = stage.find("#" + entityIdContextMenu)[0];
+
+    const entityPosition = {
+      id: entityIdContextMenu,
+      entityId: entityIdContextMenu,
+      xPosition: entityFound?.xPos,
+      yPosition: entityFound?.yPos,
+      xScale: image.scaleX(),
+      yScale: image.scaleY(),
+      rotation: image.rotation(),
+    };
+    storeEntityPosition(entityPosition);
+  };
+
   return (
     <>
       <div
@@ -417,38 +539,17 @@ const SceneEditor = () => {
           );
 
           if (!entityFound) {
-            const image = new Image(tokenWidth, tokenHeight);
-            image.src = entity.tokenPicS3Url!;
-            image.draggable = true;
-
-            const stagePosX = stageRef.current?.x()!;
-            const stagePosY = stageRef.current?.y()!;
-            let entityPosX = xDropPosition / scaleFactor;
-            let entityPosY = yDropPosition / scaleFactor;
-
-            if (stagePosX >= 0) {
-              entityPosX -= stagePosX / scaleFactor;
-            } else {
-              entityPosX += (stagePosX / scaleFactor) * -1;
-            }
-
-            if (stagePosY >= 0) {
-              entityPosY -= stagePosY / scaleFactor;
-            } else {
-              entityPosY += (stagePosY / scaleFactor) * -1;
-            }
-
-            const entityImageComposition = {
-              entity: entity,
-              imageElement: image,
-              xPos: entityPosX,
-              yPos: entityPosY,
+            const entityPosition = {
+              id: entity.id,
+              entityId: entity.id,
+              xPosition: xDropPosition,
+              yPosition: yDropPosition,
+              scaleX: 1.0,
+              scaleY: 1.0,
+              rotation: 0,
             };
 
-            setEntityImageCompositions([
-              ...entityImageCompositions,
-              entityImageComposition,
-            ]);
+            addEntityToMap(entity, entityPosition);
           } else {
             toast({
               title: `'${entity.name}' has already been added to the map.`,
@@ -483,11 +584,13 @@ const SceneEditor = () => {
                 key={entityImageComposition.entity.id}
                 id={entityImageComposition.entity.id}
                 image={entityImageComposition.imageElement}
-                x={entityImageComposition.xPos! - tokenWidth / 2}
-                y={entityImageComposition.yPos! - tokenHeight / 2}
+                x={entityImageComposition.xPos!}
+                y={entityImageComposition.yPos!}
+                scaleX={entityImageComposition.xScale!}
+                scaleY={entityImageComposition.yScale!}
+                rotation={entityImageComposition.rotation!}
                 height={tokenHeight}
                 width={tokenHeight}
-                //draggable={selectedTool == Tools.Move}
                 draggable={true}
                 onMouseEnter={onEntityMouseEnter}
                 onMouseLeave={onEntityMouseLeave}
@@ -497,7 +600,6 @@ const SceneEditor = () => {
                 onDragEnd={onEntityDragEnd}
                 onClick={handleEntityClicked}
                 onTransformEnd={onEntityTransformEnd}
-                onTransform={onEntityTransform}
                 onContextMenu={onEntityContextMenu}
               />
             ))}
@@ -543,6 +645,15 @@ const SceneEditor = () => {
               onClick={() => contextMenuResetEntityScale()}
             >
               Reset Scale
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title="Remove">
+            <MenuItem
+              icon={<IoRemoveCircleOutline />}
+              onClick={() => contextMenuRemoveEntity()}
+            >
+              Remove from Map
             </MenuItem>
           </MenuGroup>
         </MenuList>

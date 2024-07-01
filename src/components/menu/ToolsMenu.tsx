@@ -14,10 +14,8 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { IoMdMove } from "react-icons/io";
 import { CiLocationArrow1 } from "react-icons/ci";
 
-// import moveIcon from "../../assets/move-icon.svg";
-// import selectIcon from "../../assets/select-icon.svg";
 import ToolsMenuRadioItem from "./ToolsMenuRadioItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export enum Tools {
   Move = "Move",
@@ -45,16 +43,20 @@ const ToolsMenu = ({
   const toolsButtonHoverColor = useColorModeValue("blue.400", "blue.500");
   const toolsButtonActiveColor = useColorModeValue("blue.500", "blue.500");
 
+  useEffect(() => {
+    handleChange("Move");
+  }, []);
+
   const tools = [
     {
       name: "Move",
       tool: Tools.Move,
-      icon: IoMdMove
+      icon: IoMdMove,
     },
     {
       name: "Select",
       tool: Tools.Select,
-      icon: CiLocationArrow1
+      icon: CiLocationArrow1,
     },
   ];
 
@@ -65,6 +67,7 @@ const ToolsMenu = ({
 
   const { getRadioProps } = useRadioGroup({
     onChange: handleChange,
+    defaultValue: "Move",
   });
 
   const getOpenToolsMenuString = (): string => {

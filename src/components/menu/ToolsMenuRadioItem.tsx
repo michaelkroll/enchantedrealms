@@ -44,7 +44,6 @@ const ToolsMenuRadioItem = ({ radioProps, icon }: Props) => {
           paddingTop="6px"
           paddingLeft="4px"
           paddingRight="4px"
-
           background={buttonColor}
           borderRadius="5px"
           {...radioButtonProps}

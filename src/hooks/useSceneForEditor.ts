@@ -10,6 +10,13 @@ import {
   listEntityPositions,
 } from "../graphql/queries";
 
+import {
+  createEntityPosition,
+  updateEntityPosition,
+} from "../graphql/mutations";
+
+import * as mutations from "../graphql/mutations";
+
 // Storage S3
 import { getUrl } from "aws-amplify/storage";
 
@@ -170,8 +177,47 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
     setIsLoadingScene(false);
   };
 
-  const setEntityPosition = (position: EntityPosition) => {
-    console.log("Set Position: ", position);
+  const deleteEntityPosition = async (position: EntityPosition) => {
+    const client = generateClient();
+
+    const positionDetails = {
+      id: position.id,
+    };
+
+    await client.graphql({
+      query: mutations.deleteEntityPosition,
+      variables: { input: positionDetails },
+    });
+  };
+
+  const storeEntityPosition = (position: EntityPosition) => {
+    const entityComposition = sceneComposition!.entityCompositions?.find(
+      (entityComposition) => entityComposition!.entity.id == position.entityId
+    );
+
+    const graphqlClient = generateClient();
+
+    if (entityComposition?.entityPosition) {
+      // if there is an entry, then update it!
+      graphqlClient
+        .graphql({
+          query: updateEntityPosition,
+          variables: { input: position },
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+        });
+    } else {
+      // there is no position entry yet, so create one.
+      graphqlClient
+        .graphql({
+          query: createEntityPosition,
+          variables: { input: position },
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -187,7 +233,8 @@ const useSceneForEditor = (sceneId: string | undefined | null) => {
   }, [sceneIdInternal]);
 
   return {
-    setEntityPosition,
+    storeEntityPosition,
+    deleteEntityPosition,
     sceneComposition,
     isCompositionValid,
     isLoadingScene,
