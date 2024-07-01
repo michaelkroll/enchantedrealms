@@ -10,11 +10,10 @@ import * as queries from "../graphql/queries";
 
 // Custom Imports
 import Map from "../data/map/Map";
-//import MapCategories from "../data/map/MapGategories";
 
 const useMaps = (creatorEmail: string, category: string, shared: boolean) => {
+  
   const [maps, setMaps] = useState<Map[]>([]);
-  //const [mapError, setMapError] = useState();
 
   const getListVariables = (
     creatorEmail: string,
@@ -79,15 +78,27 @@ const useMaps = (creatorEmail: string, category: string, shared: boolean) => {
     const mapList = response.data.listMaps.items;
 
     mapList.forEach(async (map) => {
+      // Get the S3 path to the map itself
       const mapPicPath = map.mapPicPath;
-      const getUrlResult = await getUrl({
+      const getUrlResultForMapPicPath = await getUrl({
         path: mapPicPath!,
         options: {
           expiresIn: 900,
         },
       });
-      const mapPicS3Url = getUrlResult.url.toString();
+      const mapPicS3Url = getUrlResultForMapPicPath.url.toString();
       map.mapPicS3Url = mapPicS3Url;
+
+      // Get the S3 path to the map thumbnail
+      const mapThumbPicPath = map.mapThumbPicPath;
+      const getUrlResultForMapThumbPicPath = await getUrl({
+        path: mapThumbPicPath!,
+        options: {
+          expiresIn: 900,
+        },
+      });
+      const mapThumbPicS3Url = getUrlResultForMapThumbPicPath.url.toString();
+      map.mapThumbPicS3Url = mapThumbPicS3Url;
     });
 
     mapList.sort((a, b) => a.name.localeCompare(b.name));
