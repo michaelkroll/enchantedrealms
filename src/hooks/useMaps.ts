@@ -12,8 +12,11 @@ import * as queries from "../graphql/queries";
 import Map from "../data/map/Map";
 
 const useMaps = (creatorEmail: string, category: string, shared: boolean) => {
-  
   const [maps, setMaps] = useState<Map[]>([]);
+  const [isLoading, setLoading] = useState(false);
+  const [hasError, setErrorFlag] = useState(false);
+  const [error, setError] = useState("");
+  const [reloadTrigger, setReloadTrigger] = useState(0);
 
   const getListVariables = (
     creatorEmail: string,
@@ -68,7 +71,25 @@ const useMaps = (creatorEmail: string, category: string, shared: boolean) => {
     return listMapsVariables;
   };
 
+  const reloadMaps = () => {
+    setReloadTrigger(reloadTrigger + 1);
+  };
+
+  const updateMap = (updatedMap: Map) => {
+    setMaps(
+      maps.map((map) =>
+        map.id === updatedMap.id ? { ...map, shared: updatedMap.shared } : map
+      )
+    );
+  };
+
+  const deleteMap = (deletedMap: Map) => {
+        const newMapArray = maps.filter((map) => map.id != deletedMap.id);
+    setMaps(newMapArray);
+  };
+
   const listMaps = async () => {
+    setLoading(true);
     const listMapVariables = getListVariables(creatorEmail, category, shared);
     const graphqlClient = generateClient();
     const response = await graphqlClient.graphql({
@@ -102,15 +123,18 @@ const useMaps = (creatorEmail: string, category: string, shared: boolean) => {
     });
 
     mapList.sort((a, b) => a.name.localeCompare(b.name));
-    console.log(mapList);
     setMaps(mapList);
+    setLoading(false);
+    setErrorFlag(false);
+    setError("");
   };
 
   useEffect(() => {
+    setMaps([]);
     listMaps();
-  }, [creatorEmail, category, shared]);
+  }, [creatorEmail, category, shared, reloadTrigger]);
 
-  return { maps };
+  return { reloadMaps, maps, updateMap, deleteMap, isLoading, hasError, error };
 };
 
 export default useMaps;

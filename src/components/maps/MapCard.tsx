@@ -165,8 +165,8 @@ const MapCard = ({
         </CardBody>
         <Divider />
         <CardFooter padding={2}>
-          {/* <HStack display={loggedInEmail != map.creatorEmail ? "flex" : "none"}>
-            <Tooltip
+          <HStack display={loggedInEmail != map.creatorEmail ? "flex" : "none"}>
+            {/* <Tooltip
               hasArrow
               label="Show the Map in original Size"
               bg="gray.300"
@@ -182,11 +182,11 @@ const MapCard = ({
               >
                 <HiOutlineMagnifyingGlass />
               </Button>
-            </Tooltip>
+            </Tooltip> */}
             <Text padding="6px" fontSize="sm">
               {textForSharedLabel()}
             </Text>
-          </HStack> */}
+          </HStack>
           <ButtonGroup
             size="sm"
             isAttached
