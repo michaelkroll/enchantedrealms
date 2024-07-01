@@ -72,7 +72,7 @@ const EntityCard = ({
         backgroundColor={cardBackgroundColor}
       >
         <CardBody padding={3}>
-          <Image src={entity.tokenPicS3Url!} borderRadius="lg" />
+          <Image src={entity.tokenPicS3Url!} borderRadius="lg" draggable="false"/>
           <Heading size="sm" paddingTop={2}>
             {entity.name}
           </Heading>

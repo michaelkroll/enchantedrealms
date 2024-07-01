@@ -223,6 +223,17 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
     setSelectedAdventure(adventure);
   };
 
+  const adventuresCreated = (): boolean => {
+    if (
+      adventures.filter((adventure) => adventure.creatorEmail == email)
+        .length == 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Box me={2} mt={2} mb={2}>
       <HStack justifyContent={"space-between"}>
@@ -247,25 +258,12 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
           </Button>
         </Tooltip>
 
-        <Text
-          as="b"
-          display={
-            adventures.filter((adventure) => adventure.creatorEmail == email)
-              .length == 0
-              ? "flex"
-              : "none"
-          }
-        >
+        <Text as="b" display={adventuresCreated() ? "flex" : "none"}>
           Please create at least one Adventure before you can add Scenes.
         </Text>
 
         <AdventureSelectorDropdown
-          display={
-            adventures.filter((adventure) => adventure.creatorEmail == email)
-              .length == 0
-              ? "none"
-              : "flex"
-          }
+          display={adventuresCreated() ? "none" : "flex"}
           onSelectAdventure={handleAdventureSelected}
           adventures={adventures.filter(
             (adventure) => adventure.creatorEmail == email
@@ -316,7 +314,8 @@ const SceneGrid = ({ email, sub, adventures }: Props) => {
         editScene={editScene!}
       />
 
-      {scenes.length == 0 && <SceneGridCallToAction/>}
+      {scenes.length == 0 && !isLoading && <SceneGridCallToAction />}
+
       <SimpleGrid
         columns={{ base: 1, sm: 1, md: 1, lg: 3, xl: 4, "2xl": 5 }}
         spacing={3}

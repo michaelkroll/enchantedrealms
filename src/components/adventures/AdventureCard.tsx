@@ -105,7 +105,7 @@ const AdventureCard = ({
         backgroundColor={cardBackgroundColor}
       >
         <CardBody padding={0}>
-          <Image src={adventure.adventurePicS3Url!} borderTopRadius={4} />
+          <Image src={adventure.adventurePicS3Url!} borderTopRadius={4} draggable="false" />
           <Stack
             paddingLeft={3}
             paddingRight={3}

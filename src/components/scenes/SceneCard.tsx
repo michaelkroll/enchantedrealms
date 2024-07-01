@@ -119,6 +119,7 @@ const SceneCard = ({
               borderTopRadius={4}
               minH="200"
               minW="300"
+              draggable="false"
             />
           </Stack>
           <Stack

@@ -126,7 +126,7 @@ const TokenCard = ({
               bg="gray.300"
               color="black"
             >
-              <Image src={token.tokenPicS3Url!} borderRadius="lg" />
+              <Image src={token.tokenPicS3Url!} borderRadius="lg" draggable="false" />
             </Tooltip>
           </Center>
           <Heading paddingTop={2} size="sm">

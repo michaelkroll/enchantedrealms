@@ -133,7 +133,11 @@ const MapCard = ({
               bg="gray.300"
               color="black"
             >
-              <Image src={map.mapPicS3Url!} borderTopRadius={4} />
+              <Image
+                src={map.mapPicS3Url!}
+                borderTopRadius={4}
+                draggable="false"
+              />
             </Tooltip>
           </Center>
           <HStack
