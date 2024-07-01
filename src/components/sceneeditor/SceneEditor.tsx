@@ -603,9 +603,52 @@ const SceneEditor = () => {
                 onContextMenu={onEntityContextMenu}
               />
             ))}
+
+            {/*
+            Code showing the customization of the transformer handles. 
+            https://codesandbox.io/p/sandbox/react-konva-rotater-customization-forked-jwyj7h?file=%2Fsrc%2Findex.tsx%3A166%2C13-166%2C36 
+            */}
             <Transformer
               rotationSnaps={[0, 45, 90, 135, 180, 225, 270]}
               ref={transformerRef}
+              rotateAnchorOffset={20}
+              anchorStyleFunc={(anchor) => {
+                if (
+                  anchor.hasName("middle-left") ||
+                  anchor.hasName("middle-right")
+                ) {
+                  anchor.cornerRadius(10);
+                  anchor.height(20);
+                  anchor.offsetY(10);
+                  anchor.width(6);
+                  anchor.offsetX(3);
+                  return;
+                }
+                if (
+                  anchor.hasName("bottom-center") ||
+                  anchor.hasName("top-center")
+                ) {
+                  anchor.cornerRadius(10);
+                  anchor.height(6);
+                  anchor.offsetY(3);
+                  anchor.width(20);
+                  anchor.offsetX(10);
+                  return;
+                }
+                if (anchor.hasName("rotater")) {
+                  anchor.cornerRadius(10);
+                  anchor.height(20);
+                  anchor.width(20);
+                  anchor.offsetY(10);
+                  anchor.offsetX(10);
+                  return;
+                }
+                anchor.cornerRadius(6);
+                anchor.height(12);
+                anchor.width(12);
+                anchor.offsetY(6);
+                anchor.offsetX(6);
+              }}
             />
           </Layer>
         </Stage>
